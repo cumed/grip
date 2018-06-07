@@ -18,6 +18,11 @@ from_low = 0                                                                #Sma
 from_high = 180 
 e = 1.59                    #eccentricity of cam - 1.59mm
 
+fully_closed_distance = angle_to_distance(0)
+fully_opened_distance = angle_to_distance(180)
+partially_opened_distance = angle_to_distance(60)
+fully_bwd_distance = angle_to_distance(180)                 #Needs to be changed after the cams are mounted properly
+
 def angle_to_pulse(angle):
     pulse = 0
     pulse = (angle-from_low)*(servo_max-servo_min)/(from_high-from_low) + servo_min
@@ -91,18 +96,14 @@ def back_rotation(flag,angle,channel=2,timeConstant = time_constant):
     sleep(timeConstant)
     
     
-#def bending_arm(angle,channel=5):
-#    #command it to move by a particular distance to achieve the bending angle
-#    #### Need to know mechanism ####
-#    return distance
+def bending_arm(angle,channel=5):
+    #command it to move by a particular distance to achieve the bending angle
+    #### Need to know mechanism ####
+    print('Bending by ' +str(angle)+'degrees ')
     
 
 def push_action(distance):
     flag=1
-    fully_closed_distance = angle_to_distance(180)            #3.18    
-    fully_opened_distance = angle_to_distance(0)              #0
-    partially_opened_distance = angle_to_distance(60)         #
-    fully_bwd_distance = angle_to_distance(180)
 
     print('Front gripper partially opened')
     front_gripper(flag,partially_opened_distance)
@@ -128,21 +129,27 @@ def push_action(distance):
     
 def home_position():
     flag=1
-    partially_opened_distance = angle_to_distance(60)
-    fully_bwd_distance = angle_to_distance(180)
     
+    print('Front gripper partially opened')
     front_gripper(flag,partially_opened_distance)
+    
+    print('Back gripper partially opened')   
     back_gripper(flag,partially_opened_distance)
+    
+    print('Back gripper moved backwards to zeroeth position')
     back_gripper_x(flag,fully_bwd_distance)
+    
+    print('Bending pins moved to zeroeth position')
+    bending_arm()
 #    back_rotation(flag,0)
 
 
 print('Bringing all cams to zeroeth position')
 
-pwm.set_pwm(0,0,190)
-pwm.set_pwm(1,0,590)
-pwm.set_pwm(3,0,190)
-time.sleep(5)
+#pwm.set_pwm(0,0,190)
+#pwm.set_pwm(1,0,590)
+#pwm.set_pwm(3,0,190)
+#time.sleep(5)
 
 
 print('Going to home position')
