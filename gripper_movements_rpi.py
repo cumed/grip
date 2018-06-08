@@ -4,25 +4,25 @@ Created on Wed Jun  6 11:50:32 2018
 
 @author: ATI2-Pavan Gurudath
 """
+#%% Import statements
 import time
 from time import sleep
 import Adafruit_PCA9685
 import numpy as np
 
+
+#%% PWM initializing
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
-servo_min = 190             #Min limit of 183 for Hitech-servos
-servo_max = 595             #Max limit of 595 for Hitech-servos
-time_constant = 3
-from_low = 0                                                                #Smallest angle that you'd want the cam to be at
+
+#%% 
+servo_min = 190                                                                 #Min limit of 183 for Hitech-servos
+servo_max = 595                                                                 #Max limit of 595 for Hitech-servos
+time_constant = 3                                                               #Time for the Rpi to wait for the servo to complete its task
+from_low = 0                                                                    #Smallest angle that you'd want the cam to be at
 from_high = 180 
-e = 1.59                    #eccentricity of cam - 1.59mm
-
-fully_closed_distance = angle_to_distance(0)
-fully_opened_distance = angle_to_distance(180)
-partially_opened_distance = angle_to_distance(60)
-fully_bwd_distance = angle_to_distance(180)                 #Needs to be changed after the cams are mounted properly
-
+e = 1.59                                                                        #eccentricity of cam - 1.59mm
+#%%
 def angle_to_pulse(angle):
     pulse = 0
     pulse = (angle-from_low)*(servo_max-servo_min)/(from_high-from_low) + servo_min
@@ -53,7 +53,7 @@ def back_gripper(flag,distance,channel=0,timeConstant = time_constant):
     #though its just max or min position 
     #flag=0 --> open
     #flag=1 --> close
-                                                   #Time for the Rpi to wait for the servo to complete its task
+                                                   
     
 #    from_low = 0                                                                #Smallest angle that you'd want the cam to be at
 #    from_high = 180                                                             #Largest angle that you'd want the cam to be at
@@ -64,7 +64,7 @@ def back_gripper(flag,distance,channel=0,timeConstant = time_constant):
 #                                                                                be achieved
 #    pulse = angle_to_pulse(angle, from_low,from_high, to_low, to_high)          #Calculate pulse to be sent to Rpi 
 ##    print('back gripper')
-    pulse = distance_to_pulse(distance)                                         #Calculate pulse to be sent to Rpi
+    pulse = distance_to_pulse(distance)                                          #Calculate pulse to be sent to Rpi
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
 ##    print('back gripper done')
@@ -143,13 +143,23 @@ def home_position():
     bending_arm()
 #    back_rotation(flag,0)
 
+#%% main function
+
+
+fully_closed_distance = angle_to_distance(0)
+fully_opened_distance = angle_to_distance(180)
+partially_opened_distance = angle_to_distance(60)
+fully_bwd_distance = angle_to_distance(180)                                     #Needs to be changed after the cams are mounted properly
+
+
+
 
 print('Bringing all cams to zeroeth position')
 
-#pwm.set_pwm(0,0,190)
-#pwm.set_pwm(1,0,590)
-#pwm.set_pwm(3,0,190)
-#time.sleep(5)
+pwm.set_pwm(0,0,190)
+pwm.set_pwm(1,0,590)
+pwm.set_pwm(3,0,190)
+time.sleep(5)
 
 
 print('Going to home position')
@@ -167,4 +177,6 @@ for i in range(3,0,-1):
     print(i)
 
 home_position()
-##print('Disconnect all supplies.')
+print('Disconnect all supplies.')
+
+    
