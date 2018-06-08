@@ -112,34 +112,33 @@ def bending_arm(angle,material_type,fr_size,channel=5):
         bPulse = distance_to_pulse(bDist)
         pwm.set_pwm(channel,0,bPulse)
     else:
-#        angle = 90-angle
+        angle = 90-angle   #Comment
         #Give it a pulse such that it moves in the opposite direction by the same 
         #distance as that calculated from the "if" block. 
 
 def push_action(distance):
     flag=1
-
     print('Front gripper partially opened')
     front_gripper(flag,partially_opened_distance)
-
+    
     print('Back gripper fully closed')
     back_gripper(flag,fully_closed_distance)
-
+    
     print('Back grippper moving forward by '+str(distance))
     back_gripper_x(flag,distance)
-
+    
     print('Front gripper fully closed')
     front_gripper(flag,fully_closed_distance)
-
+    
     print('Back gripper partially opened')
     back_gripper(flag,partially_opened_distance)
-
+    
     print('Back gripper moved backwards to original position')
     back_gripper_x(flag,fully_bwd_distance)
     
     print('Back gripper fully closed')
     back_gripper(flag,fully_closed_distance)
-    
+
     
 def home_position():
     flag=1
@@ -166,7 +165,6 @@ fully_closed_distance = angle_to_distance(0)
 fully_opened_distance = angle_to_distance(180)
 partially_opened_distance = angle_to_distance(60)
 fully_bwd_distance = angle_to_distance(180)                                     #Needs to be changed after the cams are mounted properly
-
 
 
 if __name__ == "__main__":

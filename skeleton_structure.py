@@ -24,7 +24,7 @@ zeroes = zeroes.reshape((11,1))
 directions = np.append(directions,zeroes,axis=1)
 
 
-servoDist_threshold = 3.5                                                       # Max distance travelled by the servo
+servoDist_threshold = 3.1                                                       # Max distance travelled by the servo
 angle_threshold = 7                                                             # Min angle that the catheter needs to be bent by
 incremental_distance = 0                                                        # Keep track of previous distance
 
@@ -56,6 +56,7 @@ def bend_catheter(angle):
 def rotate_catheter(rot_angle):
     print('Turn the plane by ' + str(rot_angle))
     gmr.back_rotation(rot_angle)
+
 #%% main function
 
 distances = directions[:,0]
