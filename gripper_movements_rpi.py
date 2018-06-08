@@ -164,7 +164,7 @@ def home_position():
 fully_closed_distance = angle_to_distance(0)
 fully_opened_distance = angle_to_distance(180)
 partially_opened_distance = angle_to_distance(60)
-fully_bwd_distance = angle_to_distance(180)                                     #Needs to be changed after the cams are mounted properly
+fully_bwd_distance = angle_to_distance(0)                                     #Needs to be changed after the cams are mounted properly
 
 
 if __name__ == "__main__":
