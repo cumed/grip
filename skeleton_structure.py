@@ -6,7 +6,7 @@ Created on Wed Jun  6 10:17:24 2018
 """
 #%% Import statements
 import numpy as np
-#import gripper_movements_rpi as gmr
+import gripper_movements_rpi as gmr
 
 
 #%% Define directions and thresholds
@@ -29,7 +29,7 @@ angle_threshold = 7                                                             
 incremental_distance = 0                                                        # Keep track of previous distance
 
 #%% Functions
-def remaining_distance(servoDist, remDist):
+def remaining_distance(servoDist, remDist): 
     quotient = int(remDist // servoDist)
     remainder = remDist - servoDist*quotient
     pulse = []
@@ -43,19 +43,19 @@ def push_catheter(servoDist,Dist):
         pulses = remaining_distance(servoDist,Dist)
         for rDistances in pulses:
             print('Push catheter by '+str(rDistances) + ' from a total_distance of ' + str(Dist))
-#            gmr.push_action(rDistances)
+            gmr.push_action(rDistances)
     else:
         print('Push catheter by '+str(Dist))
-#        gmr.push_action(Dist)
+        gmr.push_action(Dist)
 
     
 def bend_catheter(angle):
     print('Bend the catheter by '+str(angle))
-
+    gmr.bending_arm(angle)
 
 def rotate_catheter(rot_angle):
     print('Turn the plane by ' + str(rot_angle))
-    
+    gmr.back_rotation(rot_angle)
 #%% main function
 
 distances = directions[:,0]

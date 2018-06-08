@@ -95,12 +95,26 @@ def back_rotation(flag,angle,channel=2,timeConstant = time_constant):
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
     
-    
-def bending_arm(angle,channel=5):
+def bAngle_to_bDist(angle,material_type,fr_size):
+    #Formulae to be used in order to get the distance by which the catheter 
+    #needs to be bent to obtain the right shape and thereby convert that distance
+    #to the pulse
+    bDist = 0
+    return bDist
+
+
+def bending_arm(angle,material_type,fr_size,channel=5):
     #command it to move by a particular distance to achieve the bending angle
     #### Need to know mechanism ####
     print('Bending by ' +str(angle)+'degrees ')
-    
+    if angle<90:
+        bDist = bAngle_to_bDist(angle,material_type,fr_size)
+        bPulse = distance_to_pulse(bDist)
+        pwm.set_pwm(channel,0,bPulse)
+    else:
+#        angle = 90-angle
+        #Give it a pulse such that it moves in the opposite direction by the same 
+        #distance as that calculated from the "if" block. 
 
 def push_action(distance):
     flag=1
@@ -141,7 +155,9 @@ def home_position():
     
     print('Bending pins moved to zeroeth position')
     bending_arm()
-#    back_rotation(flag,0)
+    
+    print('Back gripper on the plane at zeroeth angle')
+    back_rotation(flag,0)
 
 #%% main function
 
@@ -153,30 +169,30 @@ fully_bwd_distance = angle_to_distance(180)                                     
 
 
 
-
-print('Bringing all cams to zeroeth position')
-
-pwm.set_pwm(0,0,190)
-pwm.set_pwm(1,0,590)
-pwm.set_pwm(3,0,190)
-time.sleep(5)
-
-
-print('Going to home position')
-home_position()
-print('Done with home position')
-print('Waiting for push to start in ...')
-for i in range(3,0,-1):
-    time.sleep(i)
-    print(i)
+if __name__ == "__main__":
+    print('Bringing all cams to zeroeth position')
     
-push_action(0.1)
-print('Done with one gripper action and moving back to home position in ...')
-for i in range(3,0,-1):
-    time.sleep(i)
-    print(i)
-
-home_position()
-print('Disconnect all supplies.')
+    pwm.set_pwm(0,0,190)
+    pwm.set_pwm(1,0,590)
+    pwm.set_pwm(3,0,190)
+    time.sleep(5)
+    
+    
+    print('Going to home position')
+    home_position()
+    print('Done with home position')
+    print('Waiting for push to start in ...')
+    for i in range(3,0,-1):
+        time.sleep(i)
+        print(i)
+        
+    push_action(0.1)
+    print('Done with one gripper action and moving back to home position in ...')
+    for i in range(3,0,-1):
+        time.sleep(i)
+        print(i)
+    
+    home_position()
+    print('Disconnect all supplies.')
 
     
