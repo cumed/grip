@@ -91,6 +91,7 @@ def back_gripper_x(flag,distance,channel=1,timeConstant = time_constant):
     
 def back_rotation(flag,angle,channel=2,timeConstant = time_constant):
     #command it to rotate by a particular angle
+    print('Rotating by '+str(angle)+'degrees')
     pulse = angle_to_pulse(angle)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
@@ -99,7 +100,7 @@ def bAngle_to_bDist(angle,material_type,fr_size):
     #Formulae to be used in order to get the distance by which the catheter 
     #needs to be bent to obtain the right shape and thereby convert that distance
     #to the pulse
-    bDist = 0
+    bDist = 1.5
     return bDist
 
 
