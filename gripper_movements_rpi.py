@@ -140,7 +140,7 @@ def push_action(distance):
     print('Back gripper fully closed')
     back_gripper(flag,fully_closed_distance)
 
-    
+      
 def home_position():
     flag=1
     
