@@ -43,6 +43,7 @@ print('Bringing all cams to zeroeth position')
 pwm.set_pwm(0,0,190)
 pwm.set_pwm(1,0,590)
 pwm.set_pwm(3,0,190)
+pwm.set_pwm(5,0,190)
 time.sleep(5)
 
 

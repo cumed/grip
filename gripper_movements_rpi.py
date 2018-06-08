@@ -104,7 +104,7 @@ def bAngle_to_bDist(angle,material_type,fr_size):
     return bDist
 
 
-def bending_arm(angle,material_type,fr_size,channel=5):
+def bending_arm(flag,angle,material_type=1,fr_size=5,channel=5):
     #command it to move by a particular distance to achieve the bending angle
     #### Need to know mechanism ####
     print('Bending by ' +str(angle)+'degrees ')
@@ -147,14 +147,14 @@ def home_position():
     print('Front gripper partially opened')
     front_gripper(flag,partially_opened_distance)
     
-    print('Back gripper partially opened')   
+    print('Back gripper partially opened')
     back_gripper(flag,partially_opened_distance)
     
     print('Back gripper moved backwards to zeroeth position')
     back_gripper_x(flag,fully_bwd_distance)
     
     print('Bending pins moved to zeroeth position')
-    bending_arm()
+    bending_arm(flag,partially_opened_distance)
     
     print('Back gripper on the plane at zeroeth angle')
     back_rotation(flag,0)
