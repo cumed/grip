@@ -78,7 +78,7 @@ while idx < np.size(distances,0):
             flag = 1                                                            #Flag is raised to keep note of the incrementation
         else:
             if flag:
-                sks.push_catheter(servoDist_threshold,incremental_distance)         #When bend angle is approached, it pushes the catheter by the incremental distance
+                sks.push_catheter(servoDist_threshold,incremental_distance)     #When bend angle is approached, it pushes the catheter by the incremental distance
                 incremental_distance = 0                                        #it had kept in memory so far. 
                 flag = 0                                                        
             

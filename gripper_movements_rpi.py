@@ -20,13 +20,14 @@ servo_min = 190                                                                 
 servo_max = 595                                                                 #Max limit of 595 for Hitech-servos
 time_constant = 3                                                               #Time for the Rpi to wait for the servo to complete its task
 from_low = 0                                                                    #Smallest angle that you'd want the cam to be at
-from_high = 180 
+from_high = 180                                                                 #Largest angle that you'd want the cam to be at
 e = 1.59                                                                        #eccentricity of cam - 1.59mm
+
+
 #%%
 def angle_to_pulse(angle):
     pulse = 0
     pulse = (angle-from_low)*(servo_max-servo_min)/(from_high-from_low) + servo_min
-##    print(pulse)
     return int(pulse)
 
 def angle_to_distance(angle):
@@ -45,7 +46,6 @@ def distance_to_pulse(distance):
     theta = np.arccos((e-distance)/e)*180/np.pi
     pulse = 0
     pulse = (theta-from_low)*(servo_max-servo_min)/(from_high-from_low) + servo_min
-##    print(pulse)
     return int(pulse)
     
 def back_gripper(flag,distance,channel=0,timeConstant = time_constant):
@@ -54,16 +54,6 @@ def back_gripper(flag,distance,channel=0,timeConstant = time_constant):
     #flag=0 --> open
     #flag=1 --> close
                                                    
-    
-#    from_low = 0                                                                #Smallest angle that you'd want the cam to be at
-#    from_high = 180                                                             #Largest angle that you'd want the cam to be at
-#    to_low = servo_min                                                          #least pulse that the servo can take
-#    to_high = servo_max                                                         #max pulse that the servo can take
-    
-#    angle = distance_to_angle(distance)                                         #Calculate angle for servo to move for that distance to
-#                                                                                be achieved
-#    pulse = angle_to_pulse(angle, from_low,from_high, to_low, to_high)          #Calculate pulse to be sent to Rpi 
-##    print('back gripper')
     pulse = distance_to_pulse(distance)                                          #Calculate pulse to be sent to Rpi
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
@@ -106,7 +96,7 @@ def bAngle_to_bDist(angle,material_type,fr_size):
 
 def bending_arm(flag,angle,material_type=1,fr_size=5,channel=5):
     #command it to move by a particular distance to achieve the bending angle
-    #### Need to know mechanism ####
+    ####------------ Need to know mechanism --------------####
     print('Bending by ' +str(angle)+'degrees ')
     if angle<90:
         bDist = bAngle_to_bDist(angle,material_type,fr_size)
@@ -115,8 +105,11 @@ def bending_arm(flag,angle,material_type=1,fr_size=5,channel=5):
     else:
         angle = 90-angle   #Comment
         #Give it a pulse such that it moves in the opposite direction by the same 
-        #distance as that calculated from the "if" block. 
-
+        #distance as that calculated from the "if" block. Still needs to be written. 
+        bDist = bAngle_to_bDist(angle,material_type,fr_size)
+        bPulse = distance_to_pulse(bDist)
+        pwm.set_pwm(channel,0,bPulse)
+        
 def push_action(distance):
     flag=1
     print('Front gripper partially opened')
@@ -161,11 +154,11 @@ def home_position():
 
 #%% main function
 
-
 fully_closed_distance = angle_to_distance(0)
 fully_opened_distance = angle_to_distance(180)
 partially_opened_distance = angle_to_distance(60)
 fully_bwd_distance = angle_to_distance(0)                                     #Needs to be changed after the cams are mounted properly
+
 
 
 if __name__ == "__main__":
