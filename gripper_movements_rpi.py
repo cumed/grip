@@ -18,7 +18,7 @@ pwm.set_pwm_freq(60)
 #%% 
 servo_min = 190                                                                 #Min limit of 183 for Hitech-servos
 servo_max = 595                                                                 #Max limit of 595 for Hitech-servos
-time_constant = 3                                                               #Time for the Rpi to wait for the servo to complete its task
+time_constant = 1                                                               #Time for the Rpi to wait for the servo to complete its task
 from_low = 0                                                                    #Smallest angle that you'd want the cam to be at
 from_high = 180                                                                 #Largest angle that you'd want the cam to be at
 e = 1.59                                                                        #eccentricity of cam - 1.59mm
@@ -79,12 +79,17 @@ def back_gripper_x(flag,distance,channel=1,timeConstant = time_constant):
 ##    print('back gripper x-direction done')
             
     
-def back_rotation(flag,angle,channel=2,timeConstant = time_constant):
+def back_rotation(flag,angle,channel=7,timeConstant = time_constant):
     #command it to rotate by a particular angle
     print('Rotating by '+str(angle)+'degrees')
-    pulse = angle_to_pulse(angle)
-    pwm.set_pwm(channel,0,pulse)
-    sleep(timeConstant)
+    if flag==1:
+        pulse = angle_to_pulse(angle)
+        pwm.set_pwm(channel,0,pulse)
+        sleep(timeConstant)
+    else:
+        pulse = angle_to_pulse(0)
+        pwm.set_pwm(channel,0,pulse)
+        sleep(timeConstant)
     
 def bAngle_to_bDist(angle,material_type,fr_size):
     #Formulae to be used in order to get the distance by which the catheter 
@@ -94,21 +99,31 @@ def bAngle_to_bDist(angle,material_type,fr_size):
     return bDist
 
 
-def bending_arm(flag,angle,material_type=1,fr_size=5,channel=5):
+def bending_arm(flag,angle,material_type=1,fr_size=5,channel=5,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     ####------------ Need to know mechanism --------------####
-    print('Bending by ' +str(angle)+'degrees ')
+    print('Bending rn by ' +str(angle)+'degrees ')
     if angle<90:
         bDist = bAngle_to_bDist(angle,material_type,fr_size)
-        bPulse = distance_to_pulse(bDist)
+##        bPulse = distance_to_pulse(bDist)
+        bPulse = angle_to_pulse(angle)          #Just to see output now
         pwm.set_pwm(channel,0,bPulse)
+        sleep(timeConstant)
+        print('Supposedly bending by '+str(angle)+'degrees in bending_arm func')
+        print('Now that its done bending, rotate back to zero')
+        pwm.set_pwm(channel,0,servo_min)
     else:
         angle = 90-angle   #Comment
         #Give it a pulse such that it moves in the opposite direction by the same 
         #distance as that calculated from the "if" block. Still needs to be written. 
         bDist = bAngle_to_bDist(angle,material_type,fr_size)
-        bPulse = distance_to_pulse(bDist)
+##        bPulse = distance_to_pulse(bDist)
+        bPulse = angle_to_pulse(angle)
+        print('Supposedly bending by -'+str(angle)+'degrees in bending_arm func')
         pwm.set_pwm(channel,0,bPulse)
+        sleep(timeConstant)
+        print('Now that its done bending, rotate back to zero')
+        pwm.set_pwm(channel,0,servo_min)
         
 def push_action(distance):
     flag=1
@@ -143,19 +158,19 @@ def home_position():
     print('Back gripper partially opened')
     back_gripper(flag,partially_opened_distance)
     
-    print('Back gripper moved backwards to zeroeth position')
+    print('Back gripper moved backwards to home position')
     back_gripper_x(flag,fully_bwd_distance)
     
-    print('Bending pins moved to zeroeth position')
-    bending_arm(flag,partially_opened_distance)
+    print('Bending pins moved to home position')
+    bending_arm(flag,0)
     
-    print('Back gripper on the plane at zeroeth angle')
+    print('Back gripper on the plane at home angle')
     back_rotation(flag,0)
 
 #%% main function
 
-fully_closed_distance = angle_to_distance(0)
-fully_opened_distance = angle_to_distance(180)
+fully_closed_distance = angle_to_distance(180)
+fully_opened_distance = angle_to_distance(0)
 partially_opened_distance = angle_to_distance(60)
 fully_bwd_distance = angle_to_distance(0)                                     #Needs to be changed after the cams are mounted properly
 

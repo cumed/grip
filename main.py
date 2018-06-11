@@ -18,9 +18,9 @@ import time
 
 # Data specific to this main file                                                                    
 
-directions = np.array([[1,0],[1.,2],[1,3],[1,2],[2,2],[1,1],[1,3],[4,1],[4,20],[1,10],[2,20]])
+directions = np.array([[1,0],[1.,2],[1,3],[1,2],[2,50],[1,1],[1,3],[3,1],[4,70],[1,10],[2,20]])
 #directions = np.array([[1,0],[2.,2],[3,3],[4,2],[5,2],[6,1],[1,3],[4,1],[4,20],[1,10],[2,20]])
-zeroes = np.array([0.,0,10,0,0,0,0,0,10,10,0])
+zeroes = np.array([0.,0,30,0,0,0,0,0,60,40,0])
 zeroes = zeroes.reshape((11,1))
 #zeroes = np.zeros(shape=(11,1))
 #zeroes = np.random.randn(11,1)
@@ -32,6 +32,8 @@ servoDist_threshold = 3.1                                                       
 angle_threshold = 7                                                             # Min angle that the catheter needs to be bent by
 incremental_distance = 0                                                        # Keep track of previous distance
 
+servo_min=190
+servo_max=595
 #%%
 fully_closed_distance = gmr.angle_to_distance(0)
 fully_opened_distance = gmr.angle_to_distance(180)
@@ -40,20 +42,15 @@ fully_bwd_distance = gmr.angle_to_distance(0)
 
 print('Bringing all cams to zeroeth position')
 
-pwm.set_pwm(0,0,190)
-pwm.set_pwm(1,0,590)
-pwm.set_pwm(3,0,190)
-pwm.set_pwm(5,0,190)
-time.sleep(5)
+for channel in range(0,8):
+    pwm.set_pwm(channel,0,servo_min)
+time.sleep(2)
 
 
 print('Going to home position')
 gmr.home_position()
 print('Done with home position')
-print('Waiting for program to start in ...')
-for i in range(3,0,-1):
-    time.sleep(i)
-    print(i)
+wait= input('Waiting for key to start the program')
     
 
 

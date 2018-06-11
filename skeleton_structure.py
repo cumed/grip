@@ -51,11 +51,18 @@ def push_catheter(servoDist,Dist):
     
 def bend_catheter(angle):
     print('Bend the catheter by '+str(angle))
-    gmr.bending_arm(angle)
+    flag=1
+    gmr.bending_arm(flag,angle)
 
 def rotate_catheter(rot_angle):
     print('Turn the plane by ' + str(rot_angle))
-    gmr.back_rotation(rot_angle)
+    if rot_angle>0:
+        flag=1
+        gmr.back_rotation(flag,rot_angle)
+    else:
+        flag=0
+        gmr.back_rotation(flag,rot_angle)
+     
 
 #%% main function
 
