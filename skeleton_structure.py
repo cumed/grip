@@ -38,21 +38,21 @@ def remaining_distance(servoDist, remDist):
     pulse.append(remainder)
     return pulse
 
-def push_catheter(servoDist,Dist):
+def push_catheter(servoDist,Dist,outer_diameter):
     if Dist > servoDist:
         pulses = remaining_distance(servoDist,Dist)
         for rDistances in pulses:
             print('Push catheter by '+str(rDistances) + ' from a total_distance of ' + str(Dist))
-            gmr.push_action(rDistances)
+            gmr.push_action(rDistances,outer_diameter)
     else:
         print('Push catheter by '+str(Dist))
-        gmr.push_action(Dist)
+        gmr.push_action(Dist,outer_diameter)
 
     
-def bend_catheter(angle):
+def bend_catheter(angle,outer_diameter):
     print('Bend the catheter by '+str(angle))
     flag=1
-    gmr.bending_arm(flag,angle)
+    gmr.bending_arm(flag,angle,outer_diameter)
 
 def rotate_catheter(rot_angle):
     print('Turn the plane by ' + str(rot_angle))

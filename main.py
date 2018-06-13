@@ -31,7 +31,7 @@ directions = np.append(directions,zeroes,axis=1)
 servoDist_threshold = 3.1                                                       # Max distance travelled by the servo
 angle_threshold = 7                                                             # Min angle that the catheter needs to be bent by
 incremental_distance = 0                                                        # Keep track of previous distance
-traversed_distance = 0
+traversed_distance = 0                                                          # Keep track of total distance
 
 servo_min=190
 servo_max=595
@@ -52,47 +52,55 @@ print('Going to home position')
 gmr.home_position()
 print('Done with home position')
 wait= input('Waiting for key to start the program')
-    
-
 
 #%%
 distances = directions[:,0]
 angles = directions[:,1]
 rotational_angle = directions[:,2]
+[lengths, OD, heating] = get_properties()
+
 
 idx=0
+prop_idx =0
 flag=0
 rotation_flag =0
+lens = lengths[prop_idx]
+outer_diameter = OD[prop_idx]
 
-    
 while idx < np.size(distances,0):
     present_rot_angle = rotational_angle[idx]                                   #distance, bend angle and rotational angle at the point under 
     present_angle = angles[idx]                                                 #consideration. 
     present_distance = distances[idx]
     traversed_distance += present_distance
-    if present_rot_angle == 0:                                                  #Do calculations if no rotational angle
-        if present_angle < angle_threshold:                                     #Compare the bend angle with the threshold that we setup
-            incremental_distance = incremental_distance + present_distance      #Remember the incremental distances between points upto a certain bend is approached
-            flag = 1                                                            #Flag is raised to keep note of the incrementation
-        else:
-            if flag:
-                sks.push_catheter(servoDist_threshold,incremental_distance)     #When bend angle is approached, it pushes the catheter by the incremental distance
-                incremental_distance = 0                                        #it had kept in memory so far. 
-                flag = 0                                                        
-            
-            ### now do it for the current position
-            sks.bend_catheter(present_angle)                                        #Bend the catheter by specific angle
-            sks.push_catheter(servoDist_threshold,present_distance)                 #Push the catheter by appropriate distance after the bend
-
-    else:                        
-        if flag:
-            sks.push_catheter(servoDist_threshold,incremental_distance)             #When bend angle is approached, it pushes the catheter by the incremental distance
-            incremental_distance = 0                                            #it had kept in memory so far. 
-            flag = 0
-            
-        sks.rotate_catheter(present_rot_angle)                                      #Rotate the plane of the catheter for the z-axis
-        sks.bend_catheter(present_angle)                                            #Bend it by the bending angle 
-        sks.rotate_catheter(-present_rot_angle)                                     #Rotate it back to its original plane
-        sks.push_catheter(servoDist_threshold, present_distance)                    #Push the catheter by appropriate distance after the bend
+    if traversed_distance < lens:
+        if present_rot_angle == 0:                                                  #Do calculations if no rotational angle
+            if present_angle < angle_threshold:                                     #Compare the bend angle with the threshold that we setup
+                incremental_distance = incremental_distance + present_distance      #Remember the incremental distances between points upto a certain bend is approached
+                flag = 1                                                            #Flag is raised to keep note of the incrementation
+            else:
+                if flag:
+                    sks.push_catheter(servoDist_threshold,incremental_distance,outer_diameter)     #When bend angle is approached, it pushes the catheter by the incremental distance
+                    incremental_distance = 0                                        #it had kept in memory so far. 
+                    flag = 0                                                        
+                
+                ### now do it for the current position
+                sks.bend_catheter(present_angle,outer_diameter)                                        #Bend the catheter by specific angle
+                sks.push_catheter(servoDist_threshold,present_distance,outer_diameter)                 #Push the catheter by appropriate distance after the bend
     
-    idx = idx + 1
+        else:                        
+            if flag:
+                sks.push_catheter(servoDist_threshold,incremental_distance,outer_diameter)             #When bend angle is approached, it pushes the catheter by the incremental distance
+                incremental_distance = 0                                            #it had kept in memory so far. 
+                flag = 0
+                
+            sks.rotate_catheter(present_rot_angle)                                      #Rotate the plane of the catheter for the z-axis
+            sks.bend_catheter(present_angle,outer_diameter)                                            #Bend it by the bending angle 
+            sks.rotate_catheter(-present_rot_angle)                                     #Rotate it back to its original plane
+            sks.push_catheter(servoDist_threshold, present_distance,outer_diameter)                    #Push the catheter by appropriate distance after the bend
+        
+        idx = idx + 1
+    else:
+        prop_idx = prop_idx + 1
+        lens = lengths[prop_idx]
+        outer_diameter = OD[prop_idx]
+
