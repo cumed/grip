@@ -31,6 +31,7 @@ directions = np.append(directions,zeroes,axis=1)
 servoDist_threshold = 3.1                                                       # Max distance travelled by the servo
 angle_threshold = 7                                                             # Min angle that the catheter needs to be bent by
 incremental_distance = 0                                                        # Keep track of previous distance
+traversed_distance = 0
 
 servo_min=190
 servo_max=595
@@ -68,7 +69,7 @@ while idx < np.size(distances,0):
     present_rot_angle = rotational_angle[idx]                                   #distance, bend angle and rotational angle at the point under 
     present_angle = angles[idx]                                                 #consideration. 
     present_distance = distances[idx]
-    
+    traversed_distance += present_distance
     if present_rot_angle == 0:                                                  #Do calculations if no rotational angle
         if present_angle < angle_threshold:                                     #Compare the bend angle with the threshold that we setup
             incremental_distance = incremental_distance + present_distance      #Remember the incremental distances between points upto a certain bend is approached
