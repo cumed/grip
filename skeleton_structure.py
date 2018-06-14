@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jun  13 16:31:00
+Created on Thur Jun  14 9:36:00 
 
 @author: ATI2-Pavan Gurudath
 """
@@ -28,8 +28,8 @@ import gripper_movements_rpi as gmr
 #angle_threshold = 7                                                             # Min angle that the catheter needs to be bent by
 #incremental_distance = 0                                                        # Keep track of previous distance
 
-#%% Functions
-def remaining_distance(servoDist, remDist): 
+#%% Split up incremental distances as a sum of the max distance threshold
+def remaining_distance(servoDist, remDist):                                    
     quotient = int(remDist // servoDist)
     remainder = remDist - servoDist*quotient
     pulse = []
@@ -37,7 +37,7 @@ def remaining_distance(servoDist, remDist):
         pulse.append(servoDist)
     pulse.append(remainder)
     return pulse
-
+# Pushing the catheter in front
 def push_catheter(servoDist,Dist,outer_diameter):
     if Dist > servoDist:
         pulses = remaining_distance(servoDist,Dist)
@@ -48,7 +48,7 @@ def push_catheter(servoDist,Dist,outer_diameter):
         print('Push catheter by '+str(Dist))
         gmr.push_action(Dist,outer_diameter)
 
-    
+#%%Bending and rotatin the catheter
 def bend_catheter(angle,outer_diameter):
     print('Bend the catheter by '+str(angle))
     flag=1

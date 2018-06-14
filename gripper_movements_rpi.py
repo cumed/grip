@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jun  13 16:31:00
+Created on Thur Jun  14 9:36:00 
 
 @author: ATI2-Pavan Gurudath
 """
@@ -9,48 +9,75 @@ import time
 from time import sleep
 import Adafruit_PCA9685
 import numpy as np
+import math
+from math import pi
 
-
-#%% PWM initializing
-pwm = Adafruit_PCA9685.PCA9685()
-pwm.set_pwm_freq(60)
-
-#%% 
+#%% Declarations
 servo_min = 190                                                                 #Min limit of 183 for Hitech-servos
-servo_max = 595                                                                 #Max limit of 595 for Hitech-servos
+servo_max = 595                                                                 #Max limit of 600 for Hitech-servos
 time_constant = 1                                                               #Time for the Rpi to wait for the servo to complete its task
 from_low = 0                                                                    #Smallest angle that you'd want the cam to be at
 from_high = 180                                                                 #Largest angle that you'd want the cam to be at
 e = 1.59                                                                        #eccentricity of cam - 1.59mm
+d_pins = 9.5                                                                    #Distance between the bending pins (edge-to-edge) **3/8th inch**
+y_i =   2                                                                       #Distance between the front gripper and the bending pins **80 thou inch**
 
-
-#%%
+#%% Mapping the angle on the servo to the pulse range
 def angle_to_pulse(angle):
     pulse = 0
     pulse = (angle-from_low)*(servo_max-servo_min)/(from_high-from_low) + servo_min
     return int(pulse)
 
+#%% Mapping the angle on the servo to the linear movement obtained using the cam
 def angle_to_distance(angle):
     e=1.59
-    distance = e-e*np.cos(angle*np.pi/180)
+    distance = e-e*np.cos(angle*pi/180)
     return distance
 
-def distance_to_angle(distance):
-    # Convert distance to servo angle b/w 0-180 (cam_formulae)
-    e = 1.59 #1.59mm
-    theta = np.arccos((e-distance)/e)*180/np.pi                                 #theta in degrees
+#%% Converts linear distance using the cam to the servo angle b/w 0-180 (cam_formulae)
+def distance_to_angle(distance,e=1.59):                                         #1.59mm
+    theta = np.arccos((e-distance)/e)*180/pi                                    #theta in degrees
     return theta
 
-def distance_to_pulse(distance):
-    global e                #eccentricity of cam - 1.59mm
-    theta = np.arccos((e-distance)/e)*180/np.pi
+#%% Returns the pulse that is required to achieve the linear distance
+def distance_to_pulse(distance,e=1.59):                                          #eccentricity of cam - 1.59mm
+    theta = np.arccos((e-distance)/e)*180/pi
     pulse = 0
     pulse = (theta-from_low)*(servo_max-servo_min)/(from_high-from_low) + servo_min
     return int(pulse)
+
+#%% Returns the distance that the bending pins need to move for the bend to happen
+def bendAngle_to_bendDist(angle,outer_diameter):
+    #Formulae to be used in order to get the distance by which the catheter 
+    #needs to be bent to obtain the right shape and thereby convert that distance
+    #to the pulse
+    x_i = (d_pins - outer_diameter)/2
+    bendDist = x_i + y_i *math.tan(math.radians(angle))
+    return bendDist
+
+def bendDist_to_bendPulse(angle,bendDist,e=1.59):
+    theta = np.arccos((e-bendDist)/e)*180/pi
     
+    if angle>0:
+        to_low_b    = 190
+        to_high_b  = 500
+        from_low_b  = -90
+        from_high_b = 90
+
+    else:
+        to_low_b      = 190
+        to_high_b     = 500
+        from_low_b    = 90
+        from_high_b   = -90
+        
+        
+    pulse = (theta-from_low_b)*(to_high_b-to_low_b)/(from_high_b-from_low_b)+to_low_b
+    return pulse
+
+#%% Gripper movements    
 def back_gripper(flag,distance,channel=0,timeConstant = time_constant):
-    #command it to open/close based on flag. Let flag be distance for now, even
-    #though its just max or min position 
+    #command it to open/close based on flag. Let flag just be there for now. 
+    #No use of it right now since its just max or min position 
     #flag=0 --> open
     #flag=1 --> close
                                                    
@@ -91,40 +118,20 @@ def back_rotation(flag,angle,channel=7,timeConstant = time_constant):
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant)
     
-def bAngle_to_bDist(angle,material_type,fr_size):
-    #Formulae to be used in order to get the distance by which the catheter 
-    #needs to be bent to obtain the right shape and thereby convert that distance
-    #to the pulse
-    bDist = 1.5
-    return bDist
 
-
-def bending_arm(flag,angle,material_type=1,fr_size=5,channel=5,timeConstant = time_constant):
+def bending_arm(flag,angle,outer_diameter,channel=5,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
-    ####------------ Need to know mechanism --------------####
-    print('Bending rn by ' +str(angle)+'degrees ')
-    if angle<90:
-        bDist = bAngle_to_bDist(angle,material_type,fr_size)
-##        bPulse = distance_to_pulse(bDist)
-        bPulse = angle_to_pulse(angle)          #Just to see output now
-        pwm.set_pwm(channel,0,bPulse)
-        sleep(timeConstant)
-        print('Supposedly bending by '+str(angle)+'degrees in bending_arm func')
-        print('Now that its done bending, rotate back to zero')
-        pwm.set_pwm(channel,0,servo_min)
-    else:
-        angle = 90-angle   #Comment
-        #Give it a pulse such that it moves in the opposite direction by the same 
-        #distance as that calculated from the "if" block. Still needs to be written. 
-        bDist = bAngle_to_bDist(angle,material_type,fr_size)
-##        bPulse = distance_to_pulse(bDist)
-        bPulse = angle_to_pulse(angle)
-        print('Supposedly bending by -'+str(angle)+'degrees in bending_arm func')
-        pwm.set_pwm(channel,0,bPulse)
-        sleep(timeConstant)
-        print('Now that its done bending, rotate back to zero')
-        pwm.set_pwm(channel,0,servo_min)
-        
+    #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
+    #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
+    #Need to map that distance to the angle.
+    bendDist = bendAngle_to_bendDist(abs(angle),outer_diameter)
+    pulse = bendDist_to_bendPulse(angle,bendDist)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+    print('wait for a while and bring back to zeroeth position')
+    pwm.set(channel,0,0) #Zeroeth position ********************NEED TO DETERMINE ZEROETH*************************************
+
+#%%        
 def push_action(distance):
     flag=1
     print('Front gripper partially opened')
@@ -167,16 +174,23 @@ def home_position():
     print('Back gripper on the plane at home angle')
     back_rotation(flag,0)
 
+
+
+#%% Needs to be changed to incorporate the function written by Sramana
+fully_closed_distance       = angle_to_distance(0)                  
+partially_opened_distance   = angle_to_distance(60)
+
+fully_opened_distance       = angle_to_distance(180)                        # Position of front and back servos along x-direction
+fully_bwd_distance          = angle_to_distance(0)                          # Position of cam for the back servo movement along y-direction
+
+
 #%% main function
-
-fully_closed_distance = angle_to_distance(180)
-fully_opened_distance = angle_to_distance(0)
-partially_opened_distance = angle_to_distance(60)
-fully_bwd_distance = angle_to_distance(0)                                     #Needs to be changed after the cams are mounted properly
-
-
-
 if __name__ == "__main__":
+    pwm = Adafruit_PCA9685.PCA9685()
+    pwm.set_pwm_freq(60)
+    
+
+    
     print('Bringing all cams to zeroeth position')
     
     pwm.set_pwm(0,0,190)
