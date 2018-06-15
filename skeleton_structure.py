@@ -28,40 +28,43 @@ import gripper_movements_rpi as gmr
 #angle_threshold = 7                                                             # Min angle that the catheter needs to be bent by
 #incremental_distance = 0                                                        # Keep track of previous distance
 
-#%% Split up incremental distances as a sum of the max distance threshold
+#%% Distances
+
+#Split distances into smaller threshold and then send the list of distances
 def remaining_distance(servoDist, remDist):                                    
     quotient = int(remDist // servoDist)
     remainder = remDist - servoDist*quotient
-    pulse = []
+    pulseDist = []
     for number in range(quotient):
-        pulse.append(servoDist)
-    pulse.append(remainder)
-    return pulse
+        pulseDist.append(servoDist)
+    pulseDist.append(remainder)
+    return pulseDist
+
 # Pushing the catheter in front
-def push_catheter(servoDist,Dist,outer_diameter):
-    if Dist > servoDist:
-        pulses = remaining_distance(servoDist,Dist)
-        for rDistances in pulses:
+def push_catheter(servoDist_threshold, Dist, outer_diameter):
+    if Dist > servoDist_threshold:                                              #Check if the pushing distance is more than the servo's threshold distance
+        pulse_distance = remaining_distance(servoDist_threshold, Dist)          #Split it up into threshold distances if it is greater
+        for rDistances in pulse_distance:
             print('Push catheter by '+str(rDistances) + ' from a total_distance of ' + str(Dist))
-            gmr.push_action(rDistances,outer_diameter)
+            gmr.push_action(rDistances, outer_diameter)
     else:
         print('Push catheter by '+str(Dist))
         gmr.push_action(Dist,outer_diameter)
 
 #%%Bending and rotatin the catheter
-def bend_catheter(angle,outer_diameter):
+def bend_catheter(angle, outer_diameter):
     print('Bend the catheter by '+str(angle))
-    flag=1
-    gmr.bending_arm(flag,angle,outer_diameter)
+    flag=1                                                                      #Flag plays no role right now, its there for any future purposes. 
+    gmr.bending_arm(flag, angle, outer_diameter)
 
 def rotate_catheter(rot_angle):
-    print('Turn the plane by ' + str(rot_angle))
+    print('Turn the plane by ' + str(rot_angle))                                
     if rot_angle>0:
-        flag=1
-        gmr.back_rotation(flag,rot_angle)
+        flag=1                                                                  #Flag is raised once rotation is done in the positive direction
+        gmr.back_rotation(flag, rot_angle)
     else:
-        flag=0
-        gmr.back_rotation(flag,rot_angle)
+        flag=0                                                                  #Flag is put down if rotation is in the negative direction 
+        gmr.back_rotation(flag, rot_angle)
      
 
 #%% main function
