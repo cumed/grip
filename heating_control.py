@@ -84,13 +84,7 @@ def get_properties():
     properties = [lengths,OD]
     return properties
         
-def get_fullyClosedAngle(OD):
-   angle = OD * 1.5
-   return angle 
-    
-def get_partiallyOpenAngle(OD):
-    angle = OD * 1.2
-    return angle
+
 
 
 heating_control(1.2)
