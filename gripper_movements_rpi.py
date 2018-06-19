@@ -17,11 +17,17 @@ servo_max = 490                                                                 
 time_constant = 1                                                               #Time for the Rpi to wait for the servo to complete its task
 from_low = 0                                                                    #Smallest angle that you'd want the cam to be at
 from_high = 180                                                                 #Largest angle that you'd want the cam to be at
+<<<<<<< HEAD
 e_gripper = 1.59                                                                #eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                                #eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                                #eccentricity of back indexing gripper cam - 4.75mm
 d_pins = 5.25                                                                   #Distance between the bending pins (edge-to-edge) **0.207inch**
 y_i =   3                                                                       #Distance between the front gripper and the bending pins
+=======
+e = 1.59                                                                        #eccentricity of cam - 1.59mm
+d_pins = 5.25                                                                    #Distance between the bending pins (edge-to-edge) **0.207inch**
+y_i =   3                                                                       #Distance between the front gripper and the bending pins **80 thou inch**
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
 
 #%%
 
@@ -30,6 +36,10 @@ from_angles = {
         'negative bend': [-90,90],                                                            
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
 #%% Gripper servo angles and movements 
 # Mapping the angle on the servo to the pulse range
 def angle_to_pulse(angle,from_low=0,from_high=180):
@@ -37,20 +47,36 @@ def angle_to_pulse(angle,from_low=0,from_high=180):
     return int(pulse)
 
 # Converts linear distance using the cam to the servo angle b/w 0-180 (cam_formulae)
+<<<<<<< HEAD
 def distance_to_angle(distance,e):                                         #1.59mm
+=======
+def distance_to_angle(distance,e=1.59):                                         #1.59mm
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
     angle = np.arccos((e-distance)/e)*180/pi                                    #theta in degrees
     return angle
 
 # Converts the servo angle to the linear distance (cam_formulae)
+<<<<<<< HEAD
 def angle_to_distance(angle,e):
+=======
+def angle_to_distance(angle,e=1.59):
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
     distance = e-e*np.cos(angle*pi/180)
     return distance
 
 # Returns the pulse that is required to achieve the linear distance
+<<<<<<< HEAD
 def distance_to_pulse(distance,e):                                         #eccentricity of cam - 1.59mm
     angle = distance_to_angle(distance,e)
     return angle_to_pulse(angle,from_low,from_high)                             #pulse = angle_to_pulse(theta,from_low,from_high)
 
+=======
+def distance_to_pulse(distance,e=1.59):                                         #eccentricity of cam - 1.59mm
+    angle = distance_to_angle(distance,e)
+    return angle_to_pulse(angle,from_low,from_high)                             #pulse = angle_to_pulse(theta,from_low,from_high)
+
+
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
 
 #%% Bending angles and movements 
 # Returns the distance that the bending pins need to move for the bend to happen
@@ -63,7 +89,11 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor            #x_i + the distance for the supposed bend
     return bendDist
 
+<<<<<<< HEAD
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
+=======
+def bendDist_to_bendPulse(angle,bendDist,e=1.59):
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
     theta = distance_to_angle(bendDist,e)
     if angle>0:
 #        from_low_b  = -90
@@ -84,6 +114,7 @@ def fudge_func():
     return fudge_factor
 
 #%% Gripper movements    
+<<<<<<< HEAD
 def back_gripper(f_distance,e=e_gripper,flag=1,channel=0,timeConstant = time_constant):
     #Let flag just be there for now. 
     #No use of it right now since its just max or min position                                                   
@@ -105,12 +136,54 @@ def front_gripper(f_distance,e=e_gripper,flag=1,channel=3,timeConstant = time_co
 
 
 def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = time_constant):
+=======
+def back_gripper(flag,f_distance,channel=0,timeConstant = time_constant):
+    #Let flag just be there for now. 
+    #No use of it right now since its just max or min position                                                   
+    pulse = distance_to_pulse(f_distance)                                         #Calculate pulse to be sent to Rpi
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+
+
+def front_gripper(flag,f_distance,channel=3,timeConstant = time_constant):
+    #Let flag be distance for now, even though its just max or min position.    
+##    print('front gripper')
+    pulse = distance_to_pulse(f_distance)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+
+
+def back_gripper_forward(flag,distance,channel=1,timeConstant = time_constant):
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
     #command it to move either by servoDist_threshold or a particular distance. 
     print('Back gripper moving forward by '+str(distance)+'mm ')
     pulse = distance_to_pulse(distance,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
+<<<<<<< HEAD
     print('Back gripper y-direction movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e))
+=======
+##    print('back gripper x-direction done')
+    
+#%% Bending movements
+def bendingPin_zero(flag,channel=5, timeConstant = time_constant):
+    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
+    pwm.set(channel,0,pulse_zero)
+    sleep(timeConstant)
+
+def bending_arm(flag,angle,outer_diameter,channel=5,timeConstant = time_constant):
+    #command it to move by a particular distance to achieve the bending angle
+    #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
+    #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
+    #Need to map that distance to the angle.
+    bendDist = bendAngle_to_bendDist(angle,outer_diameter)
+    pulse = bendDist_to_bendPulse(angle,bendDist)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+    print('wait for a while and bring back to zeroeth position')
+    bendingPin_zero()
+    
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
     
 #%% Bending movements
 def bendingPin_zero(flag,e=e_bending,channel=5, timeConstant = time_constant):
@@ -156,7 +229,11 @@ def push_action(distance):
     back_gripper(fully_closed_distance)
     
     print('Back grippper moving forward by '+str(distance))
+<<<<<<< HEAD
     back_gripper_forward(distance)
+=======
+    back_gripper_forward(flag,distance)
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
     
     print('Front gripper fully closed')
     front_gripper(fully_closed_distance)
@@ -165,7 +242,11 @@ def push_action(distance):
     back_gripper(partially_opened_distance)
     
     print('Back gripper moved backwards to original position')
+<<<<<<< HEAD
     back_gripper_forward(fully_bwd_distance)
+=======
+    back_gripper_forward(flag,fully_bwd_distance)
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
     
     print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
@@ -181,7 +262,11 @@ def home_position():
     back_gripper(partially_opened_distance)
     
     print('Back gripper moved backwards to home position')
+<<<<<<< HEAD
     back_gripper_forward(fully_bwd_distance)
+=======
+    back_gripper_forward(flag,fully_bwd_distance)
+>>>>>>> 8b846afb01851eb5b73cdd9c3e25f855fa20012b
     
     print('Bending pins moved to home position')
     bendingPin_zero(flag)
