@@ -39,7 +39,7 @@ angles = directions[:,1]
 rotational_angle = directions[:,2]
 
 #%%
-catheter_ID = 1
+catheter_ID = 3
 properties_flag= 1                                                             #Set it to 1 if you require all the properties in one go. 
 #[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
 cpro.get_properties(catheter_ID)

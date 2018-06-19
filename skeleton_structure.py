@@ -52,6 +52,8 @@ def push_catheter(servoDist_threshold, Dist, outer_diameter):
 
 #%%Bending and rotatin the catheter
 def bend_catheter(angle, outer_diameter):
+    print('Heating right now')
+    
     print('Bend the catheter by '+str(angle))
     flag=1                                                                      #Flag plays no role right now, its there for any future requirement 
     gmr.bending_arm(flag, angle, outer_diameter)
