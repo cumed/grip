@@ -13,6 +13,7 @@ pwm.set_pwm_freq(60)
 import skeleton_structure as sks
 import time
 import sys
+import catheter_properties as cpro
 #%% Define directions and thresholds
 #directions = np.load('directions.npy')
 
@@ -36,11 +37,16 @@ servo_max = 490                                                                 
 distances = directions[:,0]
 angles = directions[:,1]
 rotational_angle = directions[:,2]
-#[lengths, OD] = get_properties()       #**********CALL Properties function to get length and OD**************************#
 
-#%% To be removed 
-lengths = [4.25,42,711.2]
-OD = [1.2, 1.67, 1.67]
+#%%
+catheter_ID = 1
+properties_flag= 1                                                             #Set it to 1 if you require all the properties in one go. 
+#[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
+cpro.get_properties(catheter_ID)
+lengths = cpro.get_length()
+OD = cpro.get_OD()
+#lengths = [4.25,42,711.2]
+#OD = [1.2, 1.67, 1.67]
 #%%
 idx             = 0                                                             #Index for points obtained from SVG
 prop_idx        = 0                                                             #Index for the properites of the catheter
@@ -72,7 +78,7 @@ gmr.home_position()
 print('Done with home position')
 #%%
 
-wait= input('Press 0 to exit the program')
+wait = input('Press 0 to exit the program')
 if wait==0:
     sys.exit()
     
@@ -116,4 +122,6 @@ while idx < np.size(distances,0):
         prop_idx = prop_idx + 1                                                 #Once the travelled length is greater than the length of material under consideration,
         lens = lengths[prop_idx]                                                #then move onto the next material which will have a different OD(*maybe*). 
         outer_diameter = OD[prop_idx]
-
+    wait = input('Press 0 to exit the program')
+    if wait ==0:
+        sys.exit()
