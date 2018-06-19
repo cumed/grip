@@ -87,43 +87,52 @@ def fudge_func():
 def back_gripper(f_distance,e=e_gripper,flag=1,channel=0,timeConstant = time_constant):
     #Let flag just be there for now. 
     #No use of it right now since its just max or min position                                                   
+    print('Back gripper moving by '+str(f_distance))
     pulse = distance_to_pulse(f_distance,e_gripper)                                         #Calculate pulse to be sent to Rpi
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
+    print('Back gripper movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e))
 
 
 def front_gripper(f_distance,e=e_gripper,flag=1,channel=3,timeConstant = time_constant):
     #Let flag be there for now, even though its just max or min position.    
-##    print('front gripper')
+#    print('front gripper')
+    print('Front gripper moving by '+str(f_distance))
     pulse = distance_to_pulse(f_distance,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
+    print('Front gripper movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e))
 
 
 def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = time_constant):
     #command it to move either by servoDist_threshold or a particular distance. 
-##    print('back gripper x-direction')
+    print('Back gripper moving forward by '+str(distance)+'mm ')
     pulse = distance_to_pulse(distance,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-##    print('back gripper x-direction done')
+    print('Back gripper y-direction movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e))
     
 #%% Bending movements
-def bendingPin_zero(flag,channel=5, timeConstant = time_constant):
+def bendingPin_zero(flag,e=e_bending,channel=5, timeConstant = time_constant):
+    print('Moving bending pin back to zeroeth position')
     pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     pwm.set(channel,0,pulse_zero)
     sleep(timeConstant)
+    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
 
 def bending_arm(angle,outer_diameter,flag=1,channel=5,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
+    print('Bending pins are moving towards the ')
     bendDist = bendAngle_to_bendDist(angle,outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e_bending)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
     print('wait for a while and bring back to zeroeth position')
+    for i in range(timeConstant):
+        sleep(i)
     bendingPin_zero()
     
     
