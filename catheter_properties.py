@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jun 19 11:35:41 2018
+Created on Tue Jun 19 1:45:00 2018
 
 @author: Pavan Gurudath
 """
