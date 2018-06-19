@@ -155,13 +155,7 @@ def get_properties(CatheterID):
     properties = [lengths,ODs,IDs,Materials,HysterisisFactors,HeatTimes,Xis,Yis,MandrelMaterials,MandrelODs]
     return properties
         
-def get_fullyClosedAngle(OD):
-   angle = OD * 1.5
-   return angle 
-    
-def get_partiallyOpenAngle(OD):
-    angle = OD * 1.2
-    return angle
+
 
 
 properties = get_properties(2)
