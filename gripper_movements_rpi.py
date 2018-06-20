@@ -136,7 +136,7 @@ def bending_arm(angle,outer_diameter,flag=1,channel=5,timeConstant = time_consta
     bendingPin_zero()
     
     
-def back_rotation(angle,flag,channel=7,timeConstant = time_constant):
+def back_rotation(angle,flag,channel=8,timeConstant = time_constant):
     #command it to rotate by a particular angle
     print('Rotating by '+str(angle)+'degrees')
     if flag==1:

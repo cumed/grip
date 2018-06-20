@@ -94,14 +94,14 @@ def get_heatTime(lens=None): # returns a list of the heat times of the different
     
     return heatTime
 
-def get_Xi(): # returns a list of the Xis of the different materials in the catheter
-    data = pd.read_excel('CurrentCatheter.xlsx')
-    count_row=data.shape[0]
-    Xi = []
-    for row in range(0,count_row):
-        Xi.append(data.iloc[row,data.columns.get_loc("Xi (distance between pin wall to catheter wall)")])    
-
-    return Xi
+#def get_Xi(): # returns a list of the Xis of the different materials in the catheter
+#    data = pd.read_excel('CurrentCatheter.xlsx')
+#    count_row=data.shape[0]
+#    Xi = []
+#    for row in range(0,count_row):
+#        Xi.append(data.iloc[row,data.columns.get_loc("Xi (distance between pin wall to catheter wall)")])    
+#
+#    return Xi
 
 def get_Yi(): # returns a list of the Yis of the different materials in the catheter
     data = pd.read_excel('CurrentCatheter.xlsx')
@@ -117,7 +117,7 @@ def get_mandrelmaterial(): # returns a list of the mandrel materials for the dif
     count_row=data.shape[0]
     mandrelmaterial = []
     for row in range(0,count_row):
-        mandrelmaterial.append(data.iloc[row,data.columns.get_loc("Mandrel material")])    
+        mandrelmaterial.append(data.iloc[row,data.columns.get_loc("Mandrel Material")])    
 
     return mandrelmaterial
 
@@ -155,14 +155,16 @@ def get_properties(CatheterID,flag=0):                                          
     materials = get_material()
     hysterisisFactors = get_hysterisis()
     heatTimes = get_heatTime()
-    Xis = get_Xi()
+#    Xis = get_Xi()
     Yis = get_Yi()
     mandrelmaterials = get_mandrelmaterial()
     mandrelODs = get_mandrelOD()
     if flag:
-        properties = [lengths, ODs, IDs, materials, hysterisisFactors, heatTimes, Xis, Yis, mandrelmaterials, mandrelODs]
+        properties = [lengths, ODs, IDs, materials, hysterisisFactors, heatTimes, Yis, mandrelmaterials, mandrelODs]
         return properties
-        
+
+if __name__ == "__main__":
+    get_properties(1)        
 #properties = get_properties(0,1)
 #print(properties)
 #heating_control(get_OD()[2])
