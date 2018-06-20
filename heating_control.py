@@ -7,7 +7,7 @@ Created on Tue Jun 19 14:53:32 2018
 import RPi.GPIO as GPIO
 from time import sleep
 
-LedPin = 7    # pin11
+LedPin = 7    # pin7
 GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
 GPIO.setup(LedPin, GPIO.OUT)   # Set LedPin's mode is output
 GPIO.output(LedPin, GPIO.HIGH) # Set LedPin high(+3.3V) to turn on led
@@ -23,3 +23,14 @@ def destroy():
   GPIO.output(LedPin, GPIO.LOW)   # led off
   GPIO.cleanup()                  # Release resource
 
+if __name__ == "__main__":
+    LedPin = 7    # pin7
+    GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
+    GPIO.setup(LedPin, GPIO.OUT)   # Set LedPin's mode is output
+    GPIO.output(LedPin, GPIO.HIGH) # Set LedPin high(+3.3V) to turn on led
+    while True:
+        GPIO.output(LedPin, GPIO.HIGH)
+        sleep(1)
+        GPIO.output(LedPin, GPIO.LOW)
+        sleep(1)
+        
