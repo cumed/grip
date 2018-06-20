@@ -13,7 +13,7 @@ from math import pi
 
 #%% Declarations
 servo_min = 190                                                                 #Min limit of 183 for Hitech-servos
-servo_max = 490                                                                 #Max limit of 600 for Hitech-servos
+servo_max = 500                                                                 #Max limit of 600 for Hitech-servos
 time_constant = 1                                                               #Time for the Rpi to wait for the servo to complete its task
 from_low = 0                                                                    #Smallest angle that you'd want the cam to be at
 from_high = 180                                                                 #Largest angle that you'd want the cam to be at
