@@ -6,7 +6,7 @@ Created on Tue Jun 19 1:45:00 2018
 """
 #%% Import statements
 import gripper_movements_rpi as gmr
-
+import heating_control as htc
 
 #%% Define directions and thresholds
 #directions = np.load('directions.npy')
