@@ -1,4 +1,4 @@
 # grip
 First rep
-Last update 6/19 - 1:41 Conflicts taken care
+Last update 6/20 Prior First test
 
