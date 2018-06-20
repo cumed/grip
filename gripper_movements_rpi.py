@@ -10,6 +10,8 @@ import Adafruit_PCA9685
 import numpy as np
 import math
 from math import pi
+pwm = Adafruit_PCA9685.PCA9685()
+pwm.set_pwm_freq(60)
 
 #%% Declarations
 servo_min = 190                                                                 #Min limit of 183 for Hitech-servos
@@ -115,8 +117,9 @@ def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = ti
 #%% Bending movements
 def bendingPin_zero(flag,e=e_bending,channel=5, timeConstant = time_constant):
     print('Moving bending pin back to zeroeth position')
-    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
-    pwm.set(channel,0,pulse_zero)
+#    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
+    pulse_zero = angle_to_pulse(0,-90,90)
+    pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
     print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
 
@@ -148,7 +151,7 @@ def back_rotation(angle,flag,channel=8,timeConstant = time_constant):
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant)
 #%%        
-def push_action(distance):
+def push_action(distance,outer_diameter):
     print('Front gripper partially opened')
     front_gripper(partially_opened_distance)
     

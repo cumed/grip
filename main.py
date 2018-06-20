@@ -78,7 +78,7 @@ gmr.home_position()
 print('Done with home position')
 #%%
 
-wait = input('Press 0 to exit the program')
+wait = input('Press 0 to exit the program,first')
 if wait==0:
     sys.exit()
     
