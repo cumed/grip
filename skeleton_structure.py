@@ -21,7 +21,7 @@ import catheter_properties as cpro
 ##zeroes = np.random.randn(11,1)
 ##zeroes_2 = (zeroes>0.5)*10
 #directions = np.append(directions,zeroes,axis=1)
-#
+
 #
 #servoDist_threshold = 3.1                                                       # Max distance travelled by the servo
 #angle_threshold = 7                                                             # Min angle that the catheter needs to be bent by
