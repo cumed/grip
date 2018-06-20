@@ -81,17 +81,14 @@ def get_hysterisis(): # returns a list of the Hysteresis factors of the differen
         hysterisis.append(data.iloc[row,data.columns.get_loc("Hysteresis factor")]) 
     return hysterisis
 
-def get_heatTime(material=None): # returns a list of the heat times of the different materials in the catheter
+def get_heatTime(lens=None): # returns a list of the heat times of the different materials in the catheter
     data = pd.read_excel('CurrentCatheter.xlsx')
     count_row=data.shape[0]
     heatTime = []
-    print(material)
     for row in range(0,count_row):
         heatTime.append(data.iloc[row,data.columns.get_loc("Heat Time")])    
-    if material != None:
-        mat = get_materialName()
-        print(mat)
-        loc = mat.index(str(material))
+    if lens != None:
+        loc = get_length().index(lens)
         heatTime = heatTime[loc]
         return heatTime
     

@@ -7,7 +7,7 @@ Created on Tue Jun 19 1:45:00 2018
 #%% Import statements
 import gripper_movements_rpi as gmr
 import heating_control as htc
-
+import catheter_properties as cpro
 #%% Define directions and thresholds
 #directions = np.load('directions.npy')
 
@@ -51,9 +51,9 @@ def push_catheter(servoDist_threshold, Dist, outer_diameter):
         gmr.push_action(Dist,outer_diameter)
 
 #%%Bending and rotatin the catheter
-def bend_catheter(angle, outer_diameter):
-    print('Heating right now')
-    
+def bend_catheter(angle, lens, outer_diameter):
+    heating_time = cpro.get_heatTime(lens)
+    htc.startHeat(heating_time)
     print('Bend the catheter by '+str(angle))
     flag=1                                                                      #Flag plays no role right now, its there for any future requirement 
     gmr.bending_arm(flag, angle, outer_diameter)
