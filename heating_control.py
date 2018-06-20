@@ -18,6 +18,7 @@ def startHeat(heating_time):
     sleep(heating_time)
     print('Heater off')
     GPIO.output(LedPin, GPIO.LOW) # led off
+    sleep(0.1)
 
 def destroy():
   GPIO.output(LedPin, GPIO.LOW)   # led off
