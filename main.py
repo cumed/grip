@@ -87,7 +87,7 @@ while idx < np.size(distances,0):
     present_angle = angles[idx]                                                 #bending angle at the point under consideration. 
     present_distance = distances[idx]                                           #distance from the point under consideration to the next. 
     traversed_distance += present_distance                                      #total distanced travelled from the tip of the catheter
-    wait('distance:'+str(present_distance)+'mm, angle:'+str(present_angle) + 'degrees, rotation:'+str(present_rot_angle) + 'degrees.')
+    input('distance:'+str(present_distance)+'mm, angle:'+str(present_angle) + 'degrees, rotation:'+str(present_rot_angle) + 'degrees.')
     if traversed_distance < lens:
         if present_rot_angle < rotationalAngle_threshold:                                              #Do calculations if no rotational angle
             if present_angle < angle_threshold:                                 #Compare the bend angle with the threshold that we set.
