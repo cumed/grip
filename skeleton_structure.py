@@ -45,10 +45,10 @@ def push_catheter(servoDist_threshold, Dist, outer_diameter):
         pulse_distance = remaining_distance(servoDist_threshold, Dist)          #Split it up into threshold distances if it is greater
         for rDistances in pulse_distance:
             print('Push catheter by '+str(rDistances) + ' from a total_distance of ' + str(Dist))
-            gmr.push_action(rDistances, outer_diameter)
+            gmr.push_action(rDistances)
     else:
         print('Push catheter by '+str(Dist))
-        gmr.push_action(Dist,outer_diameter)
+        gmr.push_action(Dist)
 
 #%%Bending and rotatin the catheter
 def bend_catheter(angle, lens, outer_diameter):

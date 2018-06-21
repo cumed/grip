@@ -151,7 +151,7 @@ def back_rotation(angle,flag,channel=8,timeConstant = time_constant):
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant)
 #%%        
-def push_action(distance,outer_diameter):
+def push_action(distance):
     print('Front gripper partially opened')
     front_gripper(partially_opened_distance)
     
