@@ -63,8 +63,6 @@ time_constant   = 2
 #fully_opened_distance       = gmr.angle_to_distance(180)                        # Position of front and back servos along x-direction
 #fully_bwd_distance          = gmr.angle_to_distance(0)                          # Position of cam for the back servo movement along y-direction
 
-
-
 #%%
 print('Bringing all cams to zeroeth position')
 
