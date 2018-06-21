@@ -55,7 +55,7 @@ rotation_flag   = 0                                                             
 
 lens            = lengths[prop_idx]
 outer_diameter  = OD[prop_idx]
-time_constant   = 1
+time_constant   = 2
 #%% These distances are a part of gmr and declared there
 #fully_closed_distance       = gmr.angle_to_distance(0)                  
 #partially_opened_distance   = gmr.angle_to_distance(60)
@@ -122,6 +122,7 @@ while idx < np.size(distances,0):
         prop_idx = prop_idx + 1                                                 #Once the travelled length is greater than the length of material under consideration,
         lens = lengths[prop_idx]                                                #then move onto the next material which will have a different OD(*maybe*). 
         outer_diameter = OD[prop_idx]
+    print("We're at the" + str(idx) +" position in directions")
     wait = input('Press 0 to exit the program')
     if wait ==0:
         sys.exit()

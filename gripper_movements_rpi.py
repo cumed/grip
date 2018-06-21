@@ -89,30 +89,30 @@ def fudge_func():
 def back_gripper(f_distance,e=e_gripper,flag=1,channel=0,timeConstant = time_constant):
     #Let flag just be there for now. 
     #No use of it right now since its just max or min position                                                   
-    print('Back gripper moving by '+str(f_distance))
+#    print('Back gripper moving by '+str(f_distance))
     pulse = distance_to_pulse(f_distance,e_gripper)                                         #Calculate pulse to be sent to Rpi
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-    print('Back gripper movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e))
+    print('Back gripper movement done. Channel:'+str(channel)+', Eccentricity:'+str(e)+', Pulse: '+str(pulse))
 
 
 def front_gripper(f_distance,e=e_gripper,flag=1,channel=3,timeConstant = time_constant):
     #Let flag be there for now, even though its just max or min position.    
 #    print('front gripper')
-    print('Front gripper moving by '+str(f_distance))
+#    print('Front gripper moving by '+str(f_distance))
     pulse = distance_to_pulse(f_distance,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-    print('Front gripper movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e))
+    print('Front gripper movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
 
 
 def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = time_constant):
     #command it to move either by servoDist_threshold or a particular distance. 
-    print('Back gripper moving forward by '+str(distance)+'mm ')
+#    print('Back gripper moving forward by '+str(distance)+'mm ')
     pulse = distance_to_pulse(distance,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-    print('Back gripper y-direction movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e))
+    print('Back gripper y-direction movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
     
 #%% Bending movements
 def bendingPin_zero(e=e_bending,channel=5, timeConstant = time_constant):
@@ -128,49 +128,52 @@ def bending_arm(angle,outer_diameter,e=e_bending,flag=1,channel=5,timeConstant =
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
-    print('Bending pins are moving towards the ')
     bendDist = bendAngle_to_bendDist(angle,outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-    print('wait for a while and bring back to zeroeth position')
-    for i in range(timeConstant):
-        sleep(i)
-    bendingPin_zero()
+    print('Bending pins are making a bend of ' + str(angle)+'degrees by bending a distance of '+str(bendDist) + 'mm. Pulse: '+str(pulse))
+    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
+#    for i in range(timeConstant):                                                  #Uncomment these two lines when the waiting is removed
+#        sleep(i)
+    bendingPin_zero()
+    input('Bending finished. Press 1 to continue')
     
 def back_rotation(angle,flag,channel=8,timeConstant = time_constant):
     #command it to rotate by a particular angle
-    print('Rotating by '+str(angle)+'degrees')
+    
     if flag==1:
         pulse = angle_to_pulse(angle)
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant)
+        input('Rotated the plane by '+str(angle)+'degrees. Pulse given' + str(pulse))
     else:
         pulse = angle_to_pulse(0)
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant)
+        input('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
 #%%        
 def push_action(distance):
     print('Front gripper partially opened')
     front_gripper(partially_opened_distance)
     
-    print('Back gripper fully closed')
+    input('Back gripper fully closed')
     back_gripper(fully_closed_distance)
     
-    print('Back grippper moving forward by '+str(distance))
+    input('Back grippper moving forward by '+str(distance)+'mm')
     back_gripper_forward(distance)
     
-    print('Front gripper fully closed')
+    input('Front gripper fully closed')
     front_gripper(fully_closed_distance)
     
-    print('Back gripper partially opened')
+    input('Back gripper partially opened')
     back_gripper(partially_opened_distance)
     
-    print('Back gripper moved backwards to original position')
+    input('Back gripper moved backwards to original position')
     back_gripper_forward(fully_bwd_distance)
     
-    print('Back gripper fully closed')
+    input('Back gripper fully closed')
     back_gripper(fully_closed_distance)
 
       
