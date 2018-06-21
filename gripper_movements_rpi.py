@@ -93,7 +93,7 @@ def back_gripper(f_distance,e=e_gripper,flag=1,channel=0,timeConstant = time_con
     pulse = distance_to_pulse(f_distance,e_gripper)                                         #Calculate pulse to be sent to Rpi
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-    print('Back gripper movement done. Channel:'+str(channel)+', Eccentricity:'+str(e)+', Pulse: '+str(pulse))
+#    print('Back gripper movement done. Channel:'+str(channel)+', Eccentricity:'+str(e)+', Pulse: '+str(pulse))
 
 
 def front_gripper(f_distance,e=e_gripper,flag=1,channel=3,timeConstant = time_constant):
@@ -103,7 +103,7 @@ def front_gripper(f_distance,e=e_gripper,flag=1,channel=3,timeConstant = time_co
     pulse = distance_to_pulse(f_distance,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-    print('Front gripper movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
+#    print('Front gripper movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
 
 
 def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = time_constant):
@@ -112,7 +112,7 @@ def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = ti
     pulse = distance_to_pulse(distance,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-    print('Back gripper y-direction movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
+#    print('Back gripper y-direction movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
     
 #%% Bending movements
 def bendingPin_zero(e=e_bending,channel=5, timeConstant = time_constant):

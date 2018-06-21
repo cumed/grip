@@ -69,16 +69,15 @@ print('Bringing all cams to zeroeth position')
 for channel in range(0,8):
     pwm.set_pwm(channel,0,servo_min)                                            # Setting all servo's to min position
 time.sleep(time_constant)
-
+print('All cams at zeroeth position')
 #%%
 print('Going to home position')
 gmr.home_position()
 print('Done with home position')
 #%%
 
-wait = input('Press 0 to exit the program,first')
-if wait==0:
-    sys.exit()
+print('Starting main program')
+input('Press any key to continue')
     
 while idx < np.size(distances,0):
     present_rot_angle = rotational_angle[idx]                                   #rotational angle at the point under consideration. 
