@@ -7,7 +7,7 @@ Created on Thur Jun 21 13:08:00 2018
 import RPi.GPIO as GPIO
 from time import sleep
 
-LedPin = 7    # pin7
+LedPin = 7    # #4
 GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
 GPIO.setup(LedPin, GPIO.OUT)   # Set LedPin's mode is output
 GPIO.output(LedPin, GPIO.HIGH) # Set LedPin high(+3.3V) to turn on led

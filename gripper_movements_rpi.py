@@ -115,7 +115,7 @@ def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = ti
     print('Back gripper y-direction movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e))
     
 #%% Bending movements
-def bendingPin_zero(flag,e=e_bending,channel=5, timeConstant = time_constant):
+def bendingPin_zero(e=e_bending,channel=5, timeConstant = time_constant):
     print('Moving bending pin back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     pulse_zero = angle_to_pulse(0,-90,90)
@@ -123,14 +123,14 @@ def bendingPin_zero(flag,e=e_bending,channel=5, timeConstant = time_constant):
     sleep(timeConstant)
     print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
 
-def bending_arm(angle,outer_diameter,flag=1,channel=5,timeConstant = time_constant):
+def bending_arm(angle,outer_diameter,e=e_bending,flag=1,channel=5,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
     print('Bending pins are moving towards the ')
     bendDist = bendAngle_to_bendDist(angle,outer_diameter)
-    pulse = bendDist_to_bendPulse(angle,bendDist,e_bending)
+    pulse = bendDist_to_bendPulse(angle,bendDist,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
     print('wait for a while and bring back to zeroeth position')
