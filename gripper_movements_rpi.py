@@ -184,7 +184,7 @@ def push_action(distance):
     input('Catheter pushed by '+str(distance)+'mm')
       
 def home_position():
-    flag=1
+    flag=0
     
 #    print('Front gripper partially opened')
     front_gripper(partially_opened_distance)
@@ -196,7 +196,7 @@ def home_position():
     back_gripper_forward(fully_bwd_distance)
     
 #    print('Bending pins moved to home position')
-    bendingPin_zero(flag)
+    bendingPin_zero()
     
 #    print('Back gripper on the plane at home angle')
     back_rotation(0,flag)
