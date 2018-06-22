@@ -23,8 +23,8 @@ def remaining_distance(servoDist, remDist):
 
 # Pushing the catheter in front
 def push_catheter(servoDist_threshold, Dist, outer_diameter):
-    if Dist > servoDist_threshold:                                              #Check if the pushing distance is more than the servo's threshold distance
-        pulse_distance = remaining_distance(servoDist_threshold, Dist)          #Split it up into threshold distances if it is greater
+    if Dist > servoDist_threshold:                                           #Check if the pushing distance is more than the servo's threshold distance
+        pulse_distance = remaining_distance(servoDist_threshold, Dist)       #Split it up into threshold distances if it is greater
         for rDistances in pulse_distance:
             print('----------Push catheter by '+str(rDistances) + 'mm from a total_distance of ' + str(Dist) + 'mm-----------')
             gmr.push_action(rDistances)
@@ -38,7 +38,7 @@ def bend_catheter(angle, lens, outer_diameter):
     print('-----------Heat the catheter for '+str(heating_time)+'seconds --------------')
     htc.startHeat(heating_time)
     print('----------Bend the catheter by '+str(angle)+'degrees----------')
-    flag=1                                                                      #Flag plays no role right now, its there for any future requirement 
+    flag=1                                                                   #Flag plays no role right now, its there for any future requirement 
     gmr.bending_arm(angle, outer_diameter,flag)
 
 def rotate_catheter(rot_angle):
@@ -49,9 +49,9 @@ def rotate_catheter(rot_angle):
     print('----------Turn the plane by ' + str(rot_angle)+'degrees----------')                                
     if rot_angle>0:
         flag=1
-                                                                         #Flag is raised once rotation is done in the positive direction
+                                                                             #Flag is raised once rotation is done in the positive direction
     else:
-        flag=0                                                                  #Flag is put down if rotation is in the negative direction 
+        flag=0                                                               #Flag is put down if rotation is in the negative direction 
     print('Sednding rotation with FLAGGGGGGGL command'+str(flag) +' and rotational angle'+str(rot_angle))
     gmr.back_rotation(rot_angle,flag)
      
