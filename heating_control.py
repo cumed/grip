@@ -10,15 +10,15 @@ from time import sleep
 LedPin = 7    # #4
 GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
 GPIO.setup(LedPin, GPIO.OUT)   # Set LedPin's mode is output
-GPIO.output(LedPin, GPIO.HIGH) # Set LedPin high(+3.3V) to turn on led
+GPIO.output(LedPin, GPIO.LOW) # Set LedPin high(+3.3V) to turn on led
 
 def startHeat(heating_time):
-    print('Heater on')
+    input('Heater on?')
     GPIO.output(LedPin, GPIO.HIGH)  # led on
     sleep(heating_time)
     print('Heater off')
     GPIO.output(LedPin, GPIO.LOW) # led off
-    sleep(0.1)
+    sleep(1)
 
 def destroy():
   GPIO.output(LedPin, GPIO.LOW)   # led off
@@ -28,10 +28,10 @@ if __name__ == "__main__":
     LedPin = 7    # pin7
     GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
     GPIO.setup(LedPin, GPIO.OUT)   # Set LedPin's mode is output
-    GPIO.output(LedPin, GPIO.HIGH) # Set LedPin high(+3.3V) to turn on led
+    GPIO.output(LedPin, GPIO.LOW) # Set LedPin high(+3.3V) to turn on led
     while True:
         GPIO.output(LedPin, GPIO.HIGH)
-        sleep(1)
+        sleep(2)
         GPIO.output(LedPin, GPIO.LOW)
-        sleep(1)
+        sleep(2)
         
