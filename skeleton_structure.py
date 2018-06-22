@@ -10,7 +10,6 @@ import heating_control as htc
 import catheter_properties as cpro
 
 #%% Distances
-
 # Split distances into smaller threshold and then send the list of distances
 def remaining_distance(servoDist, remDist):                                    
     quotient = int(remDist // servoDist)

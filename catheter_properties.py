@@ -24,9 +24,7 @@ import pandas as pd
 ##    time.sleep(heating_time)
 ##    GPIO.output(18, GPIO.LOW)
 ##    GPIO.cleanup()
-
-
-    
+   
 
 def get_length(): # returns a list of the cumulative lenghts of the different materials in the catheter
     data = pd.read_excel('CurrentCatheter.xlsx')

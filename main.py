@@ -77,7 +77,6 @@ input('Make all cams go to the "home" position')
 gmr.home_position()
 print('Done with home position')
 #%%
-
 #print('Starting main program')
 input('Press any key to start the main program')
     
