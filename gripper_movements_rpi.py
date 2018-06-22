@@ -14,16 +14,16 @@ pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
 
 #%% Declarations
-servo_min = 190                                                                 #Min limit of 183 for Hitech-servos
-servo_max = 500                                                                 #Max limit of 600 for Hitech-servos
-time_constant = 1                                                               #Time for the Rpi to wait for the servo to complete its task
-from_low = 0                                                                    #Smallest angle that you'd want the cam to be at
-from_high = 180                                                                 #Largest angle that you'd want the cam to be at
-e_gripper = 1.59                                                                #eccentricity of gripper cams - 1.59mm
-e_bending = 9.25                                                                #eccentricity of bending cam - 9.25mm
-e_backidx = 4.75                                                                #eccentricity of back indexing gripper cam - 4.75mm
-d_pins = 5.25                                                                   #Distance between the bending pins (edge-to-edge) **0.207inch**
-y_i =   3                                                                       #Distance between the front gripper and the bending pins
+servo_min = 190                                                              #Min limit of 183 for Hitech-servos
+servo_max = 500                                                              #Max limit of 600 for Hitech-servos
+time_constant = 1                                                            #Time for the Rpi to wait for the servo to complete its task
+from_low = 0                                                                 #Smallest angle that you'd want the cam to be at
+from_high = 180                                                              #Largest angle that you'd want the cam to be at
+e_gripper = 1.59                                                             #eccentricity of gripper cams - 1.59mm
+e_bending = 9.25                                                             #eccentricity of bending cam - 9.25mm
+e_backidx = 4.75                                                             #eccentricity of back indexing gripper cam - 4.75mm
+d_pins = 5.25                                                                #Distance between the bending pins (edge-to-edge) **0.207inch**
+y_i =   3                                                                    #Distance between the front gripper and the bending pins
 
 #%%
 
@@ -39,8 +39,8 @@ def angle_to_pulse(angle,from_low=0,from_high=180):
     return int(pulse)
 
 # Converts linear distance using the cam to the servo angle b/w 0-180 (cam_formulae)
-def distance_to_angle(distance,e):                                         #1.59mm
-    angle = np.arccos((e-distance)/e)*180/pi                                    #theta in degrees
+def distance_to_angle(distance,e):                                           #1.59mm
+    angle = np.arccos((e-distance)/e)*180/pi                                 #theta in degrees
     return angle
 
 # Converts the servo angle to the linear distance (cam_formulae)
@@ -49,9 +49,9 @@ def angle_to_distance(angle,e):
     return distance
 
 # Returns the pulse that is required to achieve the linear distance
-def distance_to_pulse(distance,e):                                         #eccentricity of cam - 1.59mm
+def distance_to_pulse(distance,e):                                           #eccentricity of cam - 1.59mm
     angle = distance_to_angle(distance,e)
-    return angle_to_pulse(angle,from_low,from_high)                             #pulse = angle_to_pulse(theta,from_low,from_high)
+    return angle_to_pulse(angle,from_low,from_high)                          #pulse = angle_to_pulse(theta,from_low,from_high)
 
 
 #%% Bending angles and movements 
@@ -60,9 +60,9 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse
-    x_i = (d_pins - outer_diameter)/2                                           #Distance the pin has to move to touch the catheter
+    x_i = (d_pins - outer_diameter)/2                                        #Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
-    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor            #x_i + the distance for the supposed bend
+    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         #x_i + the distance for the supposed bend
     return bendDist
 
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
@@ -78,7 +78,8 @@ def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
         
     pulse = angle_to_pulse(servos_angle,from_low_b,from_high_b)
     if math.isnan(pulse):
-        print('Gonna crash here. Angle:'+str(angle) +'bendDist:' +bendDist +' and servos_angle:' +str(servos_angle))
+        print('Gonna crash here. Angle:'+str(angle) +'bendDist:' +bendDist +
+              ' and servos_angle:' +str(servos_angle))
     return pulse
 
 def fudge_func():
@@ -92,7 +93,7 @@ def back_gripper(f_distance,e=e_gripper,flag=1,channel=0,timeConstant = time_con
     #Let flag just be there for now. 
     #No use of it right now since its just max or min position                                                   
 #    print('Back gripper moving by '+str(f_distance))
-    pulse = distance_to_pulse(f_distance,e_gripper)                                         #Calculate pulse to be sent to Rpi
+    pulse = distance_to_pulse(f_distance,e_gripper)                          #Calculate pulse to be sent to Rpi
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
 #    print('Back gripper movement done. Channel:'+str(channel)+', Eccentricity:'+str(e)+', Pulse: '+str(pulse))
@@ -162,7 +163,7 @@ def back_rotation(angle,flag,channel=8,timeConstant = time_constant):
 #%%        
 def push_action(distance):
 #    print('Front gripper partially opened')
-    front_gripper(partially_opened_distance)
+    front_gripper(partially_opened_distance)                                
     
 #    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
@@ -205,7 +206,7 @@ def home_position():
 #%%
 def get_fullyClosedDistance(OD,e=e_gripper):
    fcd_angle = {
-           3:angle_to_distance(0,e),
+           3:angle_to_distance(0,e),                                        #******************Needs to be experimentally determined**************
            4:angle_to_distance(30,e),
            5:angle_to_distance(60,e),
            6:angle_to_distance(90,e),
@@ -216,7 +217,7 @@ def get_fullyClosedDistance(OD,e=e_gripper):
 
 def get_partiallyOpenedDistance(OD,e=e_gripper):
     pod_angle = {
-           3:angle_to_distance(0,e),
+           3:angle_to_distance(0,e),                                        #******************Needs to be experimentally determined**************
            4:angle_to_distance(30,e),
            5:angle_to_distance(60,e),
            6:angle_to_distance(90,e),
