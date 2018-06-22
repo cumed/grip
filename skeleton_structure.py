@@ -39,7 +39,7 @@ def bend_catheter(angle, lens, outer_diameter):
     htc.startHeat(heating_time)
     print('----------Bend the catheter by '+str(angle)+'degrees----------')
     flag=1                                                                      #Flag plays no role right now, its there for any future requirement 
-    gmr.bending_arm(flag, angle, outer_diameter)
+    gmr.bending_arm(angle, outer_diameter,flag)
 
 def rotate_catheter(rot_angle):
     #This function has been written keeping in mind that the rotation is done only in one direction, i.e. 0-max angle possible by the servo. 

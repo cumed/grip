@@ -125,7 +125,7 @@ def bendingPin_zero(e=e_bending,channel=5, timeConstant = time_constant):
     sleep(timeConstant)
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
     print('Bending pins are back to zeroeth position')
-def bending_arm(angle,outer_diameter,e=e_bending,flag=1,channel=5,timeConstant = time_constant):
+def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=5,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
