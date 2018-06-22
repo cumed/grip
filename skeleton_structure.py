@@ -8,28 +8,10 @@ Created on Thur Jun 21 12:58:00
 import gripper_movements_rpi as gmr
 import heating_control as htc
 import catheter_properties as cpro
-#%% Define directions and thresholds
-#directions = np.load('directions.npy')
-
-# Data specific to this main file                                                                    
-
-#directions = np.array([[1,0],[1.,2],[1,3],[1,2],[2,2],[1,1],[1,3],[4,1],[4,20],[1,10],[2,20]])
-##directions = np.array([[1,0],[2.,2],[3,3],[4,2],[5,2],[6,1],[1,3],[4,1],[4,20],[1,10],[2,20]])
-#zeroes = np.array([0.,0,10,0,0,0,0,0,10,10,0])
-#zeroes = zeroes.reshape((11,1))
-##zeroes = np.zeros(shape=(11,1))
-##zeroes = np.random.randn(11,1)
-##zeroes_2 = (zeroes>0.5)*10
-#directions = np.append(directions,zeroes,axis=1)
-
-#
-#servoDist_threshold = 3.1                                                       # Max distance travelled by the servo
-#angle_threshold = 7                                                             # Min angle that the catheter needs to be bent by
-#incremental_distance = 0                                                        # Keep track of previous distance
 
 #%% Distances
 
-#Split distances into smaller threshold and then send the list of distances
+# Split distances into smaller threshold and then send the list of distances
 def remaining_distance(servoDist, remDist):                                    
     quotient = int(remDist // servoDist)
     remainder = remDist - servoDist*quotient
@@ -44,17 +26,17 @@ def push_catheter(servoDist_threshold, Dist, outer_diameter):
     if Dist > servoDist_threshold:                                              #Check if the pushing distance is more than the servo's threshold distance
         pulse_distance = remaining_distance(servoDist_threshold, Dist)          #Split it up into threshold distances if it is greater
         for rDistances in pulse_distance:
-            print('Push catheter by '+str(rDistances) + 'mm from a total_distance of ' + str(Dist) + 'mm')
+            print('----------Push catheter by '+str(rDistances) + 'mm from a total_distance of ' + str(Dist) + 'mm-----------')
             gmr.push_action(rDistances)
     else:
-        print('Push catheter by '+str(Dist) + 'mm')
+        print('----------Push catheter by '+str(Dist) + 'mm----------')
         gmr.push_action(Dist)
 
 #%%Bending and rotatin the catheter
 def bend_catheter(angle, lens, outer_diameter):
     heating_time = cpro.get_heatTime(lens)
     htc.startHeat(heating_time)
-    print('Bend the catheter by '+str(angle)+'degrees')
+    print('----------Bend the catheter by '+str(angle)+'degrees----------')
     flag=1                                                                      #Flag plays no role right now, its there for any future requirement 
     gmr.bending_arm(flag, angle, outer_diameter)
 
@@ -63,7 +45,7 @@ def rotate_catheter(rot_angle):
     #Whenever a negative angle is passed, it means that the call is to move it back to the zeroeth position. 
     #This function would have to be changed to take into account the new mechanism, which is currently put on hold i.e. an incremental movement of a max 
     #of 15 degrees in either direction. 
-    print('Turn the plane by ' + str(rot_angle)+'degrees')                                
+    print('----------Turn the plane by ' + str(rot_angle)+'degrees----------')                                
     if rot_angle>0:
         flag=1                                                                  #Flag is raised once rotation is done in the positive direction
     else:

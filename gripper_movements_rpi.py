@@ -29,7 +29,7 @@ y_i =   3                                                                       
 
 from_angles = {
         'positive bend': [-90,90],                                                            
-        'negative bend': [-90,90],                                                            
+        'negative bend': [90,-90],                                                            
         }
 
 #%% Gripper servo angles and movements 
@@ -66,7 +66,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     return bendDist
 
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
-    theta = distance_to_angle(bendDist,e)
+    servos_angle = distance_to_angle(bendDist,e)
     if angle>0:
 #        from_low_b  = -90
 #        from_high_b = 90
@@ -76,7 +76,9 @@ def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
 #        from_high_b   = -90
         from_low_b, from_high_b = from_angles.get('negative bend')
         
-    pulse = angle_to_pulse(theta,from_low_b,from_high_b)
+    pulse = angle_to_pulse(servos_angle,from_low_b,from_high_b)
+    if math.isnan(pulse):
+        print('Gonna crash here. Angle:'+str(angle) +'bendDist:' +bendDist +' and servos_angle:' +str(servos_angle))
     return pulse
 
 def fudge_func():
@@ -116,84 +118,89 @@ def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = ti
     
 #%% Bending movements
 def bendingPin_zero(e=e_bending,channel=5, timeConstant = time_constant):
-    print('Moving bending pin back to zeroeth position')
+    input('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     pulse_zero = angle_to_pulse(0,-90,90)
     pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
-    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
-
+#    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
+    print('Bending pins are back to zeroeth position')
 def bending_arm(angle,outer_diameter,e=e_bending,flag=1,channel=5,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
+    input('Do we start bending?')
     bendDist = bendAngle_to_bendDist(angle,outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
     print('Bending pins are making a bend of ' + str(angle)+'degrees by bending a distance of '+str(bendDist) + 'mm. Pulse: '+str(pulse))
-    input('Press 1 to finish bending and bring it back to zeroeth position.')
+#    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
 #    for i in range(timeConstant):                                                  #Uncomment these two lines when the waiting is removed
 #        sleep(i)
     bendingPin_zero()
-    input('Bending finished. Press 1 to continue')
+    print('Bending finished')
     
 def back_rotation(angle,flag,channel=8,timeConstant = time_constant):
     #command it to rotate by a particular angle
     
     if flag==1:
+        input('Do we start rotating the plane')
         pulse = angle_to_pulse(angle)
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant)
-        input('Rotated the plane by '+str(angle)+'degrees. Pulse given' + str(pulse))
+        print('Rotated the plane by '+str(angle)+'degrees. Pulse given' + str(pulse))
     else:
+        input('We are now moving the rotating plane back to zero')
         pulse = angle_to_pulse(0)
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant)
-        input('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
+        print('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
+        
 #%%        
 def push_action(distance):
-    print('Front gripper partially opened')
+#    print('Front gripper partially opened')
     front_gripper(partially_opened_distance)
     
-    input('Back gripper fully closed')
+#    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
     
-    input('Back grippper moving forward by '+str(distance)+'mm')
+    print('Back grippper moving forward by '+str(distance)+'mm')
     back_gripper_forward(distance)
     
-    input('Front gripper fully closed')
+#    print('Front gripper fully closed')
     front_gripper(fully_closed_distance)
     
-    input('Back gripper partially opened')
+#    print('Back gripper partially opened')
     back_gripper(partially_opened_distance)
     
-    input('Back gripper moved backwards to original position')
+#    print('Back gripper moved backwards to original position')
     back_gripper_forward(fully_bwd_distance)
     
-    input('Back gripper fully closed')
+#    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
-
+    input('Catheter pushed by '+str(distance)+'mm')
       
 def home_position():
     flag=1
     
-    print('Front gripper partially opened')
+#    print('Front gripper partially opened')
     front_gripper(partially_opened_distance)
     
-    print('Back gripper partially opened')
+#    print('Back gripper partially opened')
     back_gripper(partially_opened_distance)
     
-    print('Back gripper moved backwards to home position')
+#    print('Back gripper moved backwards to home position')
     back_gripper_forward(fully_bwd_distance)
     
-    print('Bending pins moved to home position')
+#    print('Bending pins moved to home position')
     bendingPin_zero(flag)
     
-    print('Back gripper on the plane at home angle')
+#    print('Back gripper on the plane at home angle')
     back_rotation(0,flag)
+    
 
 #%%
 def get_fullyClosedDistance(OD,e=e_gripper):

@@ -19,7 +19,7 @@ import catheter_properties as cpro
 
 # Data specific to this main file                                                                    
 
-directions = np.array([[3,0],[12.,2],[10,3],[1,2],[21,50],[1,1],[1,3],[32,1],[41,70],[1,10],[2,20]])
+directions = np.array([[3,0],[12.,2],[10,-3],[1,2],[21,50],[1,1],[1,3],[32,1],[41,70],[1,10],[2,20]])
 zeroes = np.array([0.,0,30,0,0,0,0,0,60,40,0])
 zeroes = zeroes.reshape((11,1))
 directions = np.append(directions,zeroes,axis=1)
@@ -27,6 +27,7 @@ directions = np.append(directions,zeroes,axis=1)
 
 servoDist_threshold = 9.5                                                       # Max distance travelled by the back indexing servo(4.75*2)
 angle_threshold = 5                                                             # Min angle required that the catheter needs to be bent by
+neg_angle_threshold = -1*angle_threshold
 rotationalAngle_threshold=5                                                     # Min angle required that the catheter needs to be rotated by
 incremental_distance = 0                                                        # Keep track of distances until a bend is supposed to happen
 traversed_distance = 0                                                          # Keep track of total distance
@@ -64,30 +65,32 @@ time_constant   = 2
 #fully_bwd_distance          = gmr.angle_to_distance(0)                          # Position of cam for the back servo movement along y-direction
 
 #%%
-print('Bringing all cams to zeroeth position')
+input('Bring all cams to zeroeth position')
+#print('Bringing all cams to zeroeth position')
 
 for channel in range(0,8):
     pwm.set_pwm(channel,0,servo_min)                                            # Setting all servo's to min position
 time.sleep(time_constant)
 print('All cams at zeroeth position')
 #%%
-print('Going to home position')
+input('Make all cams go to the "home" position')
+#print('Going to home position')
 gmr.home_position()
-print('Done with home position')
+input('Done with home position')
 #%%
 
-print('Starting main program')
-input('Press any key to continue')
+#print('Starting main program')
+input('Press any key to start the main program')
     
 while idx < np.size(distances,0):
     present_rot_angle = rotational_angle[idx]                                   #rotational angle at the point under consideration. 
     present_angle = angles[idx]                                                 #bending angle at the point under consideration. 
     present_distance = distances[idx]                                           #distance from the point under consideration to the next. 
     traversed_distance += present_distance                                      #total distanced travelled from the tip of the catheter
-    input('distance:'+str(present_distance)+'mm, angle:'+str(present_angle) + 'degrees, rotation:'+str(present_rot_angle) + 'degrees.')
+    print('distance:'+str(present_distance)+'mm, angle:'+str(present_angle) + 'degrees, rotation:'+str(present_rot_angle) + 'degrees.')
     if traversed_distance < lens:
         if present_rot_angle < rotationalAngle_threshold:                                              #Do calculations if no rotational angle
-            if present_angle < angle_threshold:                                 #Compare the bend angle with the threshold that we set.
+            if present_angle < angle_threshold and present_angle > neg_angle_threshold:                                 #Compare the bend angle with the threshold that we set.
                 incremental_distance = incremental_distance + present_distance  #Remember the incremental distances between points upto a certain bend is approached
                 flag = 1                                                        #Flag is raised to keep note of the incrementation
             else:
@@ -116,11 +119,14 @@ while idx < np.size(distances,0):
                               outer_diameter)                                   #Push the catheter by appropriate distance after the bend
         
         idx = idx + 1
+        input("At index:" + str(idx) +" in directions")
     else:
+        if idx==0 and traversed_distance > servoDist_threshold:
+            sks.push_catheter(servoDist_threshold,traversed_distance,outer_diameter)
         prop_idx = prop_idx + 1                                                 #Once the travelled length is greater than the length of material under consideration,
         lens = lengths[prop_idx]                                                #then move onto the next material which will have a different OD(*maybe*). 
         outer_diameter = OD[prop_idx]
-    print("We're at the" + str(idx) +" position in directions")
-    wait = input('Press 0 to exit the program')
-    if wait ==0:
-        sys.exit()
+    
+#    wait = input('Press 0 to exit the program')
+#    if wait ==0:
+#        sys.exit()
