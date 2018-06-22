@@ -31,7 +31,10 @@ if __name__ == "__main__":
     GPIO.output(LedPin, GPIO.LOW) # Set LedPin high(+3.3V) to turn on led
     while True:
         GPIO.output(LedPin, GPIO.HIGH)
-        sleep(2)
+        sleep(0.5)
         GPIO.output(LedPin, GPIO.LOW)
-        sleep(2)
-        
+        sleep(0.5)
+        GPIO.output(LedPin, GPIO.HIGH)
+        sleep(0.5)
+        GPIO.output(LedPin, GPIO.LOW)
+        sleep(0.5)
