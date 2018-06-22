@@ -26,7 +26,6 @@ d_pins = 5.25                                                                #Di
 y_i =   3                                                                    #Distance between the front gripper and the bending pins
 
 #%%
-
 from_angles = {
         'positive bend': [-90,90],                                                            
         'negative bend': [90,-90],                                                            
@@ -133,7 +132,7 @@ def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=5,timeConstant =
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
-    input('Do we start bending?')
+    input('Start bending?')
     bendDist = bendAngle_to_bendDist(angle,outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)
     pwm.set_pwm(channel,0,pulse)
