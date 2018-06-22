@@ -63,6 +63,8 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     x_i = (d_pins - outer_diameter)/2                                        #Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
     bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         #x_i + the distance for the supposed bend
+    if math.isnan(bendDist):
+        print('Gonna crash here. Angle:'+str(angle))
     return bendDist
 
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
@@ -228,16 +230,16 @@ def get_partiallyOpenedDistance(OD,e=e_gripper):
 
 #%% Needs to be changed if you want flexibility in fully closed and partially opened distance for different OD sizes. Currently developed for 5Frenchsize
     
-#fully_closed_distance      = get_fullyClosedDistance(OD,e)                     #Position of front and back servos along x-direction for different OD       
-#partially_opened_distance  = get_partiallyOpenedDistance(OD,e)                 #Position of front and back servos along x-direction for different OD
+#fully_closed_distance      = get_fullyClosedDistance(OD,e)                  #Position of front and back servos along x-direction for different OD       
+#partially_opened_distance  = get_partiallyOpenedDistance(OD,e)              #Position of front and back servos along x-direction for different OD
 
-#fully_closed_distance       = angle_to_distance(90,e_gripper)                  #Position of front and back servos along x-direction (Default for all sizes)
-#partially_opened_distance   = angle_to_distance(70.52,e_gripper)               #Position of front and back servos along x-direction (Default for all sizes)
+#fully_closed_distance       = angle_to_distance(90,e_gripper)               #Position of front and back servos along x-direction (Default for all sizes)
+#partially_opened_distance   = angle_to_distance(70.52,e_gripper)            #Position of front and back servos along x-direction (Default for all sizes)
 fully_closed_distance       = 1.59
 partially_opened_distance   = 1.04
 
 #*DEFAULT ALL THE TIME*           
-fully_opened_distance       = angle_to_distance(0,e_gripper)                    #Position of front and back servos along x-direction (Default for all sizes )
+fully_opened_distance       = angle_to_distance(0,e_gripper)                 #Position of front and back servos along x-direction (Default for all sizes )
 fully_bwd_distance          = angle_to_distance(0,e_backidx)
 
 
