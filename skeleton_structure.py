@@ -48,9 +48,11 @@ def rotate_catheter(rot_angle):
     #of 15 degrees in either direction. 
     print('----------Turn the plane by ' + str(rot_angle)+'degrees----------')                                
     if rot_angle>0:
-        flag=1                                                                  #Flag is raised once rotation is done in the positive direction
+        flag=1
+                                                                         #Flag is raised once rotation is done in the positive direction
     else:
         flag=0                                                                  #Flag is put down if rotation is in the negative direction 
+    print('Sednding rotation with FLAGGGGGGGL command'+str(flag))
     gmr.back_rotation(flag, rot_angle)
      
 
