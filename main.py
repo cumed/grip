@@ -123,10 +123,11 @@ while idx < np.size(distances,0):
     else:
         if idx==0 and traversed_distance > servoDist_threshold:
             sks.push_catheter(servoDist_threshold,traversed_distance,outer_diameter)
+            idx = idx+1
         prop_idx = prop_idx + 1                                                 #Once the travelled length is greater than the length of material under consideration,
         lens = lengths[prop_idx]                                                #then move onto the next material which will have a different OD(*maybe*). 
         outer_diameter = OD[prop_idx]
     
-#    wait = input('Press 0 to exit the program')
-#    if wait ==0:
-#        sys.exit()
+wait = input('Press 0 to exit the program')
+if wait ==0:
+    sys.exit()
