@@ -20,7 +20,7 @@ import catheter_properties as cpro
 # Data specific to this main file                                                                    
 
 directions = np.array([[4,0],[12.,2],[10,-3],[1,2],[21,50],[1,1],[1,3],[32,1],[41,20],[1,10],[2,20]])
-zeroes = np.array([0.,0,30,0,0,0,0,0,60,40,0])
+zeroes = np.array([0.,0,30,35,40,0,0,0,60,60,0])
 zeroes = zeroes.reshape((11,1))
 directions = np.append(directions,zeroes,axis=1)
 #directions = np.load('bends.npy')
@@ -90,7 +90,7 @@ while idx < np.size(distances,0):
     present_angle = angles[idx]                                                #bending angle at the point under consideration. 
     present_distance = distances[idx]                                          #distance from the point under consideration to the next. 
     traversed_distance += present_distance                                     #total distanced travelled from the tip of the catheter
-    print('distance:'+str(present_distance)+'mm, angle:'+str(present_angle) +
+    input('distance:'+str(present_distance)+'mm, angle:'+str(present_angle) +
           'degrees, rotation:'+str(present_rot_angle) + 'degrees.')
     if traversed_distance < lens:
         print("At index:" + str(idx) +" in directions")
