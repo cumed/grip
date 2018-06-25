@@ -45,15 +45,15 @@ def rotate_catheter(rot_angle):
     #Whenever a negative angle is passed, it means that the call is to move it back to the zeroeth position. 
     #This function would have to be changed to take into account the new mechanism, which is currently put on hold i.e. an incremental movement of a max 
     #of 15 degrees in either direction. 
-    print('----------Turn the plane by ' + str(rot_angle)+'degrees----------')                                
-    if rot_angle>0:
-        flag=1
-                                                                             #Flag is raised once rotation is done in the positive direction
-    else:
-        flag=0                                                               #Flag is put down if rotation is in the negative direction 
-    print('Sednding rotation with FLAGGGGGGGL command'+str(flag) +' and rotational angle'+str(rot_angle))
-    gmr.back_rotation(rot_angle,flag)
-     
+    print('----------Turn the plane to ' + str(rot_angle)+'degrees----------')                                
+#    if rot_angle>0:
+#        flag=1                                                               #Flag is raised once rotation is done in the positive direction
+#    else:
+#        flag=0                                                               #Flag is put down if rotation is in the negative direction 
+    
+#    print('Sending rotation with FLAGGGGGGGL command'+str(flag) +' and rotational angle'+str(rot_angle))
+#    gmr.back_rotation(rot_angle,flag)
+    gmr.back_rotation(rot_angle)
 
 #%% main function
 

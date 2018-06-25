@@ -95,6 +95,10 @@ while idx < np.size(distances,0):
     if traversed_distance < lens:
         print("At index:" + str(idx) +" in directions")
         if present_rot_angle < rotationalAngle_threshold:                      #Do calculations if no rotational angle
+            if rotation_flag:
+                sks.rotate_catheter(0)
+                rotation_flag = 0
+                
             if abs(present_angle) < angle_threshold:                           #Compare the bend angle with the threshold that we set.
                 incremental_distance = incremental_distance + present_distance #Remember the incremental distances between points upto a certain bend 
                 flag = 1                                                       #Flag is raised to keep note of the incrementation
@@ -118,8 +122,9 @@ while idx < np.size(distances,0):
                 flag = 0
                 
             sks.rotate_catheter(present_rot_angle)                             #Rotate the plane of the catheter for the z-axis
+            rotation_flag = 1
             sks.bend_catheter(present_angle,lens,outer_diameter)               #Bend it by the bending angle 
-            sks.rotate_catheter(-present_rot_angle)                            #Rotate it back to its original plane
+#            sks.rotate_catheter(-present_rot_angle)                            #Rotate it back to its original plane
             sks.push_catheter(servoDist_threshold, present_distance,
                               outer_diameter)                                  #Push the catheter by appropriate distance after the bend
         

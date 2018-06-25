@@ -141,27 +141,28 @@ def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=5,timeConstant =
 #    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
     for i in range(0,1):                                                  #Uncomment these two lines when the waiting is removed
+        print('Waiting for 3 seconds')
         sleep(3)
 #        print('Waiting for '+str(i)+' seconds...')
-        print('Waiting for 3 seconds')
+        
     bendingPin_zero()
     print('Bending finished')
     
-def back_rotation(angle,flag,channel=8,timeConstant = time_constant):
+def back_rotation(angle,flag=0,channel=8,timeConstant = time_constant):
     #command it to rotate by a particular angle
     
-    if flag==1:
-        print('Start rotating the plane')
-        pulse = angle_to_pulse(angle)
-        pwm.set_pwm(channel,0,pulse)
-        sleep(timeConstant)
-        print('Rotated the plane by '+str(angle)+'degrees. Pulse given' + str(pulse))
-    else:
-        print('We are now moving the rotating plane back to zero')
-        pulse = angle_to_pulse(0)
-        pwm.set_pwm(channel,0,pulse)
-        sleep(timeConstant)
-        print('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
+#    if flag==1:
+    print('Rotating the plane...')
+    pulse = angle_to_pulse(angle)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+    print('Rotated the plane to '+str(angle)+'degrees. Pulse given' + str(pulse))
+#    else:
+#        print('We are now moving the rotating plane back to zero')
+#        pulse = angle_to_pulse(0)
+#        pwm.set_pwm(channel,0,pulse)
+#        sleep(timeConstant)
+#        print('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
         
 #%%        
 def push_action(distance):
