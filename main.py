@@ -19,12 +19,12 @@ import catheter_properties as cpro
 
 # Data specific to this main file                                                                    
 
-#directions = np.array([[4,0],[12.,2],[10,-3],[1,2],[21,50],[1,1],[1,3],[32,1],[41,20],[1,10],[2,20]])
-#zeroes = np.array([0.,0,30,0,0,0,0,0,60,40,0])
-#zeroes = zeroes.reshape((11,1))
-#directions = np.append(directions,zeroes,axis=1)
-directions = np.load('bends.npy')
-directions = np.transpose(directions)
+directions = np.array([[4,0],[12.,2],[10,-3],[1,2],[21,50],[1,1],[1,3],[32,1],[41,20],[1,10],[2,20]])
+zeroes = np.array([0.,0,30,0,0,0,0,0,60,40,0])
+zeroes = zeroes.reshape((11,1))
+directions = np.append(directions,zeroes,axis=1)
+#directions = np.load('bends.npy')
+#directions = np.transpose(directions)
 
 directions = directions[::-1]
 #directions[:,1] = directions[:,1] *180/pi
@@ -33,7 +33,7 @@ directions = directions[::-1]
 servoDist_threshold       = 9.5                                                     # Max distance travelled by the back indexing servo(4.75*2)
 angle_threshold           = 0.01                                                          # Min angle required that the catheter needs to be bent by
 #neg_angle_threshold       = -1*angle_threshold
-rotationalAngle_threshold = 5                                                   # Min angle required that the catheter needs to be rotated by
+rotationalAngle_threshold = 0                                                   # Min angle required that the catheter needs to be rotated by
 incremental_distance      = 0                                                      # Keep track of distances until a bend is supposed to happen
 traversed_distance        = 0                                                        # Keep track of total distance
 
@@ -48,7 +48,7 @@ rotational_angle = directions[:,2]
 catheter_ID     = 3
 properties_flag = 1                                                             #Set it to 1 if you require all the properties in one go. 
 #[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
-#cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
+cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
 lengths = cpro.get_length()                                                     #Get all the material cumulative lengths. 
 OD = cpro.get_OD()
 #lengths = [4.25,42,711.2]

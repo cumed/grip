@@ -15,7 +15,7 @@ pwm.set_pwm_freq(60)
 
 #%% Declarations
 servo_min = 190                                                              #Min limit of 183 for Hitech-servos
-servo_max = 500                                                              #Max limit of 600 for Hitech-servos
+servo_max = 490                                                              #Max limit of 600 for Hitech-servos
 time_constant = 1                                                            #Time for the Rpi to wait for the servo to complete its task
 from_low = 0                                                                 #Smallest angle that you'd want the cam to be at
 from_high = 180                                                              #Largest angle that you'd want the cam to be at
@@ -140,9 +140,10 @@ def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=5,timeConstant =
     print('Bending pins are making a bend of ' + str(angle)+'degrees by bending a distance of '+str(bendDist) + 'mm. Pulse: '+str(pulse))
 #    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
-    for i in range(5,0,-1):                                                  #Uncomment these two lines when the waiting is removed
-        print('Waiting for '+str(i)+' seconds...')
-    
+    for i in range(0,1):                                                  #Uncomment these two lines when the waiting is removed
+        sleep(3)
+#        print('Waiting for '+str(i)+' seconds...')
+        print('Waiting for 3 seconds')
     bendingPin_zero()
     print('Bending finished')
     
