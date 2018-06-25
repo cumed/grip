@@ -120,7 +120,7 @@ def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = ti
     
 #%% Bending movements
 def bendingPin_zero(e=e_bending,channel=5, timeConstant = time_constant):
-    input('Do we move bending pins back to zeroeth position')
+    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     pulse_zero = angle_to_pulse(0,-90,90)
     pwm.set_pwm(channel,0,pulse_zero)
@@ -132,7 +132,7 @@ def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=5,timeConstant =
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
-    input('Start bending?')
+    print('Start bending?')
     bendDist = bendAngle_to_bendDist(angle,outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)
     pwm.set_pwm(channel,0,pulse)
@@ -140,8 +140,9 @@ def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=5,timeConstant =
     print('Bending pins are making a bend of ' + str(angle)+'degrees by bending a distance of '+str(bendDist) + 'mm. Pulse: '+str(pulse))
 #    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
-#    for i in range(timeConstant):                                                  #Uncomment these two lines when the waiting is removed
-#        sleep(i)
+    for i in range(5,0,-1):                                                  #Uncomment these two lines when the waiting is removed
+        print('Waiting for '+str(i)+' seconds...')
+    
     bendingPin_zero()
     print('Bending finished')
     
@@ -149,13 +150,13 @@ def back_rotation(angle,flag,channel=8,timeConstant = time_constant):
     #command it to rotate by a particular angle
     
     if flag==1:
-        input('Do we start rotating the plane')
+        print('Start rotating the plane')
         pulse = angle_to_pulse(angle)
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant)
         print('Rotated the plane by '+str(angle)+'degrees. Pulse given' + str(pulse))
     else:
-        input('We are now moving the rotating plane back to zero')
+        print('We are now moving the rotating plane back to zero')
         pulse = angle_to_pulse(0)
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant)

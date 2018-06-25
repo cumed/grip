@@ -13,7 +13,7 @@ GPIO.setup(LedPin, GPIO.OUT)   # Set LedPin's mode is output
 GPIO.output(LedPin, GPIO.LOW) # Set LedPin high(+3.3V) to turn on led
 
 def startHeat(heating_time):
-    input('Heater on?')
+    print('Heater on?')
     GPIO.output(LedPin, GPIO.HIGH)  # led on
     sleep(heating_time)
     print('Heater off')

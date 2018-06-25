@@ -70,7 +70,7 @@ time_constant   = 1
 #fully_bwd_distance          = gmr.angle_to_distance(0)                          # Position of cam for the back servo movement along y-direction
 
 #%%
-input('Bring all cams to zeroeth position')
+print('Bring all cams to zeroeth position')
 #print('Bringing all cams to zeroeth position')
 
 for channel in range(0,10):
@@ -78,7 +78,7 @@ for channel in range(0,10):
 sleep(time_constant)
 print('All cams at zeroeth position')
 #%%
-input('Make all cams go to the "home" position')
+print('Make all cams go to the "home" position')
 gmr.home_position()
 print('Done with home position')
 #%%
@@ -93,7 +93,7 @@ while idx < np.size(distances,0):
     print('distance:'+str(present_distance)+'mm, angle:'+str(present_angle) +
           'degrees, rotation:'+str(present_rot_angle) + 'degrees.')
     if traversed_distance < lens:
-        input("At index:" + str(idx) +" in directions")
+        print("At index:" + str(idx) +" in directions")
         if present_rot_angle < rotationalAngle_threshold:                      #Do calculations if no rotational angle
             if abs(present_angle) < angle_threshold:                           #Compare the bend angle with the threshold that we set.
                 incremental_distance = incremental_distance + present_distance #Remember the incremental distances between points upto a certain bend 
