@@ -183,7 +183,7 @@ def push_action(distance):
     
 #    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
-    input('Catheter pushed by '+str(distance)+'mm')
+    print('Catheter pushed by '+str(distance)+'mm')
       
 def home_position():
     flag=0
