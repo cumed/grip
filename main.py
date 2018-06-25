@@ -26,7 +26,7 @@ import catheter_properties as cpro
 directions = np.load('bends.npy')
 directions = np.transpose(directions)
 #directions[:,1] = directions[:,1] *180/pi
-print(directions)
+#print(directions)
 
 servoDist_threshold       = 9.5                                                     # Max distance travelled by the back indexing servo(4.75*2)
 angle_threshold           = 0                                                          # Min angle required that the catheter needs to be bent by
