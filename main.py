@@ -23,13 +23,15 @@ import catheter_properties as cpro
 #zeroes = np.array([0.,0,30,0,0,0,0,0,60,40,0])
 #zeroes = zeroes.reshape((11,1))
 #directions = np.append(directions,zeroes,axis=1)
-directions = np.load('directions.npy')
+directions = np.load('bends.npy')
+directions = np.transpose(directions)
+#directions[:,1] = directions[:,1] *180/pi
 print(directions)
 
 servoDist_threshold       = 9.5                                                     # Max distance travelled by the back indexing servo(4.75*2)
-angle_threshold           = 5                                                           # Min angle required that the catheter needs to be bent by
+angle_threshold           = 0                                                          # Min angle required that the catheter needs to be bent by
 #neg_angle_threshold       = -1*angle_threshold
-rotationalAngle_threshold =5                                                   # Min angle required that the catheter needs to be rotated by
+rotationalAngle_threshold = 5                                                   # Min angle required that the catheter needs to be rotated by
 incremental_distance      = 0                                                      # Keep track of distances until a bend is supposed to happen
 traversed_distance        = 0                                                        # Keep track of total distance
 
