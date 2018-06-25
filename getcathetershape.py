@@ -7,6 +7,7 @@
 # of the catheter.
 import matplotlib.pyplot as plt
 def svg_to_points(filename):
+    pf.makePointFile("JL4Scopic.svg")
     f = open(filename, 'r')
     text = f.read()
     start = text.find(" d=")  #this marks where the coordinates begin
