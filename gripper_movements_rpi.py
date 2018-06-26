@@ -25,6 +25,12 @@ e_backidx = 4.75                                                             #ec
 d_pins = 5.25                                                                #Distance between the bending pins (edge-to-edge) **0.207inch**
 y_i =   3                                                                    #Distance between the front gripper and the bending pins
 
+#%% Declare all channels
+ch_backGripper = 0
+ch_frontGripper = 3
+ch_backidxGripper = 1
+ch_bendingPins = 5
+ch_rotatingArm = 8
 #%%
 from_angles = {
         'positive bend': [-90,90],                                                            
@@ -90,7 +96,7 @@ def fudge_func():
     return fudge_factor
 
 #%% Gripper movements    
-def back_gripper(f_distance,e=e_gripper,flag=1,channel=0,timeConstant = time_constant):
+def back_gripper(f_distance,e=e_gripper,flag=1,channel=ch_backGripper,timeConstant = time_constant):
     #Let flag just be there for now. 
     #No use of it right now since its just max or min position                                                   
 #    print('Back gripper moving by '+str(f_distance))
@@ -100,7 +106,7 @@ def back_gripper(f_distance,e=e_gripper,flag=1,channel=0,timeConstant = time_con
 #    print('Back gripper movement done. Channel:'+str(channel)+', Eccentricity:'+str(e)+', Pulse: '+str(pulse))
 
 
-def front_gripper(f_distance,e=e_gripper,flag=1,channel=3,timeConstant = time_constant):
+def front_gripper(f_distance,e=e_gripper,flag=1,channel=ch_frontGripper,timeConstant = time_constant):
     #Let flag be there for now, even though its just max or min position.    
 #    print('front gripper')
 #    print('Front gripper moving by '+str(f_distance))
@@ -110,7 +116,7 @@ def front_gripper(f_distance,e=e_gripper,flag=1,channel=3,timeConstant = time_co
 #    print('Front gripper movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
 
 
-def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = time_constant):
+def back_gripper_forward(distance,e=e_backidx,flag=1,channel=ch_backidxGripper,timeConstant = time_constant):
     #command it to move either by servoDist_threshold or a particular distance. 
 #    print('Back gripper moving forward by '+str(distance)+'mm ')
     pulse = distance_to_pulse(distance,e)
@@ -119,7 +125,7 @@ def back_gripper_forward(distance,e=e_backidx,flag=1,channel=1,timeConstant = ti
 #    print('Back gripper y-direction movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
     
 #%% Bending movements
-def bendingPin_zero(e=e_bending,channel=5, timeConstant = time_constant):
+def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
     print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     pulse_zero = angle_to_pulse(0,-90,90)
@@ -127,7 +133,7 @@ def bendingPin_zero(e=e_bending,channel=5, timeConstant = time_constant):
     sleep(timeConstant)
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
     print('Bending pins are back to zeroeth position')
-def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=5,timeConstant = time_constant):
+def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
@@ -148,7 +154,7 @@ def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=5,timeConstant =
     bendingPin_zero()
     print('Bending finished')
     
-def back_rotation(angle,flag=0,channel=8,timeConstant = time_constant):
+def back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_constant):
     #command it to rotate by a particular angle
     
 #    if flag==1:
