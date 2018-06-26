@@ -31,6 +31,8 @@ ch_frontGripper = 3
 ch_backidxGripper = 1
 ch_bendingPins = 5
 ch_rotatingArm = 8
+
+
 #%%
 from_angles = {
         'positive bend': [-90,90],                                                            
@@ -38,7 +40,7 @@ from_angles = {
         }
 
 #%% Gripper servo angles and movements 
-# Mapping the angle on the servo to the pulse range
+    # Mapping the angle on the servo to the pulse range
 def angle_to_pulse(angle,from_low=0,from_high=180):
     pulse = (angle-from_low)*(servo_max-servo_min)/(from_high-from_low) + servo_min
     return int(pulse)
@@ -54,7 +56,7 @@ def angle_to_distance(angle,e):
     return distance
 
 # Returns the pulse that is required to achieve the linear distance
-def distance_to_pulse(distance,e):                                           #eccentricity of cam - 1.59mm
+def distance_to_pulse(distance,e,from_low = 0, from_high = 180):              #eccentricity of cam - 1.59mm
     angle = distance_to_angle(distance,e)
     return angle_to_pulse(angle,from_low,from_high)                          #pulse = angle_to_pulse(theta,from_low,from_high)
 
@@ -116,7 +118,7 @@ def front_gripper(f_distance,e=e_gripper,flag=1,channel=ch_frontGripper,timeCons
 #    print('Front gripper movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
 
 
-def back_gripper_forward(distance,e=e_backidx,flag=1,channel=ch_backidxGripper,timeConstant = time_constant):
+def back_gripper_indexing(distance,e=e_backidx,flag=1,channel=ch_backidxGripper,timeConstant = time_constant):
     #command it to move either by servoDist_threshold or a particular distance. 
 #    print('Back gripper moving forward by '+str(distance)+'mm ')
     pulse = distance_to_pulse(distance,e)
@@ -133,6 +135,7 @@ def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_cons
     sleep(timeConstant)
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
     print('Bending pins are back to zeroeth position')
+
 def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
@@ -179,7 +182,7 @@ def push_action(distance):
     back_gripper(fully_closed_distance)
     
     print('Back grippper moving forward by '+str(distance)+'mm')
-    back_gripper_forward(distance)
+    back_gripper_indexing(distance)
     
 #    print('Front gripper fully closed')
     front_gripper(fully_closed_distance)
@@ -188,7 +191,7 @@ def push_action(distance):
     back_gripper(partially_opened_distance)
     
 #    print('Back gripper moved backwards to original position')
-    back_gripper_forward(fully_bwd_distance)
+    back_gripper_indexing(fully_bwd_distance)
     
 #    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
@@ -204,7 +207,7 @@ def home_position():
     back_gripper(partially_opened_distance)
     
 #    print('Back gripper moved backwards to home position')
-    back_gripper_forward(fully_bwd_distance)
+    back_gripper_indexing(fully_bwd_distance)
     
 #    print('Bending pins moved to home position')
     bendingPin_zero()
