@@ -26,7 +26,7 @@ directions = np.append(directions,zeroes,axis=1)
 #directions = np.load('bends.npy')
 #directions = np.transpose(directions)
 
-directions = directions[::-1]
+#directions = directions[::-1]
 #directions[:,1] = directions[:,1] *180/pi
 #print(directions)
 
