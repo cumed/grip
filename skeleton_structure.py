@@ -11,7 +11,7 @@ import catheter_properties as cpro
 
 #%% Distances
 # Split distances into smaller threshold and then send the list of distances
-def remaining_distance(servoDist, remDist):                                    
+def remaining_distance(remDist,servoDist):                                    
     quotient = int(remDist // servoDist)
     remainder = remDist - servoDist*quotient
     pulseDist = []
@@ -23,7 +23,7 @@ def remaining_distance(servoDist, remDist):
 # Pushing the catheter in front
 def push_catheter(servoDist_threshold, Dist, outer_diameter):
     if Dist > servoDist_threshold:                                           #Check if the pushing distance is more than the servo's threshold distance
-        pulse_distance = remaining_distance(servoDist_threshold, Dist)       #Split it up into threshold distances if it is greater
+        pulse_distance = remaining_distance(Dist,servoDist_threshold)        #Split it up into threshold distances if it is greater
         for rDistances in pulse_distance:
             print('----------Push catheter by '+str(rDistances) + 'mm from a total_distance of ' + str(Dist) + 'mm-----------')
             gmr.push_action(rDistances)

@@ -157,9 +157,30 @@ def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=ch_bendingPins,t
     bendingPin_zero()
     print('Bending finished')
 
+def back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_constant):
+    #command it to rotate by a particular angle
+    
+#    if flag==1:
+    print('Rotating the plane...')
+    pulse = angle_to_pulse(angle)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+    print('Rotated the plane to '+str(angle)+'degrees. Pulse given' + str(pulse))
+#    else:
+#        print('We are now moving the rotating plane back to zero')
+#        pulse = angle_to_pulse(0)
+#        pwm.set_pwm(channel,0,pulse)
+#        sleep(timeConstant)
+#        print('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
+        
 #%% Rotating movements    
+    
+''' **************COMMENT THIS ENTIRE CELL BLOCK IF YOU WANT TO RUN WITHOUT 
+        THE NEW ROTATION (JULY 4 WEEK) *****************************'''
+        
 total_rotation = 0
 temp_rotation = 0
+rotAngle_threshold = 15
 def rotationalAngle_to_servoAngle(angle):
     #this function defines the mapping of rotational angle to servo angle 
     #since there is a restriction of only 15degrees
@@ -169,24 +190,72 @@ def back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_consta
     #command it to rotate by a particular angle
     #Possible use the flag to control rotational_angle= 0. 
     if angle>0:
-        front_gripper(partially_opened_distance)
-        back_gripper(fully_closed_distance)
-        if angle>15:
+        zeroAngle_flag=1
+        if angle>rotAngle_threshold:
             ### Rotate by breaking that angle in terms of 15
             print('Breaking up '+str(angle)+'degrees in intervals of 15')
+            fifteenAngle_flag = 1
+            angles_breakup = split_angles(angle)
+            
         else:
-            print('Rotating the plane to '+str(angle)+'degrees')
-            servo_angle = rotationalAngle_to_servoAngle(angle)
-            pulse = angle_to_pulse(servo_angle)
-            pwm.set_pwm(channel,0,pulse)
-            sleep(timeConstant)
+            fifteenAngle_flag = 0
+            angles_breakup = [angle]
+#            print('Rotating the plane to '+str(angle)+'degrees')
+#            servo_angle = rotationalAngle_to_servoAngle(angle)
+#            pulse = angle_to_pulse(servo_angle)
+#            pwm.set_pwm(channel,0,pulse)
+#            sleep(timeConstant)
+    else:
+        zeroAngle_flag=0
+        if abs(angle) > rotAngle_threshold:
+            print('Breaking up '+str(angle)+'degrees in intervals of -15')
+            fifteenAngle_flag = 1
+            angles_breakup = split_angles(abs(angle))
+        else:
+            fifteenAngle_flag = 0
+            angles_breakup = [abs(angle)]
+    flaggs = (zeroAngle_flag,fifteenAngle_flag)
+    rotate_this_catheter(flaggs,angles_breakup)
+    
+def rotate_this_catheter(flaggs,angles_breakup,channel = ch_rotatingArm,timeConstant = time_constant):
+    zeroAngle_flag,fifteenAngle_flag = flaggs
+    home_pos_for_rotation(zeroAngle_flag)
+    if zeroAngle_flag and not fifteenAngle_flag:
+        servoAngle = rotationalAngle_to_servoAngle(angles_breakup)
+        pulse = angle_to_pulse(servoAngle)
+        pwm.set_pwm(channel,0,pulse)
+        sleep(timeConstant)
+    elif not zeroAngle_flag and not fifteenAngle_flag:
+        
+        
+        
+def home_pos_for_rotation(zeroAngle_flag):
+    if not zeroAngle_flag:
+        front_gripper(partially_opened_distance)
+        back_gripper(fully_closed_distance)
     else:
         front_gripper(fully_closed_distance)
         back_gripper(partially_opened_distance)
-        if abs(angle>15):
-            print('Breaking up '+str(angle)+'degrees in intervals of -15')
-        else:
-            print('Rotating the plane to '+str(angle)+'degrees')
+        rotationOfCatheter(15)
+        back_gripper(fully_closed_distance)
+        front_gripper(partially_opened_distance)
+
+def rotationOfCatheter(angle,channel = ch_rotatingArm):
+    servoAngle = rotationalAngle_to_servoAngle(angle)
+    pulse = angle_to_pulse(servoAngle)
+    pwm.set_pwm(channel,0,pulse)
+    
+            
+
+def split_angles(angle,rotAngle_threshold=15):
+    quotient = int(angle//rotAngle_threshold)
+    remainder = angle - rotAngle_threshold*quotient
+    rotAngles = []
+    for ang in range(quotient):
+        rotAngles.append(rotAngle_threshold)
+    rotAngles.append(remainder)
+    print(rotAngles)
+    return rotAngles
     
 ##    if flag==1:
 #    print('Rotating the plane...')
