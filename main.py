@@ -34,11 +34,12 @@ servoDist_threshold       = 9.5                                                 
 angle_threshold           = 0.01                                                          # Min angle required that the catheter needs to be bent by
 #neg_angle_threshold       = -1*angle_threshold
 rotationalAngle_threshold = 2                                                   # Min angle required that the catheter needs to be rotated by
-incremental_distance      = 0                                                      # Keep track of distances until a bend is supposed to happen
-traversed_distance        = 0                                                        # Keep track of total distance
-
-servo_min = 190                                                               # Min limit of 183 for Hitech-servos
-servo_max = 490                                                               # Max limit of 595 for Hitech-servos
+#incremental_distance      = 0                                                      # Keep track of distances until a bend is supposed to happen
+#traversed_distance        = 0                                                 # Keep track of total distance travelled
+incremental_distance,traversed_distance = 0,0                               # Keeping track of distances until a bend is supposed to happen and the total distance distance travelled
+#servo_min = 190                                                               # Min limit of 183 for Hitech-servos
+#servo_max = 490                                                               # Max limit of 600 for Hitech-servos
+servo_min, servo_max = 190,500                                                # Min,Max limit of 183,600 for Hitech-servos 
 #%%
 distances = directions[:,0]
 angles = directions[:,1]
@@ -58,7 +59,7 @@ idx             = 0                                                             
 prop_idx        = 0                                                             #Index for the properites of the catheter
 flag            = 0                                                             #Check for incremental distance until a bending is approached. 
 rotation_flag   = 0                                                             #Check for incremental distance until a rotating angle is approached *currently unused*
-
+idx, prop_idx, flag, rotation_flag = 0,0,0,0
 lens            = lengths[prop_idx]
 outer_diameter  = OD[prop_idx]
 time_constant   = 1
@@ -110,7 +111,7 @@ while idx < np.size(distances,0):
                     flag = 0                                                        
                 
                 ### now do it for the current position
-                sks.bend_catheter(present_angle,lens,outer_diameter)           #Bend the catheter by specific angle
+                sks.bend_catheter(present_angle,outer_diameter)           #Bend the catheter by specific angle
                 sks.push_catheter(servoDist_threshold,present_distance,
                                   outer_diameter)                              #Push the catheter by appropriate distance after the bend
     
@@ -123,7 +124,7 @@ while idx < np.size(distances,0):
                 
             sks.rotate_catheter(present_rot_angle)                             #Rotate the plane of the catheter for the z-axis
             rotation_flag = 1
-            sks.bend_catheter(present_angle,lens,outer_diameter)               #Bend it by the bending angle 
+            sks.bend_catheter(present_angle,outer_diameter)               #Bend it by the bending angle 
 #            sks.rotate_catheter(-present_rot_angle)                            #Rotate it back to its original plane
             sks.push_catheter(servoDist_threshold, present_distance,
                               outer_diameter)                                  #Push the catheter by appropriate distance after the bend

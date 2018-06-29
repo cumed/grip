@@ -15,10 +15,10 @@ pwm.set_pwm_freq(60)
 
 #%% Declarations
 servo_min = 190                                                              #Min limit of 183 for Hitech-servos
-servo_max = 490                                                              #Max limit of 600 for Hitech-servos
+servo_max = 500                                                              #Max limit of 600 for Hitech-servos
 time_constant = 1                                                            #Time for the Rpi to wait for the servo to complete its task
-from_low = 0                                                                 #Smallest angle that you'd want the cam to be at
-from_high = 180                                                              #Largest angle that you'd want the cam to be at
+#from_low = 0                                                                 #Smallest angle that you'd want the cam to be at
+#from_high = 180                                                              #Largest angle that you'd want the cam to be at
 e_gripper = 1.59                                                             #eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             #eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             #eccentricity of back indexing gripper cam - 4.75mm
@@ -142,7 +142,7 @@ def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=ch_bendingPins,t
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
     print('Start bending?')
-    bendDist = bendAngle_to_bendDist(angle,outer_diameter)
+    bendDist = bendAngle_to_bendDist(abs(angle),outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
@@ -156,22 +156,50 @@ def bending_arm(angle,outer_diameter,flag=1,e=e_bending,channel=ch_bendingPins,t
         
     bendingPin_zero()
     print('Bending finished')
-    
+
+#%% Rotating movements    
+total_rotation = 0
+temp_rotation = 0
+def rotationalAngle_to_servoAngle(angle):
+    #this function defines the mapping of rotational angle to servo angle 
+    #since there is a restriction of only 15degrees
+    return angle
+
 def back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_constant):
     #command it to rotate by a particular angle
+    #Possible use the flag to control rotational_angle= 0. 
+    if angle>0:
+        front_gripper(partially_opened_distance)
+        back_gripper(fully_closed_distance)
+        if angle>15:
+            ### Rotate by breaking that angle in terms of 15
+            print('Breaking up '+str(angle)+'degrees in intervals of 15')
+        else:
+            print('Rotating the plane to '+str(angle)+'degrees')
+            servo_angle = rotationalAngle_to_servoAngle(angle)
+            pulse = angle_to_pulse(servo_angle)
+            pwm.set_pwm(channel,0,pulse)
+            sleep(timeConstant)
+    else:
+        front_gripper(fully_closed_distance)
+        back_gripper(partially_opened_distance)
+        if abs(angle>15):
+            print('Breaking up '+str(angle)+'degrees in intervals of -15')
+        else:
+            print('Rotating the plane to '+str(angle)+'degrees')
     
-#    if flag==1:
-    print('Rotating the plane...')
-    pulse = angle_to_pulse(angle)
-    pwm.set_pwm(channel,0,pulse)
-    sleep(timeConstant)
-    print('Rotated the plane to '+str(angle)+'degrees. Pulse given' + str(pulse))
-#    else:
-#        print('We are now moving the rotating plane back to zero')
-#        pulse = angle_to_pulse(0)
-#        pwm.set_pwm(channel,0,pulse)
-#        sleep(timeConstant)
-#        print('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
+##    if flag==1:
+#    print('Rotating the plane...')
+#    pulse = angle_to_pulse(angle)
+#    pwm.set_pwm(channel,0,pulse)
+#    sleep(timeConstant)
+#    print('Rotated the plane to '+str(angle)+'degrees. Pulse given' + str(pulse))
+##    else:
+##        print('We are now moving the rotating plane back to zero')
+##        pulse = angle_to_pulse(0)
+##        pwm.set_pwm(channel,0,pulse)
+##        sleep(timeConstant)
+##        print('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
         
 #%%        
 def push_action(distance):
@@ -246,8 +274,8 @@ def get_partiallyOpenedDistance(OD,e=e_gripper):
 
 #fully_closed_distance       = angle_to_distance(90,e_gripper)               #Position of front and back servos along x-direction (Default for all sizes)
 #partially_opened_distance   = angle_to_distance(70.52,e_gripper)            #Position of front and back servos along x-direction (Default for all sizes)
-fully_closed_distance       = 1.59
-partially_opened_distance   = 1.04
+fully_closed_distance       = 1.58                                           # Distance to close the gripper - 1.58 mm
+partially_opened_distance   = 1.06                                           # Distance to just reach the gripper - 1.06mm
 
 #*DEFAULT ALL THE TIME*           
 fully_opened_distance       = angle_to_distance(0,e_gripper)                 #Position of front and back servos along x-direction (Default for all sizes )
