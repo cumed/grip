@@ -204,7 +204,7 @@ def back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_consta
 #            servo_angle = rotationalAngle_to_servoAngle(angle)
 #            pulse = angle_to_pulse(servo_angle)
 #            pwm.set_pwm(channel,0,pulse)
-#            sleep(timeConstant)
+#            sleep(timeConstant) 
     else:
         zeroAngle_flag=0
         if abs(angle) > rotAngle_threshold:
@@ -226,7 +226,8 @@ def rotate_this_catheter(flaggs,angles_breakup,channel = ch_rotatingArm,timeCons
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant)
     elif not zeroAngle_flag and not fifteenAngle_flag:
-        
+        '''Need to write from here. Figure out logic'''
+        pass
         
         
 def home_pos_for_rotation(zeroAngle_flag):
