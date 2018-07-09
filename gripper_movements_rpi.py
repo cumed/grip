@@ -229,14 +229,20 @@ def rotateTheCatheterByPositiveAngle(angle):
     front_gripper(partially_opened_distance)
     back_gripper(fully_closed_distance)
     rotateThisCatheter(angle)
+    front_gripper(fully_closed_distance)
+    back_gripper(partially_opened_distance)
+    rotateThisCatheter(0)
+    back_gripper(fully_closed_distance)
 
 def rotateTheCatheterByNegativeAngle(angle):
     front_gripper(fully_closed_distance)
+    back_gripper(partially_opened_distance)
+    rotateThisCatheter(abs(angle))
+    front_gripper(partially_opened_distance)
     back_gripper(fully_closed_distance)
-    turnPlaneAngle = abs()
-    rotateThisCathter()
-#    front_gripper(fully_closed_distance)
-#    back_gripper(partially_opened_distance)
+    rotateThisCatheter(0)
+    front_gripper(fully_closed_distance)
+    
 
 def rotateThisCatheter(angle,channel = ch_rotatingArm,timeConstant = time_constant):
     servoAngle = rotationalAngle_to_servoAngle(angle)
