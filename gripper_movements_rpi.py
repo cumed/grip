@@ -17,8 +17,8 @@ pwm.set_pwm_freq(60)
 servo_min = 190                                                              #Min limit of 183 for Hitech-servos
 servo_max = 500                                                              #Max limit of 600 for Hitech-servos
 time_constant = 1                                                            #Time for the Rpi to wait for the servo to complete its task
-#from_low = 0                                                                 #Smallest angle that you'd want the cam to be at
-#from_high = 180                                                              #Largest angle that you'd want the cam to be at
+#from_low = 0                                                                #Smallest angle that you'd want the cam to be at
+#from_high = 180                                                             #Largest angle that you'd want the cam to be at
 e_gripper = 1.59                                                             #eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             #eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             #eccentricity of back indexing gripper cam - 4.75mm
@@ -35,12 +35,12 @@ ch_rotatingArm = 8
 
 #%%
 from_angles = {
-        'positive bend': [-90,90],                                                            
-        'negative bend': [90,-90],                                                            
+        'positive bend': [-90,90],                                           #If the bending is taking place for a positive angle, then the bending pins need to move to the right                 
+        'negative bend': [90,-90],                                           #If the bending is taking place for a negative angle, then the bending pins need to move to the left
         }
 zeroethPosition = 0                                                          #The zeroeth position of the rotational servo
 #%% Gripper servo angles and movements 
-    # Mapping the angle on the servo to the pulse range
+# Mapping the angle on the servo to the pulse range
 def angle_to_pulse(angle,from_low=0,from_high=180):
     pulse = (angle-from_low)*(servo_max-servo_min)/(from_high-from_low) + servo_min
     print(pulse)
