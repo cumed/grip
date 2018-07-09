@@ -228,7 +228,9 @@ def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_co
     elif angle<0:
         angle_list = split_angles(abs(angle))
         rotateTheCatheterByNegativeAngle(angle_list)
-
+    else:
+        rotateThisCatheter(angle)
+        
 def rotateTheCatheterByPositiveAngle(angle_list):
     for angles in angle_list:
         back_gripper(fully_closed_distance)
@@ -262,7 +264,7 @@ def rotateThisCatheter(angle,channel = ch_rotatingArm,timeConstant = time_consta
     
 
     
-#def rotate_this_catheter(flaggs,angles_breakup,channel = ch_rotatingArm,timeConstant = time_constant):
+#def rotate_this_damn_catheter(flaggs,angles_breakup,channel = ch_rotatingArm,timeConstant = time_constant):
 #    zeroAngle_flag,fifteenAngle_flag = flaggs
 #    home_pos_for_rotation(zeroAngle_flag)
 #    if zeroAngle_flag and not fifteenAngle_flag:
@@ -303,18 +305,7 @@ def split_angles(angle,rotAngle_threshold=15):
     print(rotAngles)
     return rotAngles
     
-##    if flag==1:
-#    print('Rotating the plane...')
-#    pulse = angle_to_pulse(angle)
-#    pwm.set_pwm(channel,0,pulse)
-#    sleep(timeConstant)
-#    print('Rotated the plane to '+str(angle)+'degrees. Pulse given' + str(pulse))
-##    else:
-##        print('We are now moving the rotating plane back to zero')
-##        pulse = angle_to_pulse(0)
-##        pwm.set_pwm(channel,0,pulse)
-##        sleep(timeConstant)
-##        print('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
+
         
 #%%        
 def push_action(distance):
@@ -341,7 +332,7 @@ def push_action(distance):
     print('Catheter pushed by '+str(distance)+'mm')
       
 def home_position():
-    flag=0
+    
     
 #    print('Front gripper partially opened')
     front_gripper(partially_opened_distance)
@@ -356,8 +347,8 @@ def home_position():
     bendingPin_zero()
     
 #    print('Back gripper on the plane at home angle')
-    back_rotation(0,flag)
-    
+#    back_rotation(0,flag)
+    new_back_rotation(zeroethPosition)
 
 #%%
 def get_fullyClosedDistance(OD,e=e_gripper):

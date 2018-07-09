@@ -30,16 +30,16 @@ directions = np.append(directions,zeroes,axis=1)
 #directions[:,1] = directions[:,1] *180/pi
 #print(directions)
 
-servoDist_threshold       = 9.5                                                     # Max distance travelled by the back indexing servo(4.75*2)
-angle_threshold           = 0.01                                                          # Min angle required that the catheter needs to be bent by
+servoDist_threshold       = 9.5                                                 # Max distance travelled by the back indexing servo(4.75*2)
+angle_threshold           = 0.01                                                # Min angle required that the catheter needs to be bent by
 #neg_angle_threshold       = -1*angle_threshold
-rotationalAngle_threshold = 2                                                   # Min angle required that the catheter needs to be rotated by
-#incremental_distance      = 0                                                      # Keep track of distances until a bend is supposed to happen
-#traversed_distance        = 0                                                 # Keep track of total distance travelled
-incremental_distance,traversed_distance = 0,0                               # Keeping track of distances until a bend is supposed to happen and the total distance distance travelled
-#servo_min = 190                                                               # Min limit of 183 for Hitech-servos
-#servo_max = 490                                                               # Max limit of 600 for Hitech-servos
-servo_min, servo_max = 190,500                                                # Min,Max limit of 183,600 for Hitech-servos 
+rotationalAngle_threshold = 0.01                                                # Min angle required that the catheter needs to be rotated by
+#incremental_distance      = 0                                                  # Keep track of distances until a bend is supposed to happen
+#traversed_distance        = 0                                                  # Keep track of total distance travelled
+incremental_distance,traversed_distance = 0,0                                   # Keeping track of distances until a bend is supposed to happen and the total distance distance travelled
+#servo_min = 190                                                                # Min limit of 183 for Hitech-servos
+#servo_max = 490                                                                # Max limit of 600 for Hitech-servos
+servo_min, servo_max = 190,500                                                  # Min,Max limit of 183,600 for Hitech-servos 
 #%%
 distances = directions[:,0]
 angles = directions[:,1]
@@ -93,13 +93,13 @@ while idx < np.size(distances,0):
     traversed_distance += present_distance                                     #total distanced travelled from the tip of the catheter
     input('distance:'+str(present_distance)+'mm, angle:'+str(present_angle) +
           'degrees, rotation:'+str(present_rot_angle) + 'degrees.')
-    if traversed_distance < lens:
+        
+    if traversed_distance < lens:                                             #Check if the travelled distance is less than the length of the present material
         print("At index:" + str(idx) +" in directions")
-        if present_rot_angle < rotationalAngle_threshold:                      #Do calculations if no rotational angle
-            if rotation_flag:
-                sks.rotate_catheter(0)
-                rotation_flag = 0
-                
+        if present_rot_angle < rotationalAngle_threshold:                     #Do calculations if no rotational angle
+#            if rotation_flag:
+#                sks.rotate_catheter(0)
+#                rotation_flag = 0               
             if abs(present_angle) < angle_threshold:                           #Compare the bend angle with the threshold that we set.
                 incremental_distance = incremental_distance + present_distance #Remember the incremental distances between points upto a certain bend 
                 flag = 1                                                       #Flag is raised to keep note of the incrementation
@@ -111,7 +111,7 @@ while idx < np.size(distances,0):
                     flag = 0                                                        
                 
                 ### now do it for the current position
-                sks.bend_catheter(present_angle,outer_diameter)           #Bend the catheter by specific angle
+                sks.bend_catheter(present_angle,outer_diameter)                #Bend the catheter by specific angle
                 sks.push_catheter(servoDist_threshold,present_distance,
                                   outer_diameter)                              #Push the catheter by appropriate distance after the bend
     
@@ -123,10 +123,10 @@ while idx < np.size(distances,0):
                 flag = 0
             
             
-            sks.rotate_catheter(present_rot_angle)     #Rotate the plane of the catheter for the z-axis
+            sks.rotate_catheter(present_rot_angle)                             #Rotate the plane of the catheter for the z-axis
             
-            sks.bend_catheter(present_angle,outer_diameter)               #Bend it by the bending angle 
-#            sks.rotate_catheter(-present_rot_angle)                            #Rotate it back to its original plane
+            sks.bend_catheter(present_angle,outer_diameter)                    #Bend it by the bending angle 
+#            sks.rotate_catheter(-present_rot_angle)                           #Rotate it back to its original plane
             sks.push_catheter(servoDist_threshold, present_distance,
                               outer_diameter)                                  #Push the catheter by appropriate distance after the bend
         
@@ -137,8 +137,8 @@ while idx < np.size(distances,0):
         if idx==0 and traversed_distance > servoDist_threshold:
             sks.push_catheter(servoDist_threshold,traversed_distance,outer_diameter)
             idx = idx+1
-        prop_idx = prop_idx + 1                                               #Once the travelled length is greater than the length of material under 
-        lens = lengths[prop_idx]                                              #consideration, then move onto the next material which might have a different OD. 
+        prop_idx = prop_idx + 1                                                 #Once the travelled length is greater than the length of material under 
+        lens = lengths[prop_idx]                                                #consideration, then move onto the next material which might have a different OD. 
         outer_diameter = OD[prop_idx]
     
 wait = input('Press 0 to exit the program')
