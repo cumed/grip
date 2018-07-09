@@ -186,9 +186,12 @@ def rotationalAngle_to_servoAngle(angle):
     #since there is a restriction of only 15degrees
     return angle
 
-def back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_constant):
+def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_constant):
     #command it to rotate by a particular angle
     #Possible use the flag to control rotational_angle= 0. 
+    #Rotating the planes only by 15 degrees at first
+    
+    ''' Algo for splitting the angles by 15 and then rotating the plane
     if angle>0:
         zeroAngle_flag=1
         if angle>rotAngle_threshold:
@@ -216,6 +219,32 @@ def back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_consta
             angles_breakup = [abs(angle)]
     flaggs = (zeroAngle_flag,fifteenAngle_flag)
     rotate_this_catheter(flaggs,angles_breakup)
+    '''
+    if angle>0:
+        rotateTheCatheterByPositiveAngle(angle)
+    else:
+        rotateTheCatheterByNegativeAngle(angle)
+
+def rotateTheCatheterByPositiveAngle(angle):
+    front_gripper(partially_opened_distance)
+    back_gripper(fully_closed_distance)
+    rotateThisCatheter(angle)
+
+def rotateTheCatheterByNegativeAngle(angle):
+    front_gripper(fully_closed_distance)
+    back_gripper(fully_closed_distance)
+    turnPlaneAngle = abs()
+    rotateThisCathter()
+#    front_gripper(fully_closed_distance)
+#    back_gripper(partially_opened_distance)
+
+def rotateThisCatheter(angle,channel = ch_rotatingArm,timeConstant = time_constant):
+    servoAngle = rotationalAngle_to_servoAngle(angle)
+    pulse = angle_to_pulse(servoAngle)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+    
+
     
 def rotate_this_catheter(flaggs,angles_breakup,channel = ch_rotatingArm,timeConstant = time_constant):
     zeroAngle_flag,fifteenAngle_flag = flaggs

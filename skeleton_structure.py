@@ -54,3 +54,11 @@ def rotate_catheter(rot_angle):
 #    print('Sending rotation with FLAGGGGGGGL command'+str(flag) +' and rotational angle'+str(rot_angle))
 #    gmr.back_rotation(rot_angle,flag)
     gmr.back_rotation(rot_angle)
+
+def new_rotate_catheter(rot_angle):
+#    if rot_angle>0:
+#        flag=1
+#    else:
+#        flag=0
+    gmr.new_back_rotation(rot_angle)
+    

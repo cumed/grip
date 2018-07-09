@@ -121,9 +121,10 @@ while idx < np.size(distances,0):
                                   outer_diameter)                              #When bend angle is approached, it pushes the catheter by the incremental distance,
                 incremental_distance = 0                                       #that it had kept in memory so far. 
                 flag = 0
-                
-            sks.rotate_catheter(present_rot_angle)                             #Rotate the plane of the catheter for the z-axis
-            rotation_flag = 1
+            
+            
+            sks.rotate_catheter(present_rot_angle)     #Rotate the plane of the catheter for the z-axis
+            
             sks.bend_catheter(present_angle,outer_diameter)               #Bend it by the bending angle 
 #            sks.rotate_catheter(-present_rot_angle)                            #Rotate it back to its original plane
             sks.push_catheter(servoDist_threshold, present_distance,
