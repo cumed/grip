@@ -42,6 +42,7 @@ from_angles = {
         'negative bend': [90,-90],                                           # If the bending is taking place for a negative angle, then the bending pins need to move to the left
         }
 zeroethPosition = 0                                                          # The zeroeth position of the rotational servo
+rotationalAngle_threshold = 15
 #%% Gripper servo angles and movements 
 # Mapping the angle on the servo to the pulse range
 def angle_to_pulse(angle,from_low=0,from_high=180):
@@ -101,7 +102,7 @@ def back_gripper(f_distance,e=e_gripper,channel=ch_backGripper,timeConstant = ti
     #Let flag just be there for now. 
     #No use of it right now since its just max or min position ***UPDATE: Flag has been removed***
 #    print('Back gripper moving by '+str(f_distance))
-    pulse = distance_to_pulse(f_distance,e)                          # Calculate pulse to be sent by Rpi for back gripper's movement
+    pulse = distance_to_pulse(f_distance,e)                                  # Calculate pulse to be sent by Rpi for back gripper's movement
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
 #    print('Back gripper movement done. Channel:'+str(channel)+', Eccentricity:'+str(e)+', Pulse: '+str(pulse))
@@ -189,7 +190,7 @@ def back_rotation(angle,channel=ch_rotatingArm,timeConstant = time_constant):
 #temp_rotation = 0
 #rotAngle_threshold = 15
 
-def split_angles(angle,rotAngle_threshold=15):
+def split_angles(angle,rotAngle_threshold=rotationalAngle_threshold):
     quotient = int(angle//rotAngle_threshold)
     remainder = angle - rotAngle_threshold*quotient
     rotAngles = []

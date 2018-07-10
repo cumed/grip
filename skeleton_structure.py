@@ -6,6 +6,7 @@ Created on Thur Jun 21 12:58:00
 """
 #%% Import statements
 import gripper_movements_rpi as gmr
+import sys
 #import heating_control as htc
 #import catheter_properties as cpro
 
@@ -44,6 +45,9 @@ def rotate_catheter(rot_angle):
     #Whenever a negative angle is passed, it means that the call is to move it back to the zeroeth position. 
     #This function would have to be changed to take into account the new mechanism, which is currently put on hold i.e. an incremental movement of a max 
     #of 15 degrees in either direction. 
+    wait = input("You're at the old rotation method. Do you want to continue? Press 0 to exit")
+    if wait == 0:
+        sys.exit()
     print('----------Turn the plane to ' + str(rot_angle)+'degrees----------')                                
 #    if rot_angle>0:
 #        flag=1                                                               #Flag is raised once rotation is done in the positive direction
@@ -55,6 +59,9 @@ def rotate_catheter(rot_angle):
     gmr.back_rotation(rot_angle)
 
 def new_rotate_catheter(rot_angle):
+    wait = input("You're at the new rotation method. Do you want to continue? Press 0 to exit")
+    if wait == 0:
+        sys.exit()
     print('----------Turn the plane to ' + str(rot_angle)+'degrees----------') 
     gmr.new_back_rotation(rot_angle)
     
