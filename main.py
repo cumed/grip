@@ -30,7 +30,7 @@ directions = np.append(directions,zeroes,axis=1)
 #directions[:,1] = directions[:,1] *180/pi
 #print(directions)
 
-servoDist_threshold       = 9.5                                                 # Max distance travelled by the back indexing servo(4.75*2)
+servoDist_threshold       = 6.35                                                 # Max distance travelled by the back indexing servo(4.75*2)
 angle_threshold           = 0.01                                                # Min angle required that the catheter needs to be bent by
 #neg_angle_threshold       = -1*angle_threshold
 rotationalAngle_threshold = 0.01                                                # Min angle required that the catheter needs to be rotated by
