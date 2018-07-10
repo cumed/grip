@@ -74,7 +74,7 @@ time_constant   = 1
 print('Bring all cams to zeroeth position')
 #print('Bringing all cams to zeroeth position')
 
-for channel in range(0,10):
+for channel in range(0,16):
     pwm.set_pwm(channel,0,servo_min)                                            # Setting all servo's to min position
 sleep(time_constant)
 print('All cams at zeroeth position')
@@ -111,7 +111,7 @@ while idx < np.size(distances,0):
                     flag = 0                                                        
                 
                 ### now do it for the current position
-                sks.bend_catheter(present_angle,outer_diameter)                #Bend the catheter by specific angle
+                sks.bend_catheter(present_angle,lens,outer_diameter)                #Bend the catheter by specific angle
                 sks.push_catheter(servoDist_threshold,present_distance,
                                   outer_diameter)                              #Push the catheter by appropriate distance after the bend
     
@@ -126,7 +126,7 @@ while idx < np.size(distances,0):
 #            sks.rotate_catheter(present_rot_angle)                             #Rotate the plane of the catheter for the z-axis        
             sks.new_rotate_catheter(present_rot_angle)                          #Rotate the plane of the catheter by taking care of our construction and restrictions
             
-            sks.bend_catheter(present_angle,outer_diameter)                    #Bend it by the bending angle 
+            sks.bend_catheter(present_angle,lens,outer_diameter)                    #Bend it by the bending angle 
             sks.push_catheter(servoDist_threshold, present_distance,
                               outer_diameter)                                  #Push the catheter by appropriate distance after the bend
                 
