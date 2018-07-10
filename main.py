@@ -142,4 +142,6 @@ while idx < np.size(distances,0):
     
 wait = input('Press 0 to exit the program')
 if wait ==0:
-    sys.exit()
+    gmr.home_position()
+
+print('Done')
