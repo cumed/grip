@@ -20,7 +20,7 @@ import catheter_properties as cpro
 # Data specific to this main file                                                                    
 
 directions = np.array([[4,0],[12.,2],[10,-3],[1,2],[21,50]])#,[1,1],[1,3],[32,1],[41,20],[1,10],[2,20]])
-zeroes = np.array([0.,0,30,35,40])#,0,0,0,60,60,0])
+zeroes = np.array([0.,0,0,0,0])#,0,0,0,60,60,0])
 zeroes = zeroes.reshape((5,1))
 directions = np.append(directions,zeroes,axis=1)
 #directions = np.load('bends.npy')
