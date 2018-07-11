@@ -26,7 +26,7 @@ def push_catheter(servoDist_threshold, Dist, outer_diameter):
 #    if Dist > servoDist_threshold:                                           #Check if the pushing distance is more than the servo's threshold distance
     pulse_distance = remaining_distance(Dist,servoDist_threshold)        #Split it up into threshold distances if it is greater
     for rDistances in pulse_distance:
-        print('----------Push catheter by '+str(rDistances) + 'mm from a total_distance of ' + str(Dist) + 'mm-----------')
+        print('****--Push catheter by '+str(rDistances) + 'mm from a total_distance of ' + str(Dist) + 'mm--****')
         gmr.push_action(rDistances)
 #    else:
 #        print('----------Push catheter by '+str(Dist) + 'mm----------')
@@ -37,7 +37,7 @@ def bend_catheter(angle, lens, outer_diameter):
 #    heating_time = cpro.get_heatTime(lens)
 #    print('-----------Heat the catheter for '+str(heating_time)+'seconds --------------')
 #    htc.startHeat(heating_time)
-    print('----------Bend the catheter by '+str(angle)+'degrees----------')
+    print('****--Bend the catheter by '+str(angle)+'degrees--****')
     gmr.bending_arm(angle, lens, outer_diameter)
 
 def rotate_catheter(rot_angle):
@@ -48,7 +48,7 @@ def rotate_catheter(rot_angle):
     wait = input("You're at the old rotation method. Do you want to continue? Press 0 to exit")
     if wait == 0:
         sys.exit()
-    print('----------Turn the plane to ' + str(rot_angle)+'degrees----------')                                
+    print('----****----Turn the plane to ' + str(rot_angle)+'degrees----****----')                                
 #    if rot_angle>0:
 #        flag=1                                                               #Flag is raised once rotation is done in the positive direction
 #    else:
@@ -62,6 +62,6 @@ def new_rotate_catheter(rot_angle):
     wait = input("You're at the new rotation method. Do you want to continue? Press 0 to exit")
     if wait == 0:
         sys.exit()
-    print('----------Turn the plane to ' + str(rot_angle)+'degrees----------') 
+    print('----****---Turn the plane to ' + str(rot_angle)+'degrees---****----') 
     gmr.new_back_rotation(rot_angle)
     

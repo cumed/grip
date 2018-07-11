@@ -132,20 +132,20 @@ def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeCon
     
 #%% Bending movements
 def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
-    print('Do we move bending pins back to zeroeth position')
+#    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
     pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
-    print('Bending pins are back to zeroeth position')
+#    print('Bending pins are back to zeroeth position')
 
 def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
-    print('Start bending?')
+    input('Start bending?')
     bendDist = bendAngle_to_bendDist(abs(angle),outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
     pwm.set_pwm(channel,0,pulse)
@@ -319,7 +319,7 @@ def push_action(distance):
 #    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
     
-    print('Back grippper moving forward by '+str(distance)+'mm')
+#    print('Back grippper moving forward by '+str(distance)+'mm')
     back_gripper_indexing(distance)
     
 #    print('Front gripper fully closed')
