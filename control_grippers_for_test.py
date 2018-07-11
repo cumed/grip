@@ -110,7 +110,8 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse
-    x_i = (d_pins - outer_diameter)/2                                        # Distance the pin has to move to touch the catheter
+    fact = input('Enter factor +//- 0.4 ')
+    x_i = (d_pins - outer_diameter)/2 -0.39                                       # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
     bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor -1.3        # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
@@ -121,9 +122,15 @@ def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
     if angle>0:
         from_low_b, from_high_b = from_angles.get('positive bend')
-    else:
+    elif angle<0:
         from_low_b, from_high_b = from_angles.get('negative bend')
-        
+    else:
+        pos = input('Enter 1 for right, and 0 for left')
+        if pos==1:
+            from_low_b,from_high_b = from_angles.get('positive bend')
+        else:
+            from_low_b,from_high_b = from_angles.get('negative bend')
+    
     pulse = angle_to_pulse(servos_angle,from_low_b,from_high_b)
     if math.isnan(pulse):
         print('Gonna crash here. Angle:'+str(angle) +'bendDist:' +bendDist +
@@ -141,6 +148,7 @@ def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_cons
 ##    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+    print(pulse_zero)
     pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
