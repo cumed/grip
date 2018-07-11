@@ -24,7 +24,7 @@ time_constant = 1                                                            # T
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
-d_pins = 5.25                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
+d_pins = 5.30                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
 y_i =   4.06                                                                    # Distance between the front gripper and the bending pins
 
 #%% Declare all channels
@@ -112,14 +112,14 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #shape and thereby convert that distance to the pulse
     x_i = (d_pins - outer_diameter)/2                                        # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
-    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor        # x_i + the distance for the supposed bend
+    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor -1.3        # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist
 
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
-    if angle>=0:
+    if angle>0:
         from_low_b, from_high_b = from_angles.get('positive bend')
     else:
         from_low_b, from_high_b = from_angles.get('negative bend')
@@ -140,12 +140,9 @@ def fudge_func():
 def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
 ##    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
-    
     pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
-    print(pulse_zero)
     pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
-    
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
 ##    print('Bending pins are back to zeroeth position')
 
@@ -227,8 +224,7 @@ while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
     angle = int(angle)
-    if angle >=0:
         
 ##        push_action(wait)
-        bending_arm(angle,3,1.66)
+    bending_arm(angle,3,1.66)
 print('Done')
