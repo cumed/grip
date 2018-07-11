@@ -18,6 +18,7 @@ import gripper_movements_rpi as gmr
 #%% Define directions and thresholds
 directions = np.load('bends.npy')
 
+directions[87::,1]=0
 # Data specific to this main file                                                                    
 
 #directions = np.array([[4,0],[5.,2],[10,-30],[1,2],[21,50]])#,[1,1],[1,3],[32,1],[41,20],[1,10],[2,20]])
