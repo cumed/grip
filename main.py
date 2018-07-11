@@ -15,7 +15,7 @@ from time import sleep
 import sys
 import catheter_properties as cpro
 #%% Define directions and thresholds
-#directions = np.load('directions.npy')
+directions = np.load('directions.npy')
 
 # Data specific to this main file                                                                    
 
