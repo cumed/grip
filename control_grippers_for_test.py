@@ -24,8 +24,8 @@ time_constant = 1                                                            # T
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
-d_pins = 5.25                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
-y_i =   3                                                                    # Distance between the front gripper and the bending pins
+d_pins = 5.30                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
+y_i =   4.06                                                                    # Distance between the front gripper and the bending pins
 
 #%% Declare all channels
 ch_backGripper = 0
@@ -35,9 +35,9 @@ ch_bendingPins = 5
 ch_rotatingArm = 8
 
 #%%
-fully_closed_distance       = 3.16                                           # Distance to close the gripper - 1.58 mm
-partially_opened_distance   = 2.12                                           # Distance to just reach the gripper - 1.06mm
-
+fully_closed_distance       = 3.18                                          # Distance to close the gripper - 1.58 mm
+##partially_opened_distance   = input('Enter partially_opened_distance')                                          # Distance to just reach the gripper - 1.06mm
+partially_opened_distance = 2.8
 #*DEFAULT ALL THE TIME*           
 fully_opened_distance,fully_bwd_distance = 0,0                                              #Position of front and back servos along x-direction (Default for all sizes )
 
@@ -112,7 +112,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #shape and thereby convert that distance to the pulse
     x_i = (d_pins - outer_diameter)/2                                        # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
-    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         # x_i + the distance for the supposed bend
+    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor -1.3        # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist
@@ -138,13 +138,13 @@ def fudge_func():
 
 #%% Bending movements
 def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
-    print('Do we move bending pins back to zeroeth position')
+##    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
     pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
-    print('Bending pins are back to zeroeth position')
+##    print('Bending pins are back to zeroeth position')
 
 def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
@@ -211,3 +211,27 @@ def home_position():
 #    print('Back gripper on the plane at home angle')
 #    back_rotation(0,flag)
 #    new_back_rotation(zeroethPosition)
+
+
+def zero_position():
+    front_gripper(0)
+    back_gripper(0)
+    bendingPin_zero()
+    back_gripper_indexing(0)
+    
+home_position()
+while True:
+##    wait = input('Do you want to continue')
+    angle = input('Enter angle')
+    if angle >=10:
+        
+##        push_action(wait)
+        bending_arm(angle,3,1.46)
+    elif angle >=5 and angle<10:
+        home_position()
+    elif angle > 0 and angle<5:
+        zero_position()
+    else:
+        home_position()
+        break
+print('Done')
