@@ -226,6 +226,7 @@ home_position()
 while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
+    angle = int(angle)
     if angle >=0:
         
 ##        push_action(wait)
