@@ -47,6 +47,7 @@ from_angles = {
         'positive bend': [-90,90],                                           # If the bending is taking place for a positive angle, then the bending pins need to move to the right                 
         'negative bend': [90,-90],                                           # If the bending is taking place for a negative angle, then the bending pins need to move to the left
         }
+bendPinsFactor = 0.4
 zeroethPosition = 0                                                          # The zeroeth position of the rotational servo
 rotationalAngle_threshold = 15
 
@@ -110,8 +111,8 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse
-    fact = input('Enter factor +//- 0.4 ')
-    x_i = (d_pins - outer_diameter)/2 - fact                                      # Distance the pin has to move to touch the catheter
+    bendPinsFactor = input('Enter factor +//- 0.4 ')
+    x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                      # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
     bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor -1.3        # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
@@ -232,7 +233,9 @@ while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
     angle = int(angle)
-        
+    if angle == 'None':
+        zero_position()    
+    else:    
 ##        push_action(wait)
-    bending_arm(angle,3,1.66)
+        bending_arm(angle,3,1.66)
 print('Done')

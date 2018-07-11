@@ -41,7 +41,7 @@ from_angles = {
         'positive bend': [-90,90],                                           # If the bending is taking place for a positive angle, then the bending pins need to move to the right                 
         'negative bend': [90,-90],                                           # If the bending is taking place for a negative angle, then the bending pins need to move to the left
         }
-bendPinsFactor = 0.39
+bendPinsFactor = 0.4
 zeroethPosition = 0                                                          # The zeroeth position of the rotational servo
 rotationalAngle_threshold = 15
 #%% Gripper servo angles and movements 
