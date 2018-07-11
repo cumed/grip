@@ -235,7 +235,7 @@ while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
     
-    if angle == 'None':
+    if angle == 'Non':
         zero_position()    
     else:    
 ##        push_action(wait)
