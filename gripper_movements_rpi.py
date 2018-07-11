@@ -25,8 +25,8 @@ time_constant = 1                                                            # T
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
-d_pins = 5.25                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
-y_i =   3                                                                    # Distance between the front gripper and the bending pins
+d_pins = 5.3                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
+y_i =   4.06                                                                    # Distance between the front gripper and the bending pins
 
 #%% Declare all channels
 ch_backGripper = 0
@@ -41,6 +41,7 @@ from_angles = {
         'positive bend': [-90,90],                                           # If the bending is taking place for a positive angle, then the bending pins need to move to the right                 
         'negative bend': [90,-90],                                           # If the bending is taking place for a negative angle, then the bending pins need to move to the left
         }
+bendPinsFactor = 0.39
 zeroethPosition = 0                                                          # The zeroeth position of the rotational servo
 rotationalAngle_threshold = 15
 #%% Gripper servo angles and movements 
@@ -71,7 +72,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse
-    x_i = (d_pins - outer_diameter)/2                                        # Distance the pin has to move to touch the catheter
+    x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                        # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
     bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
