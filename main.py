@@ -81,6 +81,7 @@ def zero_position():
 test = input('Zero the cams so that you can place the catheter from top')
 if test ==1:
     zero_position()
+    input('Press any key to continue after inserting the catheter')
 else:
     pass
 
