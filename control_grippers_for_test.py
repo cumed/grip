@@ -235,10 +235,13 @@ while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
     
-    if angle == 'Non':
-        zero_position()    
-    else:    
-##        push_action(wait)
+    if angle == 200:
+        zero_position()
+        input('Waiting...')
+        home_position()
+    elif angle==300:
+        push_action(angle/100)
+    else:
         angle = int(angle)
-        bending_arm(angle,3,1.66)
+        bending_arm(angle,3,1.33)
 print('Done')
