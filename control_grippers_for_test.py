@@ -227,7 +227,8 @@ def zero_position():
     back_gripper(0)
     bendingPin_zero()
     back_gripper_indexing(0)
-    
+zero_position()
+input('Continue?')   
 home_position()
 while True:
 ##    wait = input('Do you want to continue')
