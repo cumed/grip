@@ -382,8 +382,8 @@ def get_partiallyOpenedDistance(OD,e=e_gripper):
 
 #fully_closed_distance       = angle_to_distance(90,e_gripper)               #Position of front and back servos along x-direction (Default for all sizes)
 #partially_opened_distance   = angle_to_distance(70.52,e_gripper)            #Position of front and back servos along x-direction (Default for all sizes)
-fully_closed_distance       = 1.58*2                                           # Distance to close the gripper - 1.58 mm
-partially_opened_distance   = 1.06*2                                           # Distance to just reach the gripper - 1.06mm
+fully_closed_distance       = 3.16                                           # Distance to close the gripper - 1.58 mm
+partially_opened_distance   = 2.12                                           # Distance to just reach the gripper - 1.06mm
 
 #*DEFAULT ALL THE TIME*           
 fully_opened_distance       = angle_to_distance(0,e_gripper)                 #Position of front and back servos along x-direction (Default for all sizes )
