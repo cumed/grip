@@ -11,10 +11,8 @@ import Adafruit_PCA9685
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
 import skeleton_structure as sks
-from time import sleep
 import sys
 import catheter_properties as cpro
-import gripper_movements_rpi as gmr
 #%% Define directions and thresholds
 directions = np.load('bends.npy')
 

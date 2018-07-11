@@ -19,13 +19,13 @@ pwm.set_pwm_freq(60)
 #%% Declarations
 servo_min = 190                                                              # Min limit of 183 for Hitech-servos
 servo_max = 500                                                              # Max limit of 600 for Hitech-servos
-time_constant = 1                                                            # Time for the Rpi to wait for the servo to complete its task
+time_constant = 0.7                                                            # Time for the Rpi to wait for the servo to complete its task
 # from_low = 0                                                               # Smallest angle that you'd want the cam to be at
 #from_high = 180                                                             # Largest angle that you'd want the cam to be at
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
-d_pins = 5.3                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
+d_pins = 5.25                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
 y_i =   4.06                                                                    # Distance between the front gripper and the bending pins
 
 #%% Declare all channels
