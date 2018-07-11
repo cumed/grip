@@ -19,7 +19,7 @@ import catheter_properties as cpro
 
 # Data specific to this main file                                                                    
 
-directions = np.array([[4,0],[12.,5],[10,-3],[1,2],[21,50]])#,[1,1],[1,3],[32,1],[41,20],[1,10],[2,20]])
+directions = np.array([[4,0],[5.,2],[10,-30],[1,2],[21,50]])#,[1,1],[1,3],[32,1],[41,20],[1,10],[2,20]])
 zeroes = np.array([0.,0,0,0,0])#,0,0,0,60,60,0])
 zeroes = zeroes.reshape((5,1))
 directions = np.append(directions,zeroes,axis=1)
@@ -49,7 +49,7 @@ rotational_angle = directions[:,2]
 catheter_ID     = 3
 properties_flag = 1                                                             #Set it to 1 if you require all the properties in one go. 
 #[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
-cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
+#cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
 lengths = cpro.get_length()                                                     #Get all the material cumulative lengths. 
 OD = cpro.get_OD()
 #lengths = [4.25,42,711.2]
@@ -70,14 +70,14 @@ time_constant   = 1
 #fully_opened_distance       = gmr.angle_to_distance(180)                        # Position of front and back servos along x-direction
 #fully_bwd_distance          = gmr.angle_to_distance(0)                          # Position of cam for the back servo movement along y-direction
 
-#%%
-print('Bring all cams to zeroeth position')
-#print('Bringing all cams to zeroeth position')
-
-for channel in range(0,16):
-    pwm.set_pwm(channel,0,servo_min)                                            # Setting all servo's to min position
-sleep(time_constant)
-print('All cams at zeroeth position')
+#%% Zeroing of cams
+#print('Bring all cams to zeroeth position')
+##print('Bringing all cams to zeroeth position')
+#
+#for channel in range(0,16):
+#    pwm.set_pwm(channel,0,servo_min)                                            # Setting all servo's to min position
+#sleep(time_constant)
+#print('All cams at zeroeth position')
 #%%
 print('Make all cams go to the "home" position')
 gmr.home_position()
@@ -143,5 +143,8 @@ while idx < np.size(distances,0):
 wait = input('Press 0 to exit the program')
 if wait ==0:
     gmr.home_position()
+    print('Done')
+else:
+    print('Done')
+    sys.exit()
 
-print('Done')

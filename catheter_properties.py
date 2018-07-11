@@ -26,7 +26,8 @@ import pandas as pd
 ##    GPIO.cleanup()
    
 
-def get_length(): # returns a list of the cumulative lenghts of the different materials in the catheter
+def get_length(): 
+    # returns a list of the cumulative lenghts of the different materials in the catheter
     data = pd.read_excel('CurrentCatheter.xlsx')
     count_row=data.shape[0]
     cumulative_length = 0
@@ -37,7 +38,8 @@ def get_length(): # returns a list of the cumulative lenghts of the different ma
 
     return lengths
 
-def get_OD(): # returns a list of the ODs of the different materials in the catheter
+def get_OD(): 
+    # returns a list of the ODs of the different materials in the catheter
     data = pd.read_excel('CurrentCatheter.xlsx')
     count_row=data.shape[0]
     ODs = []
@@ -46,7 +48,8 @@ def get_OD(): # returns a list of the ODs of the different materials in the cath
 
     return ODs
 
-def get_ID(): # returns a list of the IDs of the different materials in the catheter
+def get_ID(): 
+    # returns a list of the IDs of the different materials in the catheter
     data = pd.read_excel('CurrentCatheter.xlsx')
     count_row=data.shape[0]
     IDs = []
@@ -55,7 +58,8 @@ def get_ID(): # returns a list of the IDs of the different materials in the cath
 
     return IDs
 
-def get_material(): # returns a list of the material names of the different materials in the catheter
+def get_material(): 
+    # returns a list of the material names of the different materials in the catheter
     data = pd.read_excel('CurrentCatheter.xlsx')
     count_row=data.shape[0]
     material = []
