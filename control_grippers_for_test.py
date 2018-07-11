@@ -112,7 +112,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #shape and thereby convert that distance to the pulse
     x_i = (d_pins - outer_diameter)/2                                        # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
-    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         # x_i + the distance for the supposed bend
+    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor -1.3        # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist
@@ -223,15 +223,8 @@ home_position()
 while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
-    if angle >=10:
+    if angle >=0:
         
 ##        push_action(wait)
-        bending_arm(angle,3,1.46)
-    elif angle >=5 and angle<10:
-        home_position()
-    elif angle > 0 and angle<5:
-        zero_position()
-    else:
-        home_position()
-        break
+        bending_arm(angle,3,1.66)
 print('Done')
