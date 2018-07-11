@@ -227,8 +227,7 @@ while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
     angle = int(angle)
-    if angle >=0:
         
 ##        push_action(wait)
-        bending_arm(angle,3,1.66)
+    bending_arm(angle,3,1.66)
 print('Done')
