@@ -145,7 +145,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
-    input('Start bending?')
+    print('Start bending?')
     bendDist = bendAngle_to_bendDist(abs(angle),outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
     pwm.set_pwm(channel,0,pulse)
