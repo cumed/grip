@@ -227,16 +227,18 @@ def zero_position():
     back_gripper(0)
     bendingPin_zero()
     back_gripper_indexing(0)
+
 zero_position()
 input('Continue?')   
 home_position()
 while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
-    angle = int(angle)
+    
     if angle == 'None':
         zero_position()    
     else:    
 ##        push_action(wait)
+        angle = int(angle)
         bending_arm(angle,3,1.66)
 print('Done')
