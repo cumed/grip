@@ -14,6 +14,7 @@ import skeleton_structure as sks
 from time import sleep
 import sys
 import catheter_properties as cpro
+import gripper_movements_rpi as gmr
 #%% Define directions and thresholds
 directions = np.load('bends.npy')
 
@@ -71,6 +72,18 @@ time_constant   = 1
 #fully_bwd_distance          = gmr.angle_to_distance(0)                          # Position of cam for the back servo movement along y-direction
 
 #%% Zeroing of cams
+def zero_position():
+    gmr.front_gripper(0)
+    gmr.back_gripper(0)
+    gmr.bendingPin_zero()
+    gmr.back_gripper_indexing(0)
+
+test = input('Zero the cams so that you can place the catheter from top')
+if test ==1:
+    zero_position()
+else:
+    pass
+
 #print('Bring all cams to zeroeth position')
 ##print('Bringing all cams to zeroeth position')
 #
