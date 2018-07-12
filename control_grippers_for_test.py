@@ -250,7 +250,9 @@ while True:
         front_gripper(partially_opened_distance)
         back_gripper(partially_opened_distance)
     elif angle==500:
-        push_action(5)
+        noftimes = input('Number of times')
+        for ele in range(0,noftimes+1):
+            push_action(5)
     elif angle==600:
         home_position()
     elif angle ==700:
