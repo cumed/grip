@@ -231,7 +231,7 @@ def zero_position():
 zero_position()
 input('Continue?')   
 home_position()
-OD = int(input('Enter od'))
+OD = 1.58
 lens =3
 while True:
 ##    wait = input('Do you want to continue')
