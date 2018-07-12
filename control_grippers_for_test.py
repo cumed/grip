@@ -40,7 +40,7 @@ fully_closed_distance       = 3.18                                          # Di
 partially_opened_distance = 2.8
 #*DEFAULT ALL THE TIME*           
 fully_opened_distance,fully_bwd_distance = 0,0                                              #Position of front and back servos along x-direction (Default for all sizes )
-
+slightlyMore_opened_distance = 2.2
 
 #%%
 from_angles = {
@@ -257,6 +257,9 @@ while True:
         home_position()
     elif angle ==700:
         zero_position()
+    elif angle ==800:
+        front_gripper(slightlyMore_opened_distance)
+        back_gripper(slightlyMore_opened_distance)
     else:
         angle = int(angle)
         bending_arm(angle,lens,OD)
