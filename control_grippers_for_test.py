@@ -239,7 +239,7 @@ while True:
         zero_position()
     elif angle=="home":
         home_position()
-    elif angle=="push":
+    elif angle==300:
         distance = input('distance?')
         push_action()
     else:
