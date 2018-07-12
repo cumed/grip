@@ -241,7 +241,7 @@ while True:
         home_position()
     elif angle==300:
         distance = input('distance?')
-        push_action()
+        push_action(distance)
     else:
         angle = int(angle)
         OD = 1.33
