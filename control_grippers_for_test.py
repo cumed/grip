@@ -235,13 +235,24 @@ while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
     
-    if angle =="zero":
-        zero_position()
-    elif angle=="home":
-        home_position()
+    if angle ==100:
+        print('zeroing')
+        bendingPin_zero()
+    elif angle==200:
+        front_gripper(fully_opened_distance)
+        back_gripper(fully_opened_distance)
     elif angle==300:
-        distance = input('distance?')
-        push_action(distance)
+        front_gripper(fully_closed_distance)
+        back_gripper(fully_closed_distance)
+    elif angle==400:
+        front_gripper(partially_opened_distance)
+        back_gripper(partially_opened_distance)
+    elif angle==500:
+        push_action(5)
+    elif angle==600:
+        home_position()
+    elif angle ==700:
+        zero_position()
     else:
         angle = int(angle)
         OD = 1.33
