@@ -14,7 +14,7 @@ import skeleton_structure as sks
 import sys
 import catheter_properties as cpro
 #%% Define directions and thresholds
-directions = np.load('half_circle.npy')
+directions = np.load('halfCircle.npy')
 
 # Data specific to this main file                                                                    
 
