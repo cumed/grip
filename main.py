@@ -52,6 +52,7 @@ properties_flag = 1                                                             
 #cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
 lengths = cpro.get_length()                                                     #Get all the material cumulative lengths. 
 OD = cpro.get_OD()
+OD = [1.60 1.60 1.60 1.60]
 #lengths = [4.25,42,711.2]
 #OD = [1.2, 1.67, 1.67]
 #%%
@@ -82,7 +83,10 @@ if test ==1:
     zero_position()
     input('Press any key to continue after inserting the catheter')
 else:
-    pass
+    slightlyMore_opened_distance = 2.2
+    gmr.front_gripper(slightlyMore_opened_distance)
+    gmr.back_gripper(slightlyMore_opened_distance)
+
 
 #print('Bring all cams to zeroeth position')
 ##print('Bringing all cams to zeroeth position')

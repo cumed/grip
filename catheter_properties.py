@@ -45,7 +45,7 @@ def get_OD():
     ODs = []
     for row in range(0,count_row):
         ODs.append(data.iloc[row,data.columns.get_loc("OD (mm)")])    
-
+    print(ODs)
     return ODs
 
 def get_ID(): 
