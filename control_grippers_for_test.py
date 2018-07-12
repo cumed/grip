@@ -242,7 +242,7 @@ while True:
     elif angle=="push":
         distance = input('distance?')
         push_action()
-    else
+    else:
         angle = int(angle)
         OD = 1.33
         bending_arm(angle,3,OD)
