@@ -26,7 +26,7 @@ e_gripper = 1.59                                                             # e
 e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
 d_pins = 5.25                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
-y_i =   4.06                                                                    # Distance between the front gripper and the bending pins
+y_i =   1.92                                                                    # Distance between the front gripper and the bending pins
 
 #%% Declare all channels
 ch_backGripper = 0
