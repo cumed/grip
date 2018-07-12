@@ -228,9 +228,9 @@ def zero_position():
     bendingPin_zero()
     back_gripper_indexing(0)
 
-zero_position()
-input('Continue?')   
-home_position()
+
+
+
 OD = 1.58
 lens =3
 while True:
