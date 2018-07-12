@@ -231,6 +231,8 @@ def zero_position():
 zero_position()
 input('Continue?')   
 home_position()
+OD = int(input('Enter od'))
+lens =3
 while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
@@ -255,7 +257,5 @@ while True:
         zero_position()
     else:
         angle = int(angle)
-        lens = 3
-        OD = 1.33
         bending_arm(angle,lens,OD)
 print('Done')
