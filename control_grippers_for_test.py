@@ -234,7 +234,7 @@ def zero_position():
 
 
 
-OD = 1.58
+OD = fact.OD 
 lens =3
 while True:
 ##    wait = input('Do you want to continue')

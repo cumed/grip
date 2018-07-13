@@ -14,6 +14,7 @@ import skeleton_structure as sks
 import sys
 import catheter_properties as cpro
 import os
+import factors as fact
 #%% Define directions and thresholds
 #directions = np.load('halfCircle.npy')
 currDir = os.path.dirname(os.path.realpath('__file__'))
@@ -55,7 +56,7 @@ rotational_angle = directions[:,2]
 #cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
 lengths = cpro.get_length()                                                     #Get all the material cumulative lengths. 
 OD = cpro.get_OD()
-OD = [1.60,1.6,1.6,1.6]
+OD = fact.ODList
 #lengths = [4.25,42,711.2]
 #OD = [1.2, 1.67, 1.67]
 #%%

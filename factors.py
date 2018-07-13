@@ -10,3 +10,5 @@ angleRedFactor = input('Enter angle reduction factor')
 distance_factor = input('Enter distance factor') 
 y_i = 2.45
 d_pins = 5.25
+OD = 1.60
+ODList = [OD,OD,OD,OD]
