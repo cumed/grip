@@ -113,7 +113,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse
-    bendPinsFactor = input('Enter factor +//- 0.4 ')
+    bendPinsFactor = input('Enter factor')
     x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                      # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
     bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         # x_i + the distance for the supposed bend
