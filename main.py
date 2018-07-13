@@ -45,13 +45,13 @@ angles = directions[:,1]
 rotational_angle = directions[:,2]
 
 #%%
-catheter_ID     = 3
-properties_flag = 1                                                             #Set it to 1 if you require all the properties in one go. 
+#catheter_ID     = 3
+#properties_flag = 1                                                             #Set it to 1 if you require all the properties in one go. 
 #[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
 #cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
 lengths = cpro.get_length()                                                     #Get all the material cumulative lengths. 
 OD = cpro.get_OD()
-OD = [1.65, 1.65, 1.65, 1.65]
+OD = [1.60,1.6,1.6,1.6]
 #lengths = [4.25,42,711.2]
 #OD = [1.2, 1.67, 1.67]
 #%%
