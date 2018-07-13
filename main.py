@@ -13,9 +13,13 @@ pwm.set_pwm_freq(60)
 import skeleton_structure as sks
 import sys
 import catheter_properties as cpro
+import os
 #%% Define directions and thresholds
 #directions = np.load('halfCircle.npy')
+currDir = os.path.dirname(os.path.realpath('__file__'))
+relDir = os.path.join(currDir,'npy\\')
 directions = np.load('38mmCircle.npy')
+
 # Data specific to this main file                                                                    
 
 #directions = np.array([[4,0],[5.,2],[10,-30],[1,2],[21,50]])#,[1,1],[1,3],[32,1],[41,20],[1,10],[2,20]])
