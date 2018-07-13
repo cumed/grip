@@ -6,5 +6,5 @@ Created on Fri Jul 13 10:43:41 2018
 """
 
 bendPinsFactor  = 0
-angleRedFactor = 0.25
-distance_factor = 2
+angleRedFactor = input('Enter angle reduction factor') #.5
+distance_factor = input('Enter distance factor') #2
