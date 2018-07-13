@@ -5,6 +5,8 @@ Created on Fri Jul 13 10:43:41 2018
 @author: ATI-2 Pavan Gurudath
 """
 
-bendPinsFactor  = 0
-angleRedFactor = input('Enter angle reduction factor') #.5
-distance_factor = input('Enter distance factor') #2
+bendPinsFactor  = 1.3
+angleRedFactor = input('Enter angle reduction factor') 
+distance_factor = input('Enter distance factor') 
+y_i = 2.45
+d_pins = 5.25

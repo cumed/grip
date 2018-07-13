@@ -26,8 +26,8 @@ time_constant = 0.25                                                            
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
-d_pins = 5.25                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
-y_i =   1.92                                                                    # Distance between the front gripper and the bending pins
+d_pins = fact.d_pins                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
+y_i =   fact.y_i                                                                    # Distance between the front gripper and the bending pins
 
 #%% Declare all channels
 ch_backGripper = 0
@@ -76,7 +76,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #shape and thereby convert that distance to the pulse   
     x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                        # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
-    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor -1.3        # x_i + the distance for the supposed bend
+    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist

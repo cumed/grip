@@ -10,6 +10,7 @@ import Adafruit_PCA9685
 import numpy as np
 import math
 from math import pi
+import factors as fact
 #import heating_control as htc
 #import catheter_properties as cpro
 
@@ -24,8 +25,8 @@ time_constant = 0.25                                                            
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
-d_pins = 5.30                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
-y_i =   1.92                                                                    # Distance between the front gripper and the bending pins
+d_pins = fact.d_pins                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
+y_i =   fact.y_i                                                                    # Distance between the front gripper and the bending pins
 
 #%% Declare all channels
 ch_backGripper = 0
@@ -47,7 +48,7 @@ from_angles = {
         'positive bend': [-90,90],                                           # If the bending is taking place for a positive angle, then the bending pins need to move to the right                 
         'negative bend': [90,-90],                                           # If the bending is taking place for a negative angle, then the bending pins need to move to the left
         }
-bendPinsFactor = 0
+
 zeroethPosition = 0                                                          # The zeroeth position of the rotational servo
 rotationalAngle_threshold = 15
 
@@ -114,7 +115,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     bendPinsFactor = input('Enter factor +//- 0.4 ')
     x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                      # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
-    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor -1.3        # x_i + the distance for the supposed bend
+    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist
@@ -155,6 +156,7 @@ def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_cons
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
 ##    print('Bending pins are back to zeroeth position')
 
+angleRedFactor = fact.angleRedFactor
 def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
