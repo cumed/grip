@@ -232,8 +232,7 @@ def zero_position():
     back_gripper_indexing(0)
 
 
-
-
+bendingPin_zero()
 OD = fact.OD 
 lens =3
 while True:
