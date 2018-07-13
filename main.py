@@ -161,11 +161,9 @@ while idx < np.size(distances,0):
         lens = lengths[prop_idx]                                                #consideration, then move onto the next material which might have a different OD. 
         outer_diameter = OD[prop_idx]
     
-wait = input('Press 0 to exit the program')
-if wait ==0:
-    zero_position()
-    print('Done')
-else:
-    print('Done')
-    sys.exit()
+input('Press 0 to exit the program')
+
+zero_position()
+print('Done')
+
 

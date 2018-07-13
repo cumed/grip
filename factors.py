@@ -5,7 +5,7 @@ Created on Fri Jul 13 10:43:41 2018
 @author: ATI-2 Pavan Gurudath
 """
 
-bendPinsFactor  = 1.3
+bendPinsFactor  = 1.65
 angleRedFactor = float(input('Enter angle reduction factor') )
 distance_factor = float(input('Enter distance factor'))
 y_i = 2.45
