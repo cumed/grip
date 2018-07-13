@@ -18,7 +18,7 @@ import factors as fact
 #%% Define directions and thresholds
 #directions = np.load('halfCircle.npy')
 currDir = os.path.dirname(os.path.realpath('__file__'))
-filename = os.path.join(currDir,'npy\\38mmCircle.npy')
+filename = os.path.join(currDir,'npy/38mmCircle.npy')
 directions = np.load(filename)
 
 # Data specific to this main file                                                                    
