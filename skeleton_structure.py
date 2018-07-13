@@ -7,6 +7,7 @@ Created on Thur Jun 21 12:58:00
 #%% Import statements
 import gripper_movements_rpi as gmr
 import sys
+import factors as fact
 #import heating_control as htc
 #import catheter_properties as cpro
 
@@ -24,7 +25,7 @@ def remaining_distance(remDist,servoDist):
 # Pushing the catheter in front
 def push_catheter(servoDist_threshold, Dist, outer_diameter):
 #    if Dist > servoDist_threshold:                                           #Check if the pushing distance is more than the servo's threshold distance
-    distance_factor=2
+    distance_factor=fact.distance_factor
     pulse_distance = remaining_distance(Dist,servoDist_threshold)        #Split it up into threshold distances if it is greater
     for rDistances in pulse_distance:
         print('****--Push catheter by '+str(rDistances*distance_factor) + 'mm from a total_distance of ' + str(Dist*distance_factor) + 'mm--****')

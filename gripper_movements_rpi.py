@@ -12,6 +12,7 @@ import math
 from math import pi
 import heating_control as htc
 import catheter_properties as cpro
+import factors as fact
 
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
@@ -72,6 +73,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse
+    bendPinsFactor = fact.bendPinsFactor 
     x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                        # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
     bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         # x_i + the distance for the supposed bend
@@ -145,8 +147,9 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
-    print('Start bending?')
-    angle = angle*0.5
+#    print('Start bending?')
+    angleRedFactor = fact.angleRedFactor
+    angle = angle*angleRedFactor
     bendDist = bendAngle_to_bendDist(abs(angle),outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
     pwm.set_pwm(channel,0,pulse)
@@ -155,7 +158,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
 #    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
     heating_time = cpro.get_heatTime(lens)
-    print('-----------Heat the catheter for '+str(heating_time)+'seconds --------------')
+#    print('-----------Heat the catheter for '+str(heating_time)+'seconds --------------')
     htc.startHeat(heating_time)
     
 #    for i in range(0,1):                                                  #Uncomment these two lines when the waiting is removed
@@ -164,7 +167,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
 #        print('Waiting for '+str(i)+' seconds...')
         
     bendingPin_zero()
-    print('Bending finished')
+#    print('Bending finished')
 
 def back_rotation(angle,channel=ch_rotatingArm,timeConstant = time_constant):
     #command it to rotate by a particular angle
