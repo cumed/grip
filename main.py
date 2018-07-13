@@ -11,14 +11,13 @@ import Adafruit_PCA9685
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
 import skeleton_structure as sks
-import sys
 import catheter_properties as cpro
 import os
 import factors as fact
 #%% Define directions and thresholds
 #directions = np.load('halfCircle.npy')
 currDir = os.path.dirname(os.path.realpath('__file__'))
-filename = os.path.join(currDir,'npy/38mmCircle.npy')
+filename = os.path.join(currDir,'npy/hook.npy')
 directions = np.load(filename)
 
 # Data specific to this main file                                                                    
