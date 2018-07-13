@@ -51,7 +51,7 @@ properties_flag = 1                                                             
 #cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
 lengths = cpro.get_length()                                                     #Get all the material cumulative lengths. 
 OD = cpro.get_OD()
-OD = [1.60, 1.60, 1.60, 1.60]
+OD = [1.65, 1.65, 1.65, 1.65]
 #lengths = [4.25,42,711.2]
 #OD = [1.2, 1.67, 1.67]
 #%%
