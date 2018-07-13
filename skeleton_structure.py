@@ -24,7 +24,7 @@ def remaining_distance(remDist,servoDist):
 # Pushing the catheter in front
 def push_catheter(servoDist_threshold, Dist, outer_diameter):
 #    if Dist > servoDist_threshold:                                           #Check if the pushing distance is more than the servo's threshold distance
-    distance_factor=1.1
+    distance_factor=1.4
     pulse_distance = remaining_distance(Dist,servoDist_threshold)        #Split it up into threshold distances if it is greater
     for rDistances in pulse_distance:
         print('****--Push catheter by '+str(rDistances) + 'mm from a total_distance of ' + str(Dist) + 'mm--****')
