@@ -69,11 +69,11 @@ def distance_to_pulse(distance,e,from_low = 0, from_high = 180):             # e
 
 #%% Bending angles and movements 
 # Returns the distance that the bending pins need to move for the bend to happen
+bendPinsFactor = fact.bendPinsFactor 
 def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
-    #shape and thereby convert that distance to the pulse
-    bendPinsFactor = fact.bendPinsFactor 
+    #shape and thereby convert that distance to the pulse   
     x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                        # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
     bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         # x_i + the distance for the supposed bend
@@ -142,13 +142,14 @@ def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_cons
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
 #    print('Bending pins are back to zeroeth position')
 
+angleRedFactor = fact.angleRedFactor
 def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
 #    print('Start bending?')
-    angleRedFactor = fact.angleRedFactor
+
     angle = angle*angleRedFactor
     bendDist = bendAngle_to_bendDist(abs(angle),outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
