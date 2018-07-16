@@ -109,12 +109,12 @@ def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeCon
     
 #%% Bending angles and movements 
 # Returns the distance that the bending pins need to move for the bend to happen
+bendPinsFactor = fact.bendPinsFactor 
 def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
-    #shape and thereby convert that distance to the pulse
-    bendPinsFactor = input('Enter factor')
-    x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                      # Distance the pin has to move to touch the catheter
+    #shape and thereby convert that distance to the pulse   
+    x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                        # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func()
     bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
@@ -163,7 +163,8 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
-    print('Start bending?')
+#    print('Start bending?')
+
     angle = angle*angleRedFactor
     bendDist = bendAngle_to_bendDist(abs(angle),outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
@@ -180,9 +181,9 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
 #        print('Waiting for 3 seconds')
 #        sleep(3)
 #        print('Waiting for '+str(i)+' seconds...')
-    input('Press 1 to make it go to its zeroeth position')    
+        
     bendingPin_zero()
-    print('Bending finished')
+#    print('Bending finished')
 
 def push_action(distance):
 #    print('Front gripper partially opened')
