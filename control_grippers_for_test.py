@@ -171,7 +171,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
     print('Bending pins are making a bend of ' + str(angle)+'degrees by bending a distance of '+str(bendDist) + 'mm. Pulse: '+str(pulse))
-#    input('Press 1 to finish bending and bring it back to zeroeth position.')
+    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
 #    heating_time = cpro.get_heatTime(lens)
 #    print('-----------Heat the catheter for '+str(heating_time)+'seconds --------------')
