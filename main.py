@@ -17,7 +17,7 @@ import factors as fact
 #%% Define directions and thresholds
 #directions = np.load('halfCircle.npy')
 currDir = os.path.dirname(os.path.realpath('__file__'))
-filename = os.path.join(currDir,'npy/38mm_Half_Circle_3.npy')
+filename = os.path.join(currDir,'npy/JL4_3.npy')
 directions = np.load(filename)
 
 turn = int(input('Do you want to reverse the directions? Do it if most of the test npy files are negative'))
