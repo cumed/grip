@@ -19,14 +19,14 @@ pwm.set_pwm_freq(60)
 
 servo_min = 190                                                              # Min limit of 183 for Hitech-servos
 servo_max = 500                                                              # Max limit of 600 for Hitech-servos
-time_constant = 0.25                                                            # Time for the Rpi to wait for the servo to complete its task
+time_constant = 0.25                                                         # Time for the Rpi to wait for the servo to complete its task
 # from_low = 0                                                               # Smallest angle that you'd want the cam to be at
 #from_high = 180                                                             # Largest angle that you'd want the cam to be at
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
-d_pins = fact.d_pins                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
-y_i =   fact.y_i                                                                    # Distance between the front gripper and the bending pins
+d_pins = fact.d_pins                                                         # Distance between the bending pins (edge-to-edge) **0.207inch**
+y_i =   fact.y_i                                                             # Distance between the front gripper and the bending pins
 
 #%% Declare all channels
 ch_backGripper = 0
@@ -36,11 +36,11 @@ ch_bendingPins = 5
 ch_rotatingArm = 8
 
 #%%
-fully_closed_distance       = 3.18                                          # Distance to close the gripper - 1.58 mm
-##partially_opened_distance   = input('Enter partially_opened_distance')                                          # Distance to just reach the gripper - 1.06mm
+fully_closed_distance       = 3.18                                           # Distance to close the gripper - 1.58 mm
+##partially_opened_distance   = input('Enter partially_opened_distance')     # Distance to just reach the gripper - 1.06mm
 partially_opened_distance = 2.8
 #*DEFAULT ALL THE TIME*           
-fully_opened_distance,fully_bwd_distance = 0,0                                              #Position of front and back servos along x-direction (Default for all sizes )
+fully_opened_distance,fully_bwd_distance = 0,0                               # Position of front and back servos along x-direction (Default for all sizes )
 slightlyMore_opened_distance = 2.2
 
 #%%
@@ -234,6 +234,17 @@ def zero_position():
     back_gripper_indexing(0)
 
 
+def reversePush_action(distance)
+#    print('Front gripper partially opened')
+    front_gripper(fully_closed_distance)
+    back_gripper(partially_opened_distance)
+    back_gripper_indexing(distance*fact*distance_factor)
+    front_gripper(partially_opened_distance)
+    back_gripper(fully_closed_distance)
+    back_gripper_indexing(fully_bwd_distance)
+    front_gripper(fully_closed_distance)
+
+    
 bendingPin_zero()
 OD = fact.OD 
 lens =3
@@ -255,15 +266,19 @@ while True:
         back_gripper(partially_opened_distance)
     elif angle==500:
         noftimes = input('Number of times')
-        for ele in range(0,noftimes+1):
+        for ele in range(0,noftimes):
             push_action(5)
     elif angle==600:
         home_position()
-    elif angle ==700:
+    elif angle==700:
         zero_position()
-    elif angle ==800:
+    elif angle==800:
         front_gripper(slightlyMore_opened_distance)
         back_gripper(slightlyMore_opened_distance)
+    elif angle==900:
+        noftimes = input('Number of times')
+        for ele in rangel(0,noftimes):
+            reversePush_action(5)
     else:
         angle = int(angle)
         bending_arm(angle,lens,OD)
