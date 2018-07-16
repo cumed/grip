@@ -237,7 +237,7 @@ def zero_position():
 def reversePush_action(distance):
 #    print('Front gripper partially opened')
     front_gripper(fully_closed_distance)
-    back_gripper(partially_opened_distance)
+    back_gripper(fully_opened_distance)
     back_gripper_indexing(distance*fact.distanceFactor)
     back_gripper(fully_closed_distance)
     front_gripper(partially_opened_distance)
