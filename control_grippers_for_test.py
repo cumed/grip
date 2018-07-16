@@ -277,7 +277,7 @@ while True:
         back_gripper(slightlyMore_opened_distance)
     elif angle==900:
         noftimes = input('Number of times')
-        for ele in rangel(0,noftimes):
+        for ele in range(0,noftimes):
             reversePush_action(5)
     else:
         angle = int(angle)
