@@ -239,8 +239,8 @@ def reversePush_action(distance):
     front_gripper(fully_closed_distance)
     back_gripper(partially_opened_distance)
     back_gripper_indexing(distance*fact.distanceFactor)
-    front_gripper(partially_opened_distance)
     back_gripper(fully_closed_distance)
+    front_gripper(partially_opened_distance)
     back_gripper_indexing(fully_bwd_distance)
     front_gripper(fully_closed_distance)
 
