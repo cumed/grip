@@ -184,7 +184,25 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
         
     bendingPin_zero()
 #    print('Bending finished')
+def back_rotation(angle,channel=ch_rotatingArm,timeConstant = time_constant):
+    #command it to rotate by a particular angle
+    #Let flag be there for now, even though its just max or min position.    
+    #No use of it right now since its just max or min position ***UPDATE: Flag has been removed***
+#    if flag==1:
+    print('Rotating the plane...')
+    pulse = angle_to_pulse(angle)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+    print('Rotated the plane to '+str(angle)+'degrees. Pulse given' + str(pulse))
+#    else:
+#        print('We are now moving the rotating plane back to zero')
+#        pulse = angle_to_pulse(0)
+#        pwm.set_pwm(channel,0,pulse)
+#        sleep(timeConstant)
+#        print('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
 
+
+#%%    
 def push_action(distance):
 #    print('Front gripper partially opened')
     front_gripper(partially_opened_distance)                                
@@ -282,4 +300,6 @@ while True:
     else:
         angle = int(angle)
         bending_arm(angle,lens,OD)
+    rotangle = input('Enter rot angle')
+    bending_arm(rotangle)
 print('Done')

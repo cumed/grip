@@ -20,6 +20,9 @@ currDir = os.path.dirname(os.path.realpath('__file__'))
 filename = os.path.join(currDir,'npy/38mmCircle.npy')
 directions = np.load(filename)
 
+turn = int(input('Do you want to reverse the directions? Do it if most of the test npy files are negative'))
+if turn:
+    directions[:,1] = -directions[:,1]
 # Data specific to this main file                                                                    
 
 #directions = np.array([[4,0],[5.,2],[10,-30],[1,2],[21,50]])#,[1,1],[1,3],[32,1],[41,20],[1,10],[2,20]])
