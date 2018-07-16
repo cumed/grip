@@ -23,14 +23,14 @@ def remaining_distance(remDist,servoDist):
     return pulseDist
 
 # Pushing the catheter in front
-distance_factor=fact.distance_factor
+distanceFactor=fact.distanceFactor
 def push_catheter(servoDist_threshold, Dist, outer_diameter):
 #    if Dist > servoDist_threshold:                                           #Check if the pushing distance is more than the servo's threshold distance
     
     pulse_distance = remaining_distance(Dist,servoDist_threshold)        #Split it up into threshold distances if it is greater
     for rDistances in pulse_distance:
-        print('****--Push catheter by '+str(rDistances*distance_factor) + 'mm from a total_distance of ' + str(Dist*distance_factor) + 'mm--****')
-        gmr.push_action(rDistances*distance_factor)
+        print('****--Push catheter by '+str(rDistances*distanceFactor) + 'mm from a total_distance of ' + str(Dist*distanceFactor) + 'mm--****')
+        gmr.push_action(rDistances*distanceFactor)
 #    else:
 #        print('----------Push catheter by '+str(Dist) + 'mm----------')
 #        gmr.push_action(Dist)

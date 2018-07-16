@@ -143,7 +143,7 @@ def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
 def fudge_func():
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
-    fudge_factor=1
+    fudge_factor=int(input('Enter the fudge factor'))
     return fudge_factor
 
 #%% Bending movements
@@ -192,8 +192,8 @@ def push_action(distance):
 #    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
     
-    print('Back grippper moving forward by '+str(distance*fact.distance_factor)+'mm')
-    back_gripper_indexing(distance*fact.distance_factor)
+    print('Back grippper moving forward by '+str(distance*fact.distanceFactor)+'mm')
+    back_gripper_indexing(distance*fact.distanceFactor)
     
 #    print('Front gripper fully closed')
     front_gripper(fully_closed_distance)
@@ -238,7 +238,7 @@ def reversePush_action(distance)
 #    print('Front gripper partially opened')
     front_gripper(fully_closed_distance)
     back_gripper(partially_opened_distance)
-    back_gripper_indexing(distance*fact*distance_factor)
+    back_gripper_indexing(distance*fact*distanceFactor)
     front_gripper(partially_opened_distance)
     back_gripper(fully_closed_distance)
     back_gripper_indexing(fully_bwd_distance)
