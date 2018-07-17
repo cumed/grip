@@ -300,6 +300,6 @@ while True:
     else:
         angle = int(angle)
         bending_arm(angle,lens,OD)
-    rotangle = input('Enter rot angle')
-    back_rotation(rotangle)
+##    rotangle = input('Enter rot angle')
+##    back_rotation(rotangle)
 print('Done')
