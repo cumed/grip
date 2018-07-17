@@ -11,5 +11,5 @@ distanceFactor = 1
 y_i = 2.45
 d_pins = 5.25
 OD = 1.60
-positiveAngleOffset = 5
+positiveAngleOffset = 7
 ODList = [OD,OD,OD,OD]
