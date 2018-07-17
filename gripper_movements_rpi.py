@@ -136,7 +136,7 @@ def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeCon
 def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
 #    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
-    pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+    pulse_zerso = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
     pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
