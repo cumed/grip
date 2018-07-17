@@ -5,7 +5,7 @@ Created on Fri Jul 13 10:43:41 2018
 @author: ATI-2 Pavan Gurudath
 """
 
-bendPinsFactor  = 1.65
+bendPinsFactor  = 0.5
 angleRedFactor = 1
 distanceFactor = 1
 y_i = 0.75
