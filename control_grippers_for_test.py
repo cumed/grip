@@ -101,7 +101,6 @@ def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeCon
     #command it to move either by servoDist_threshold or a particular distance. 
 #    print('Back gripper moving forward by '+str(distance)+'mm ')
     pulse = distance_to_pulse(distance,e)                                    # Calculate pulse to be sent by Rpi for back indexing gripper's movement
-    print(pulse)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
 #    print('Back gripper y-direction movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
