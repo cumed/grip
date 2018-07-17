@@ -299,8 +299,6 @@ while True:
             reversePush_action(5)
     else:
         angle = int(angle)
-        if angle>0:
-            angle = angle+fact.positiveAngleOffset
         bending_arm(angle,lens,OD)
 ##    rotangle = input('Enter rot angle')
 ##    back_rotation(rotangle)
