@@ -136,7 +136,6 @@ def get_properties(CatheterID,flag=0):                                          
     data = pd.read_excel('Catheter properties.xlsx')   
     #headers = list(data.columns.values)
     count_row=data.shape[0]
-    print(count_row)
     for row in range(0,count_row):
         if data.iloc[row,0] == CatheterID:
             print("creating CurrentCatheter.xlsx") # writing the properties of the required catheter onto an excel sheet CurrentCatheter.xlsx
@@ -149,18 +148,19 @@ def get_properties(CatheterID,flag=0):                                          
             df.to_excel(writer,'Sheet1')
             writer.save()
             break
-        
-    lengths = get_length()
-    ODs = get_OD()
-    IDs = get_ID()
-    materials = get_material()
-    hysterisisFactors = get_hysterisis()
-    heatTimes = get_heatTime()
+    
+    if flag:    
+        lengths = get_length()
+        ODs = get_OD()
+        IDs = get_ID()
+        materials = get_material()
+        hysterisisFactors = get_hysterisis()
+        heatTimes = get_heatTime()
 #    Xis = get_Xi()
-    Yis = get_Yi()
-    mandrelmaterials = get_mandrelmaterial()
-    mandrelODs = get_mandrelOD()
-    if flag:
+        Yis = get_Yi()
+        mandrelmaterials = get_mandrelmaterial()
+        mandrelODs = get_mandrelOD()
+    
         properties = [lengths, ODs, IDs, materials, hysterisisFactors, heatTimes, Yis, mandrelmaterials, mandrelODs]
         return properties
 

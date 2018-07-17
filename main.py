@@ -13,66 +13,50 @@ pwm.set_pwm_freq(60)
 import skeleton_structure as sks
 import catheter_properties as cpro
 import os
-import factors as fact
+#import factors as fact
 #%% Define directions and thresholds
-#directions = np.load('halfCircle.npy')
 currDir = os.path.dirname(os.path.realpath('__file__'))
 filename = os.path.join(currDir,'npy/JL4_3mm.npy')
 directions = np.load(filename)
 
-turn = int(input('Do you want to reverse the directions? Do it if most of the test npy files are negative'))
-if turn:
-    directions[:,1] = -directions[:,1]
-# Data specific to this main file                                                                    
-
-#directions = np.array([[4,0],[5.,2],[10,-30],[1,2],[21,50]])#,[1,1],[1,3],[32,1],[41,20],[1,10],[2,20]])
-#zeroes = np.array([0.,0,0,0,0])#,0,0,0,60,60,0])
-#zeroes = zeroes.reshape((5,1))
-#directions = np.append(directions,zeroes,axis=1)
-#directions = np.load('bends.npy')
-#directions = np.transpose(directions)
-
-#directions = directions[::-1]
-#directions[:,1] = directions[:,1] *180/pi
-#print(directions)
+#%% Variables that can be changed
 
 servoDist_threshold       = 6.0                                                 # Max distance travelled by the back indexing servo(4.75*2)
 angle_threshold           = 1                                                   # Min angle required that the catheter needs to be bent by
-#neg_angle_threshold       = -1*angle_threshold
 rotationalAngle_threshold = 0.01                                                # Min angle required that the catheter needs to be rotated by
 
+servo_min, servo_max = 190,500                                                  # Min,Max limit of 183,600 for Hitech-servos 
+
+#%%
 incremental_distance,traversed_distance = 0,0                                   # Keeping track of distances until a bend is supposed to happen and the total distance distance travelled
 
-servo_min, servo_max = 190,500                                                  # Min,Max limit of 183,600 for Hitech-servos 
-#%%
 distances = directions[:,0]
 angles = directions[:,1]
 rotational_angle = directions[:,2]
 
 #%% Uncommenting block
 #catheter_ID     = 3
+#cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
+
 #properties_flag = 1                                                             #Set it to 1 if you require all the properties in one go. 
 #[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
-#cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
-lengths = cpro.get_length()                                                     #Get all the material cumulative lengths. 
-OD = cpro.get_OD()
-OD = fact.ODList
 
 #%%
-idx             = 0                                                             #Index for points obtained from SVG
-prop_idx        = 0                                                             #Index for the properites of the catheter
-flag            = 0                                                             #Check for incremental distance until a bending is approached. 
-rotation_flag   = 0                                                             #Check for incremental distance until a rotating angle is approached *currently unused*
-idx, prop_idx, flag, rotation_flag = 0,0,0,0
-lens            = lengths[prop_idx]
-outer_diameter  = OD[prop_idx]
-time_constant   = 1
-#%% These distances are a part of gmr and declared there
-#fully_closed_distance       = gmr.angle_to_distance(0)                  
-#partially_opened_distance   = gmr.angle_to_distance(60)
-#
-#fully_opened_distance       = gmr.angle_to_distance(180)                        # Position of front and back servos along x-direction
-#fully_bwd_distance          = gmr.angle_to_distance(0)                          # Position of cam for the back servo movement along y-direction
+lengths = cpro.get_length()                                                     #Get all the material cumulative lengths. 
+OD = cpro.get_OD()                                                              #Get all the ODs of the different material regions in the catheter
+
+#OD = fact.ODList                                                               #Obtains the ODs from factors.py if you want to change the OD quickly for testing purpose. 
+
+#%%
+#idx             = 0                                                             #Index for points obtained from SVG
+#prop_idx        = 0                                                             #Index for the properites of the catheter
+#flag            = 0                                                             #Check for incremental distance until a bending is approached. 
+#rotation_flag   = 0                                                             #Check for incremental distance until a rotating angle is approached *currently unused*
+idx, prop_idx, flag, rotation_flag = 0,0,0,0                                    #Reasons for each variable used is as in the above 4 lines
+
+lens            = lengths[prop_idx]                                             #Obtains the length of the first material in the catheter
+outer_diameter  = OD[prop_idx]                                                  #Obtains the OD of the first material in the catheter
+
 
 #%% Zeroing of cams
 def zero_position():
@@ -81,31 +65,22 @@ def zero_position():
     gmr.bendingPin_zero()
     gmr.back_gripper_indexing(0)
 
-test = input('Zero the cams so that you can place the catheter from top')
+test = input('Zero the cams so that you can place the catheter from top?\n 1 - Yes\n 0 - No')       #Press 1 if you want the grippers to be completely removed, so that its easy to insert the catheters during testing
 if test ==1:
     zero_position()
-    input('Press any key to continue after inserting the catheter')
-else:
-    slightlyMore_opened_distance = 2.2
-    gmr.front_gripper(slightlyMore_opened_distance)
-    gmr.back_gripper(slightlyMore_opened_distance)
+    input('Press any key to continue after inserting the catheter to continue...')
 
+#Move the grippers to a distance slightly more than the partially opened distance so that the catheter can slide through easily so that it can be positioned easily.
+slightlyMore_opened_distance = 2.2
+gmr.front_gripper(slightlyMore_opened_distance)
+gmr.back_gripper(slightlyMore_opened_distance)
 
-#print('Bring all cams to zeroeth position')
-##print('Bringing all cams to zeroeth position')
-#
-#for channel in range(0,16):
-#    pwm.set_pwm(channel,0,servo_min)                                            # Setting all servo's to min position
-#sleep(time_constant)
-#print('All cams at zeroeth position')
 #%%
 print('Make all cams go to the "home" position')
 gmr.home_position()
-print('Done with home position')
+
 #%%
-#print('Starting main program')
 input('Press any key to start the main program')
-    
 while idx < np.size(distances,0):
     present_rot_angle = rotational_angle[idx]                                  #rotational angle at the point under consideration. 
     present_angle = angles[idx]                                                #bending angle at the point under consideration. 
@@ -114,12 +89,9 @@ while idx < np.size(distances,0):
     print('----distance:'+str(present_distance)+'mm, angle:'+str(present_angle) +
           'degrees, rotation:'+str(present_rot_angle) + 'degrees.-----')
         
-    if traversed_distance < lens:                                             #Check if the travelled distance is less than the length of the present material
+    if traversed_distance < lens:                                              #Check if the travelled distance is less than the length of the present material
         print("At index:" + str(idx) +" in directions")
-        if present_rot_angle < rotationalAngle_threshold:                     #Do calculations if no rotational angle
-#            if rotation_flag:
-#                sks.rotate_catheter(0)
-#                rotation_flag = 0               
+        if present_rot_angle < rotationalAngle_threshold:                      #Do calculations if no rotational angle               
             if abs(present_angle) < angle_threshold:                           #Compare the bend angle with the threshold that we set.
                 incremental_distance = incremental_distance + present_distance #Remember the incremental distances between points upto a certain bend 
                 flag = 1                                                       #Flag is raised to keep note of the incrementation
@@ -131,7 +103,7 @@ while idx < np.size(distances,0):
                     flag = 0                                                        
                 
                 ### now do it for the current position
-                sks.bend_catheter(present_angle,lens,outer_diameter)                #Bend the catheter by specific angle
+                sks.bend_catheter(present_angle,lens,outer_diameter)           #Bend the catheter by specific angle
                 sks.push_catheter(servoDist_threshold,present_distance,
                                   outer_diameter)                              #Push the catheter by appropriate distance after the bend
     
@@ -143,10 +115,10 @@ while idx < np.size(distances,0):
                 flag = 0
             
             
-#            sks.rotate_catheter(present_rot_angle)                             #Rotate the plane of the catheter for the z-axis        
-            sks.new_rotate_catheter(present_rot_angle)                          #Rotate the plane of the catheter by taking care of our construction and restrictions
+#            sks.rotate_catheter(present_rot_angle)                            #Rotate the plane of the catheter for the z-axis        
+            sks.new_rotate_catheter(present_rot_angle)                         #Rotate the plane of the catheter by taking care of our construction and restrictions
             
-            sks.bend_catheter(present_angle,lens,outer_diameter)                    #Bend it by the bending angle 
+            sks.bend_catheter(present_angle,lens,outer_diameter)               #Bend it by the bending angle 
             sks.push_catheter(servoDist_threshold, present_distance,
                               outer_diameter)                                  #Push the catheter by appropriate distance after the bend
                 
@@ -156,13 +128,13 @@ while idx < np.size(distances,0):
         if idx==0 and traversed_distance > servoDist_threshold:
             sks.push_catheter(servoDist_threshold,traversed_distance,outer_diameter)
             idx = idx+1
-        prop_idx = prop_idx + 1                                                 #Once the travelled length is greater than the length of material under 
-        lens = lengths[prop_idx]                                                #consideration, then move onto the next material which might have a different OD. 
+        prop_idx = prop_idx + 1                                                #Once the travelled length is greater than the length of material under 
+        lens = lengths[prop_idx]                                               #consideration, then move onto the next material which might have a different OD. 
         outer_diameter = OD[prop_idx]
     
-input('Press 0 to exit the program')
 
+input('Done?')
 zero_position()
-print('Done')
+
 
 

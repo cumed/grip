@@ -29,7 +29,7 @@ def push_catheter(servoDist_threshold, Dist, outer_diameter):
     
     pulse_distance = remaining_distance(Dist,servoDist_threshold)        #Split it up into threshold distances if it is greater
     for rDistances in pulse_distance:
-        print('****--Push catheter by '+str(rDistances*distanceFactor) + 'mm from a total_distance of ' + str(Dist*distanceFactor) + 'mm--****')
+#        print('****--Push catheter by '+str(rDistances*distanceFactor) + 'mm from a total_distance of ' + str(Dist*distanceFactor) + 'mm--****')
         gmr.push_action(rDistances*distanceFactor)
 #    else:
 #        print('----------Push catheter by '+str(Dist) + 'mm----------')
