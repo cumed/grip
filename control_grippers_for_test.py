@@ -301,6 +301,8 @@ while True:
         angle = int(angle)
         if angle>0:
             angle = angle + fact.positiveAngleOffset
+        elif angle<0:
+            angle = angle + fact.negativeAngleOffset
         bending_arm(angle,lens,OD)
 ##    rotangle = input('Enter rot angle')
 ##    back_rotation(rotangle)

@@ -37,21 +37,19 @@ if turn:
 #print(directions)
 
 servoDist_threshold       = 6.0                                                 # Max distance travelled by the back indexing servo(4.75*2)
-angle_threshold           = 1                                                # Min angle required that the catheter needs to be bent by
+angle_threshold           = 1                                                   # Min angle required that the catheter needs to be bent by
 #neg_angle_threshold       = -1*angle_threshold
 rotationalAngle_threshold = 0.01                                                # Min angle required that the catheter needs to be rotated by
-#incremental_distance      = 0                                                  # Keep track of distances until a bend is supposed to happen
-#traversed_distance        = 0                                                  # Keep track of total distance travelled
+
 incremental_distance,traversed_distance = 0,0                                   # Keeping track of distances until a bend is supposed to happen and the total distance distance travelled
-#servo_min = 190                                                                # Min limit of 183 for Hitech-servos
-#servo_max = 490                                                                # Max limit of 600 for Hitech-servos
+
 servo_min, servo_max = 190,500                                                  # Min,Max limit of 183,600 for Hitech-servos 
 #%%
 distances = directions[:,0]
 angles = directions[:,1]
 rotational_angle = directions[:,2]
 
-#%%
+#%% Uncommenting block
 #catheter_ID     = 3
 #properties_flag = 1                                                             #Set it to 1 if you require all the properties in one go. 
 #[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
@@ -59,8 +57,7 @@ rotational_angle = directions[:,2]
 lengths = cpro.get_length()                                                     #Get all the material cumulative lengths. 
 OD = cpro.get_OD()
 OD = fact.ODList
-#lengths = [4.25,42,711.2]
-#OD = [1.2, 1.67, 1.67]
+
 #%%
 idx             = 0                                                             #Index for points obtained from SVG
 prop_idx        = 0                                                             #Index for the properites of the catheter
