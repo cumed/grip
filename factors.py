@@ -4,7 +4,8 @@ Created on Fri Jul 13 10:43:41 2018
 
 @author: ATI-2 Pavan Gurudath
 """
-bendPinsFactor = input('Enter bend pins factor?')
+#bendPinsFactor = input('Enter bend pins factor?')
+bendPinsFactor = 1.4
 angleRedFactor = 1
 distanceFactor = 1
 y_i = 0.87
