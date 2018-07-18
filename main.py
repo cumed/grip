@@ -16,7 +16,7 @@ import os
 #import factors as fact
 #%% Define directions and thresholds
 currDir = os.path.dirname(os.path.realpath('__file__'))
-filename = os.path.join(currDir,'npy//MedicalMerit2')
+filename = os.path.join(currDir,'npy//MedicalMerit2.npy')
 directions = np.load(filename)
 
 #%% Variables that can be changed
