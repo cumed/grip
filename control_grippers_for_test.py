@@ -147,7 +147,7 @@ def fudge_func(angle):
     if angle>=0: 
         fudge_factor=2
     else:
-        fudge_factor=1
+        fudge_factor=0.25
     return fudge_factor
 
 #%% Bending movements
