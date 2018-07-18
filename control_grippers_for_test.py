@@ -271,7 +271,7 @@ lens =3
 while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
-    bendPinsFactor = input('Enter bend pins factor')
+#    bendPinsFactor = input('Enter bend pins factor')
     if angle ==100:
         print('zeroing')
         bendingPin_zero()
