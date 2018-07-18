@@ -12,5 +12,5 @@ y_i = 0.87
 d_pins = 5.25
 OD = 1.60
 positiveAngleOffset = 0
-negativeAngleOffset = 0
+negativeAngleOffset = 7
 ODList = [OD,OD,OD,OD]
