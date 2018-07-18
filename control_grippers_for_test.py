@@ -109,7 +109,7 @@ def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeCon
 #%% Bending angles and movements 
 # Returns the distance that the bending pins need to move for the bend to happen
 bendPinsFactor = fact.bendPinsFactor()
-print('bendpins factor: '+bendPinsFactor)
+print('bendpins factor: '+str(bendPinsFactor))
 def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
