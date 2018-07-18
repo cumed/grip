@@ -76,7 +76,7 @@ gmr.front_gripper(slightlyMore_opened_distance)
 gmr.back_gripper(slightlyMore_opened_distance)
 
 #%%
-print('Make all cams go to the "home" position')
+input('Press 1 to make the cams go to "home" position')
 gmr.home_position()
 
 #%%
