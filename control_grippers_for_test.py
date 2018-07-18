@@ -115,8 +115,8 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse   
     x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                        # Distance the pin has to move to touch the catheter
-    fudge_factor = fudge_func()
-    bendDist = x_i + y_i *math.tan(math.radians(angle))*fudge_factor         # x_i + the distance for the supposed bend
+    fudge_factor = fudge_func(angle)
+    bendDist = x_i + y_i *math.tan(math.radians(abs(angle)))*fudge_factor         # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist
@@ -140,10 +140,14 @@ def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
               ' and servos_angle:' +str(servos_angle))
     return pulse
 
-def fudge_func():
+def fudge_func(angle):
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
-    fudge_factor=int(input('Enter the fudge factor'))
+#    fudge_factor=int(input('Enter the fudge factor'))
+    if angle>=0: 
+        fudge_factor=2
+    else:
+        fudge_factor=1
     return fudge_factor
 
 #%% Bending movements
@@ -166,7 +170,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
 #    print('Start bending?')
 
     angle = angle*angleRedFactor
-    bendDist = bendAngle_to_bendDist(abs(angle),outer_diameter)
+    bendDist = bendAngle_to_bendDist(angle,outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
     print(pulse)
 #    pulse = input('Enter pulse')
