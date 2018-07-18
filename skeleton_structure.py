@@ -37,9 +37,6 @@ def push_catheter(servoDist_threshold, Dist, outer_diameter):
 
 #%%Bending and rotating the catheter
 def bend_catheter(angle, lens, outer_diameter):
-#    heating_time = cpro.get_heatTime(lens)
-#    print('-----------Heat the catheter for '+str(heating_time)+'seconds --------------')
-#    htc.startHeat(heating_time)
     print('****--Bend the catheter by '+str(angle)+'degrees--****')
     gmr.bending_arm(angle, lens, outer_diameter)
 
