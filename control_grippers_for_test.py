@@ -166,7 +166,8 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
 
     angle = angle*angleRedFactor
     bendDist = bendAngle_to_bendDist(abs(angle),outer_diameter)
-#    pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
+    pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
+    print(pulse)
     pulse = input('Enter pulse')
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
