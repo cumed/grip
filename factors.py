@@ -4,8 +4,7 @@ Created on Fri Jul 13 10:43:41 2018
 
 @author: ATI-2 Pavan Gurudath
 """
-import control_grippers_for_test as cgft
-bendPinsFactor  = cgft.bendPinsFactor
+
 angleRedFactor = 1
 distanceFactor = 1
 y_i = 0.87
@@ -14,3 +13,6 @@ OD = 1.60
 positiveAngleOffset = 0
 negativeAngleOffset = 0
 ODList = [OD,OD,OD,OD]
+def bendPinsFactor():
+    bendPinsFactor  = input('Enter bend pins factor')
+    return bendPinsFactor
