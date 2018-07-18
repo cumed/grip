@@ -6,7 +6,7 @@ Created on Fri Jul 13 10:43:41 2018
 """
 bendPinsFactor = 1.2
 angleRedFactor = 1
-distanceFactor = 1.5
+distanceFactor = 1.1
 y_i = 0.87
 d_pins = 5.25
 OD = 1.60
