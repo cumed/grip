@@ -13,6 +13,7 @@ OD = 1.60
 positiveAngleOffset = 0
 negativeAngleOffset = 0
 ODList = [OD,OD,OD,OD]
-def bendPinsFactor():
-    bendPinsFactor  = input('Enter bend pins factor')
-    return bendPinsFactor
+#def bendPinsFactor():
+#    bendPinsFactor  = input('Enter bend pins factor')
+#    return bendPinsFactor
+bendPinsFactor = 1.5
