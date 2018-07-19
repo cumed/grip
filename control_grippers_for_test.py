@@ -145,9 +145,9 @@ def fudge_func(angle):
     #Somehow obtaine a formulae that would return the factor
 #    fudge_factor=int(input('Enter the fudge factor'))
     if angle>=0: 
-        fudge_factor=2
+        fudge_factor=fact.fudgepos
     else:
-        fudge_factor=1
+        fudge_factor=fact.fudgeneg
     return fudge_factor
 
 #%% Bending movements

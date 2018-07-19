@@ -98,9 +98,9 @@ def fudge_func(angle):
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
     if angle>=0: 
-        fudge_factor=2
+        fudge_factor=fact.fudgepos                                              #2
     else:
-        fudge_factor=1
+        fudge_factor=fact.fudgeneg                                              #1
     return fudge_factor
 
 #%% Gripper movements    
