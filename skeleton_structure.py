@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thur Jun 21 12:58:00
+Created on Thu Jul 19 15:25:45 2018
 
-@author: ATI2-Pavan Gurudath
+@author: ATI-2 Pavan Gurudath
 """
+
 #%% Import statements
 import gripper_movements_rpi as gmr
 import sys

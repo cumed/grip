@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jul 11 09:47:10 2018
+Created on Thu Jul 19 15:25:45 2018
 
 @author: ATI-2 Pavan Gurudath
 """
-
-  
-
-
 
 from time import sleep
 import Adafruit_PCA9685

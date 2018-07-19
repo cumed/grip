@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jun 19 1:45:00 2018
+Created on Thu Jul 19 15:25:45 2018
 
-@author: Pavan Gurudath
+@author: ATI-2 Pavan Gurudath
 """
+
 
 #import RPi.GPIO as GPIO
 #import time
