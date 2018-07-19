@@ -108,13 +108,23 @@ def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeCon
     
 #%% Bending angles and movements 
 # Returns the distance that the bending pins need to move for the bend to happen
-bendPinsFactor = fact.bendPinsFactor
+#bendPinsFactor = fact.bendPinsFactor
 #print('bendpins factor: '+str(bendPinsFactor))
 def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse   
-    x_i = (d_pins - outer_diameter)/2 - bendPinsFactor                                        # Distance the pin has to move to touch the catheter
+    if angle>0:
+        x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos                                        # Distance the pin has to move to touch the catheter
+    elif angle<0:
+        x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
+    else:
+        pos = input('Enter 1 for right, and 0 for left')
+        if pos==1:
+            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos
+        else:
+            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
+##    x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactor
     fudge_factor = fudge_func(angle)
     bendDist = x_i + y_i *math.tan(math.radians(abs(angle)))*fudge_factor         # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
@@ -289,11 +299,13 @@ while True:
         front_gripper(partially_opened_distance)
         back_gripper(partially_opened_distance)
     elif angle==500:
-        noftimes = input('Number of times')
+        noftimes = input('Number of times - 1mm')
         for ele in range(0,noftimes):
-            push_action(5)
+            push_action(1)
     elif angle==600:
-        home_position()
+        pulse = input('Enter pulse')
+        pwm.set_pwm(ch_bendingPins,0,pulse)
+        sleep(0.3)
     elif angle==700:
         zero_position()
     elif angle==800:
