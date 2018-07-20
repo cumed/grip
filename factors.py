@@ -17,8 +17,8 @@ OD = 1.62
 positiveAngleOffset = 0
 negativeAngleOffset = 0
 ODList = [OD,OD,OD,OD]
-#fudgepos = input('Enter fudge positive')
-#fudgeneg = input('Enter fudge negative')
-fudgepos = 2
-fudgeneg = 0.7
+fudgepos = input('Enter fudge positive')
+fudgeneg = input('Enter fudge negative')
+#fudgepos = 2
+#fudgeneg = 1.1
 
