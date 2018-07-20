@@ -80,11 +80,11 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     elif angle<0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
     else:
-#        pos = input('Enter 1 for right, and 0 for left')
-#        if pos==1:
-#            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos
-#        else:
-#            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
+        pos = input('Enter 1 for right, and 0 for left')
+        if pos==1:
+            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos
+        else:
+            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
 ##    x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactor                                        # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func(angle)
     bendDist = x_i + y_i *math.tan(math.radians(abs(angle)))*fudge_factor         # x_i + the distance for the supposed bend
