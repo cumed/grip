@@ -19,7 +19,13 @@ import os
 currDir = os.path.dirname(os.path.realpath('__file__'))
 filename = os.path.join(currDir,'npy//JL4_2mm.npy')
 directions = np.load(filename)
-
+directions[:,1] = -1*directions[:,1]
+#new_directions=[]
+#for ele in directions[:,1]:
+#    if ele>-0.001 and ele<0.001: 
+#        ele = 0
+#    new_directions.append(ele)
+#directions[:,1]    = new_directions
 #%% Variables that can be changed
 
 servoDist_threshold       = 6.0                                                 # Max distance travelled by the back indexing servo(4.75*2)
