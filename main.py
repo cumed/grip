@@ -19,7 +19,7 @@ import os
 currDir = os.path.dirname(os.path.realpath('__file__'))
 filename = os.path.join(currDir,'npy//MeritMedical2.npy')
 directions = np.load(filename)
-#directions[:,1] = -1*directions[:,1]
+directions[:,1] = -1*directions[:,1]
 #new_directions=[]
 #for ele in directions[:,1]:
 #    if ele>-0.001 and ele<0.001: 
