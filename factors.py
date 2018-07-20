@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jul 19 15:25:45 2018
+Created on Fri Jul 20 15:24:37 2018
 
 @author: ATI-2 Pavan Gurudath
 """
@@ -17,8 +17,8 @@ OD = 1.62
 positiveAngleOffset = 0
 negativeAngleOffset = 0
 ODList = [OD,OD,OD,OD]
-fudgepos = input('Enter fudge positive')
-fudgeneg = input('Enter fudge negative')
-#fudgepos = 2
-#fudgeneg = 1.1
+#fudgepos = input('Enter fudge positive')
+#fudgeneg = input('Enter fudge negative')
+fudgepos = 2.2
+fudgeneg = 1
 
