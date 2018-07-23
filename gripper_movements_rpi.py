@@ -182,7 +182,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-    print('Bend of ' + str(angle)+'degrees by bending a distance of '+str(bendDist) + 'mm. Pulse: '+str(pulse))
+    print('Bend of ' + str(angle)+'degrees -- Bending distance '+str(round(bendDist,2)) + 'mm. -- Pulse: '+str(pulse))
 #    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
     #Heat the catheter
@@ -194,7 +194,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     halfPulse = bendDist_to_bendPulse(angle,half_bendDist,e)
     pwm.set_pwm(channel,0,halfPulse)
     sleep(timeConstant)
-    print('Moving the pins to half (or a factor) of the distance. Now at '+str(half_bendDist)+'mm away from the center' +str(halfPulse))
+    print('New factored distance at '+str(round(half_bendDist,2))+'mm -- Pulse:' +str(halfPulse))
 
 
 def back_rotation(angle,channel=ch_rotatingArm,timeConstant = time_constant):
@@ -360,7 +360,7 @@ def push_action(distance):
     
 #    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
-    print('Catheter pushed by '+str(distance)+'mm')
+    print('Catheter pushed by '+str(round(distance,2)+'mm')
       
 def home_position():
     

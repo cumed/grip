@@ -113,7 +113,7 @@ def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeCon
 def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
-    #shape and thereby convert that distance to the pulse   
+    #shape and thereby convert that distance to the pulse     
     if angle>0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos                                        # Distance the pin has to move to touch the catheter
     elif angle<0:
@@ -124,7 +124,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
             x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos
         else:
             x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
-##    x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactor
+##    x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactor                                        # Distance the pin has to move to touch the catheter
     fudge_factor = fudge_func(angle)
     bendDist = x_i + y_i *math.tan(math.radians(abs(angle)))*fudge_factor         # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
@@ -133,17 +133,11 @@ def bendAngle_to_bendDist(angle,outer_diameter):
 
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
-    if angle>0:
+    if angle>=0:
         from_low_b, from_high_b = from_angles.get('positive bend')
-    elif angle<0:
-        from_low_b, from_high_b = from_angles.get('negative bend')
     else:
-        pos = input('Enter 1 for right, and 0 for left')
-        if pos==1:
-            from_low_b,from_high_b = from_angles.get('positive bend')
-        else:
-            from_low_b,from_high_b = from_angles.get('negative bend')
-    
+        from_low_b, from_high_b = from_angles.get('negative bend')
+        
     pulse = angle_to_pulse(servos_angle,from_low_b,from_high_b)
     if math.isnan(pulse):
         print('Gonna crash here. Angle:'+str(angle) +'bendDist:' +bendDist +
@@ -153,11 +147,16 @@ def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
 def fudge_func(angle):
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
-#    fudge_factor=int(input('Enter the fudge factor'))
-    if angle>=0: 
-        fudge_factor=fact.fudgepos
+    if angle>=0:
+        if angle<=10:
+            fudge_factor = fact.fudgeposFour
+        else:
+            fudge_factor = fact.fudgepos                                                  
     else:
-        fudge_factor=fact.fudgeneg
+        if angle>=-10:
+            fudge_factor = fact.fudgenegFour
+        else:
+            fudge_factor = fact.fudgeneg                                             
     return fudge_factor
 
 def factor_of_half_bendDist(distance):
