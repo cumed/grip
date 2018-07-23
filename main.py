@@ -5,7 +5,11 @@ new bend
 @author: ATI-2 Pavan Gurudath
 """
 
-
+print('This is the new origin and not the master')
+wait = input('Enter 1 to quit')
+import sys
+if wait == 1:
+    sys.exit()
 import numpy as np
 import gripper_movements_rpi as gmr
 import Adafruit_PCA9685
