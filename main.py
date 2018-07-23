@@ -62,7 +62,7 @@ OD = cpro.get_OD()                                                              
 #prop_idx        = 0                                                             #Index for the properites of the catheter
 #flag            = 0                                                             #Check for incremental distance until a bending is approached. 
 #rotation_flag   = 0                                                             #Check for incremental distance until a rotating angle is approached *currently unused*
-idx, prop_idx, flag, rotation_flag = 25,0,0,0                                    #Reasons for each variable used is as in the above 4 lines
+idx, prop_idx, flag, rotation_flag = 0,0,0,0                                    #Reasons for each variable used is as in the above 4 lines
 
 lens            = lengths[prop_idx]                                             #Obtains the length of the first material in the catheter
 outer_diameter  = OD[prop_idx]                                                  #Obtains the OD of the first material in the catheter
