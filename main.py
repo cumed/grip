@@ -99,8 +99,8 @@ while idx < np.size(distances,0):
     present_angle = angles[idx]                                                #bending angle at the point under consideration. 
     present_distance = distances[idx]                                          #distance from the point under consideration to the next. 
     traversed_distance += present_distance                                     #total distanced travelled from the tip of the catheter
-    print('----distance:'+str(present_distance)+'mm, angle:'+str(present_angle) +
-          'degrees, rotation:'+str(present_rot_angle) + 'degrees.-----')
+    print('----distance:'+str(round(present_distance,2))+'mm, angle:'+str(round(present_angle,2)) +
+          'degrees-----')
         
     if traversed_distance < lens:                                              #Check if the travelled distance is less than the length of the present material
         print("At index:" + str(idx) +" in directions")
