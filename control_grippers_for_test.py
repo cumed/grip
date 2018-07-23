@@ -160,6 +160,9 @@ def fudge_func(angle):
         fudge_factor=fact.fudgeneg
     return fudge_factor
 
+def factor_of_half_bendDist(distance):
+    factor = fact.xDistPins 
+    return distance/factor
 #%% Bending movements
 def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
 ##    print('Do we move bending pins back to zeroeth position')

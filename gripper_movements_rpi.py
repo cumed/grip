@@ -168,7 +168,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     
     #Send it to zero
     bendingPin_zero()
-    sleep(2)
+    input('Press 1 to continue')
     
     #Let the bend happen
     angle = angle*angleRedFactor
