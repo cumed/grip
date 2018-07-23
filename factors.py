@@ -7,10 +7,12 @@ Created on Fri Jul 20 15:24:37 2018
 
 #bendPinsFactor = input('Enter bend pins factor?')
 bendPinsFactorPos = 1.5
-bendPinsFactorNeg = 1.75
+#bendPinsFactorPos = 0
+#bendPinsFactorNeg = 0
+bendPinsFactorNeg =1.75
 ##bendPinsFactor = 1.65
 angleRedFactor = 1
-distanceFactor = 1
+distanceFactor = 1.2
 y_i = 1.78
 d_pins = 5.25
 OD = 1.62
@@ -20,5 +22,6 @@ ODList = [OD,OD,OD,OD]
 #fudgepos = input('Enter fudge positive')
 #fudgeneg = input('Enter fudge negative')
 fudgepos = 2.2
+#fudgepos = 1
 fudgeneg = 1
 xDistPins = 3
