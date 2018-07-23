@@ -5,8 +5,8 @@ Created on Fri Jul 20 15:24:37 2018
 @author: ATI-2 Pavan Gurudath
 """
 
-#bendPinsFactor = input('Enter bend pins factor?')
-bendPinsFactorPos = 1.5
+bendPinsFactorPos = input('Enter bend pins factor?')
+#bendPinsFactorPos = 1.5
 #bendPinsFactorPos = 0
 #bendPinsFactorNeg = 0
 bendPinsFactorNeg =1.75
