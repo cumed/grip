@@ -114,7 +114,7 @@ def fudge_func(angle):
         fudge_factor=fact.fudgepos                                              #2
     elif angle<0 and angle>=-4:
         fudge_factor = fact.fudgenegFour
-    else
+    else:
         fudge_factor=fact.fudgeneg                                              #1
     return fudge_factor
 
