@@ -109,12 +109,12 @@ def fudge_func(angle):
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
     if angle>=0:
-        if angle<=4:
+        if angle<=10:
             fudge_factor = fact.fudgeposFour
         else:
             fudge_factor = fact.fudgepos                                                  
     else:
-        if angle>=-4:
+        if angle>=-10:
             fudge_factor = fact.fudgenegFour
         else:
             fudge_factor = fact.fudgeneg                                             
@@ -173,7 +173,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     #Need to map that distance to the angle.
     
     #Send it to zero
-#    bendingPin_zero()
+    bendingPin_zero()
 #    input('Press 1 to continue')
     
     #Let the bend happen
