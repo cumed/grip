@@ -115,7 +115,7 @@ def fudge_func(angle):
     return fudge_factor
 
 def factor_of_half_bendDist(distance):
-    factor = 2
+    factor = fact.xDistPins 
     return distance/factor
 #%% Gripper movements    
 def back_gripper(f_distance,e=e_gripper,channel=ch_backGripper,timeConstant = time_constant):

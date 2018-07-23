@@ -21,4 +21,4 @@ ODList = [OD,OD,OD,OD]
 #fudgeneg = input('Enter fudge negative')
 fudgepos = 2.2
 fudgeneg = 1
-
+xDistPins = 3
