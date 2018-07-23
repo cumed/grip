@@ -340,6 +340,7 @@ def rotateThisCatheter(angle,channel = ch_rotatingArm,timeConstant = time_consta
                  
 #%%        
 def push_action(distance):
+    
 #    print('Front gripper partially opened')
     front_gripper(partially_opened_distance)                                
     
@@ -360,7 +361,7 @@ def push_action(distance):
     
 #    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
-    print('Catheter pushed by '+str(round(distance,2)+'mm')
+    print('Catheter pushed by '+str(round(distance,2))+'mm')
       
 def home_position():
     
