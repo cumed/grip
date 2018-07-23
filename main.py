@@ -21,8 +21,8 @@ import os
 #import factors as fact
 #%% Define directions and thresholds
 currDir = os.path.dirname(os.path.realpath('__file__'))
-#filename = os.path.join(currDir,'npy\\JL4_2mm.npy')
-filename = os.path.join(currDir,'JL4_2mod.npy')
+filename = os.path.join(currDir,'npy\\MeritMedicalScaled25.npy')
+#filename = os.path.join(currDir,'npy/JL4_2mod.npy')
 directions = np.load(filename)
 
 #directions[:,1] = -1*directions[:,1]
@@ -145,7 +145,7 @@ while idx < np.size(distances,0):
         lens = lengths[prop_idx]                                               #consideration, then move onto the next material which might have a different OD. 
         outer_diameter = OD[prop_idx]
     
-
+gmr.bendingPin_zero()
 input('Done?')
 zero_position()
 
