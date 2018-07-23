@@ -114,6 +114,9 @@ def fudge_func(angle):
         fudge_factor=fact.fudgeneg                                              #1
     return fudge_factor
 
+def factor_of_half_bendDist(distance):
+    factor = 2
+    return distance/factor
 #%% Gripper movements    
 def back_gripper(f_distance,e=e_gripper,channel=ch_backGripper,timeConstant = time_constant):
     #Let flag just be there for now. 
@@ -162,8 +165,11 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
-#    print('Start bending?')
-
+    
+    #Send it to zero
+    bendingPin_zero()
+    
+    #Let the bend happen
     angle = angle*angleRedFactor
     bendDist = bendAngle_to_bendDist(angle,outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
@@ -172,34 +178,29 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     print('Bending pins are making a bend of ' + str(angle)+'degrees by bending a distance of '+str(bendDist) + 'mm. Pulse: '+str(pulse))
 #    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
+    #Heat the catheter
     heating_time = cpro.get_heatTime(lens)
-#    print('-----------Heat the catheter for '+str(heating_time)+'seconds --------------')
     htc.startHeat(heating_time)
     
-#    for i in range(0,1):                                                  #Uncomment these two lines when the waiting is removed
-#        print('Waiting for 3 seconds')
-#        sleep(3)
-#        print('Waiting for '+str(i)+' seconds...')
-        
-    bendingPin_zero()
-#    print('Bending finished')
+    #Send it back to half the distance
+    half_bendDist = factor_of_half_bendDist(bendDist)
+    halfPulse = bendDist_to_bendPulse(angle,half_bendDist,e)
+    pwm.set_pwm(channel,0,halfPulse)
+    sleep(timeConstant)
+    print('Moving the pins to half (or a factor) of the distance')
+
 
 def back_rotation(angle,channel=ch_rotatingArm,timeConstant = time_constant):
     #command it to rotate by a particular angle
     #Let flag be there for now, even though its just max or min position.    
     #No use of it right now since its just max or min position ***UPDATE: Flag has been removed***
 #    if flag==1:
-    print('Rotating the plane...')
+#    print('Rotating the plane...')
     pulse = angle_to_pulse(angle)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
     print('Rotated the plane to '+str(angle)+'degrees. Pulse given' + str(pulse))
-#    else:
-#        print('We are now moving the rotating plane back to zero')
-#        pulse = angle_to_pulse(0)
-#        pwm.set_pwm(channel,0,pulse)
-#        sleep(timeConstant)
-#        print('Rotated the plane back to 0 degrees. Pulse given' + str(pulse))
+
         
 #%% Rotating movements    
     
