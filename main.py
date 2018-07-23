@@ -21,11 +21,11 @@ import os
 #import factors as fact
 #%% Define directions and thresholds
 currDir = os.path.dirname(os.path.realpath('__file__'))
-filename = os.path.join(currDir,'npy/MeritMedicalScaled25.npy')
+filename = os.path.join(currDir,'npy/MeritMedicalScaled2.npy')
 #filename = os.path.join(currDir,'npy/JL4_2mod.npy')
 directions = np.load(filename)
 
-directions[:,1] = -1*directions[:,1]
+#directions[:,1] = -1*directions[:,1]
 #new_directions=[]
 #for ele in directions[:,1]:
 #    if ele>-0.001 and ele<0.001: 
@@ -35,7 +35,7 @@ directions[:,1] = -1*directions[:,1]
 #%% Variables that can be changed
 
 servoDist_threshold       = 6.0                                                 # Max distance travelled by the back indexing servo(4.75*2)
-angle_threshold           = 1                                                   # Min angle required that the catheter needs to be bent by
+angle_threshold           = 0.5                                                  # Min angle required that the catheter needs to be bent by
 rotationalAngle_threshold = 0.01                                                # Min angle required that the catheter needs to be rotated by
 
 servo_min, servo_max = 190,500                                                  # Min,Max limit of 183,600 for Hitech-servos 
