@@ -5,11 +5,11 @@ Created on Fri Jul 20 15:24:37 2018
 @author: ATI-2 Pavan Gurudath
 """
 
-bendPinsFactorPos = input('Enter bend pins factor positive?')
+bendPinsFactorPos = 1.7 #input('Enter bend pins factor positive?')
 #bendPinsFactorPos = 1.5
 #bendPinsFactorPos = 0
 #bendPinsFactorNeg = 0
-bendPinsFactorNeg =input('Enter bend pins factor negative')
+bendPinsFactorNeg = 1.55 #input('Enter bend pins factor negative')
 ##bendPinsFactor = 1.65
 angleRedFactor = 1
 distanceFactor = 1
