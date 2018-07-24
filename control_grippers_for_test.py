@@ -311,8 +311,9 @@ while True:
         back_gripper(partially_opened_distance)
     elif angle==500:
         noftimes = input('Number of times - 1mm')
+        distance = input('Each increment of distance?')
         for ele in range(0,noftimes):
-            push_action(1)
+            push_action(distance)
     elif angle==600:
         pulse = input('Enter pulse')
         pwm.set_pwm(ch_bendingPins,0,pulse)
@@ -326,8 +327,9 @@ while True:
         back_gripper(slightlyMore_opened_distance)
     elif angle==900:
         noftimes = input('Number of times')
+        distance = input('Each increment of distance?')
         for ele in range(0,noftimes):
-            reversePush_action(5)
+            reversePush_action(distance)
     else:
         angle = int(angle)
         if angle>0:
