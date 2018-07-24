@@ -173,8 +173,8 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     #Need to map that distance to the angle.
     
     #Send it to zero
-    bendingPin_zero()
-#    input('Press 1 to continue')
+#    bendingPin_zero()
+
     
     #Let the bend happen
     angle = angle*angleRedFactor
@@ -190,13 +190,15 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     htc.startHeat(heating_time)
     
     #Send it back to half the distance
-    half_bendDist = factor_of_half_bendDist(bendDist)
-    halfPulse = bendDist_to_bendPulse(angle,half_bendDist,e)
-    pwm.set_pwm(channel,0,halfPulse)
-    sleep(timeConstant)
-    print('New factored distance at '+str(round(half_bendDist,2))+'mm -- Pulse:' +str(halfPulse))
+#    half_bendDist = factor_of_half_bendDist(bendDist)
+#    halfPulse = bendDist_to_bendPulse(angle,half_bendDist,e)
+#    pwm.set_pwm(channel,0,halfPulse)
+#    sleep(timeConstant)
+#    print('New factored distance at '+str(round(half_bendDist,2))+'mm -- Pulse:' +str(halfPulse))
 
-
+    #Send it to zero
+    bendingPin_zero()
+    
 def back_rotation(angle,channel=ch_rotatingArm,timeConstant = time_constant):
     #command it to rotate by a particular angle
     #Let flag be there for now, even though its just max or min position.    

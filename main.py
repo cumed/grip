@@ -32,7 +32,7 @@ directions = np.load(filename)
 #%% Variables that can be changed
 
 servoDist_threshold       = 6.0                                                 # Max distance travelled by the back indexing servo(4.75*2)
-angle_threshold           = 0.5                                                  # Min angle required that the catheter needs to be bent by
+angle_threshold           = 1                                                  # Min angle required that the catheter needs to be bent by
 rotationalAngle_threshold = 0.01                                                # Min angle required that the catheter needs to be rotated by
 
 servo_min, servo_max = 190,500                                                  # Min,Max limit of 183,600 for Hitech-servos 
