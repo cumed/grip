@@ -133,11 +133,16 @@ def bendAngle_to_bendDist(angle,outer_diameter):
 
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
-    if angle>=0:
+    if angle>0:
         from_low_b, from_high_b = from_angles.get('positive bend')
-    else:
+    elif angle<0:
         from_low_b, from_high_b = from_angles.get('negative bend')
-        
+    else:
+        pos = input('Enter 1 for right, and 0 for left')
+        if pos==1:
+            from_low_b,from_high_b = from_angles.get('positive bend')
+        else:
+            from_low_b,from_high_b = from_angles.get('negative bend')
     pulse = angle_to_pulse(servos_angle,from_low_b,from_high_b)
     if math.isnan(pulse):
         print('Gonna crash here. Angle:'+str(angle) +'bendDist:' +bendDist +
