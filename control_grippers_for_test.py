@@ -113,7 +113,7 @@ def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeCon
 def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
-    #shape and thereby convert that distance to the pulse     
+    #shape and thereby convert that distance to the pulse   
     if angle>0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos                                        # Distance the pin has to move to touch the catheter
     elif angle<0:
@@ -148,12 +148,12 @@ def fudge_func(angle):
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
     if angle>=0:
-        if angle<=10:
+        if angle<=4:
             fudge_factor = fact.fudgeposFour
         else:
             fudge_factor = fact.fudgepos                                                  
     else:
-        if angle>=-10:
+        if angle>=-4:
             fudge_factor = fact.fudgenegFour
         else:
             fudge_factor = fact.fudgeneg                                             
@@ -162,12 +162,13 @@ def fudge_func(angle):
 def factor_of_half_bendDist(distance):
     factor = fact.xDistPins 
     return distance/factor
+
 #%% Bending movements
 def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
 ##    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
-#    print(pulse_zero)
+    print(pulse_zero)
     pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
