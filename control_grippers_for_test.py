@@ -293,12 +293,15 @@ while True:
         print('zeroing')
         bendingPin_zero()
     elif angle==200:
+        print('Grippers- Fully Opened distance')
         front_gripper(fully_opened_distance)
         back_gripper(fully_opened_distance)
     elif angle==300:
+        print('Grippers- Fully Closed distance')
         front_gripper(fully_closed_distance)
         back_gripper(fully_closed_distance)
     elif angle==400:
+        print('Grippers- Partially Opened distance')
         front_gripper(partially_opened_distance)
         back_gripper(partially_opened_distance)
     elif angle==500:
@@ -310,8 +313,10 @@ while True:
         pwm.set_pwm(ch_bendingPins,0,pulse)
         sleep(0.3)
     elif angle==700:
+        print('Zero position')
         zero_position()
     elif angle==800:
+        print('Grippers - slightly more opened position')
         front_gripper(slightlyMore_opened_distance)
         back_gripper(slightlyMore_opened_distance)
     elif angle==900:
