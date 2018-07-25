@@ -125,8 +125,8 @@ def bendAngle_to_bendDist(angle,outer_diameter):
         else:
             x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
 ##    x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactor                                        # Distance the pin has to move to touch the catheter
-    fudge_factor = fudge_func(angle)
-    bendDist = x_i + y_i *math.tan(math.radians(abs(angle)))*fudge_factor         # x_i + the distance for the supposed bend
+#    fudge_factor = fudge_func(angle)
+    bendDist = x_i + y_i *math.tan(math.radians(abs(angle)))*fudge_func(angle)         # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist
