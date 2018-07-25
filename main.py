@@ -22,7 +22,7 @@ filename = os.path.join(currDir,'npy/JL4_2mm.npy')
 #filename = os.path.join(currDir,'npy/JL4_2mod.npy')
 directions = np.load(filename)
 
-directions[:,1] = -1*directions[:,1]
+#directions[:,1] = -1*directions[:,1]
 #new_directions=[]
 #for ele in directions[:,1]:
 #    if ele>-0.001 and ele<0.001: 
