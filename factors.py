@@ -25,5 +25,5 @@ fudgepos = 1.95
 #fudgeposFour = 1
 fudgeposFour = fudgepos+0.3
 fudgeneg = input('Enter fudge negative')
-fudgenegFour = fudgeneg+0.4
+fudgenegFour = fudgeneg+0.3
 xDistPins = 3
