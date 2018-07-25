@@ -4,7 +4,12 @@ Created on Fri Jul 20 15:24:37 2018
 
 @author: ATI-2 Pavan Gurudath
 """
+#%% 
 
+
+
+
+#%% 
 bendPinsFactorPos = 1.7 #input('Enter bend pins factor positive?')
 #bendPinsFactorPos = 1.5
 #bendPinsFactorPos = 0
@@ -19,12 +24,12 @@ OD = 1.62
 positiveAngleOffset = 0
 negativeAngleOffset = 0
 ODList = [OD,OD,OD,OD]
-fudgepos = input('Enter fudge positive')
-fudgeneg = input('Enter fudge negative')
-#fudgepos = 1.95
+#fudgepos = input('Enter fudge positive')
+#fudgeneg = input('Enter fudge negative')
+fudgepos = 1.2
 #fudgeposFour = 1
 fudgeposFour = fudgepos+0.3
 #fudgeneg = input('Enter fudge negative')
-#fudgeneg = 1.95
+fudgeneg = 2
 fudgenegFour = fudgeneg+0.5
 xDistPins = 3
