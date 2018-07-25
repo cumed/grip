@@ -169,7 +169,7 @@ fully_bwd_distance          = 0 #angle_to_distance(0,e_backidx)
 
 while True:
     angle = input('Enter angle')
-    if angle == 0:
+    if angle == 5000:
         angle = input('Enter angle')
         new_back_rotation(angle)
         
