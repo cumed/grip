@@ -162,6 +162,7 @@ def fudge_func(angle):
             fudge_factor = fact.fudgenegFour
         else:
             fudge_factor = fact.fudgeneg                                             
+    print(fudge_factor)
     return fudge_factor
 
 def factor_of_half_bendDist(distance):
