@@ -291,7 +291,9 @@ def reversePush_action(distance):
 bendingPin_zero()
 OD = fact.OD 
 lens =3
-zero_position()
+front_gripper(partially_opened_distance)
+back_gripper(partially_opened_distance)
+back_gripper_indexing(0)
 while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
@@ -320,6 +322,7 @@ while True:
         pulse = input('Enter pulse')
         pwm.set_pwm(ch_bendingPins,0,pulse)
         sleep(0.3)
+        bendingPin_zero()
     elif angle==700:
         print('Zero position')
         zero_position()
