@@ -317,11 +317,9 @@ while True:
         for ele in range(0,noftimes):
             push_action(distance)
     elif angle==600:
-        pulse=345
-        while pulse!=50:
-            pulse = input('Enter pulse')
-            pwm.set_pwm(ch_bendingPins,0,pulse)
-            sleep(0.3)
+        pulse = input('Enter pulse')
+        pwm.set_pwm(ch_bendingPins,0,pulse)
+        sleep(0.3)
     elif angle==700:
         print('Zero position')
         zero_position()
