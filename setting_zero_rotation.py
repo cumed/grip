@@ -34,7 +34,7 @@ ch_backGripper = 0
 ch_frontGripper = 3
 ch_backidxGripper = 1
 ch_bendingPins = 5
-ch_rotatingArm = 8
+ch_rotatingArm = 15
 
 
 #%%
