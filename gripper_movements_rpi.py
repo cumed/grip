@@ -105,16 +105,17 @@ def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
               ' and servos_angle:' +str(servos_angle))
     return pulse
 
+small_angle_fudge = fact.smallAngleFudge
 def fudge_func(angle):
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
     if angle>=0:
-        if angle<=4:
+        if angle<=small_angle_fudge:
             fudge_factor = fact.fudgeposFour
         else:
             fudge_factor = fact.fudgepos                                                  
     else:
-        if angle>=-5:
+        if angle>=-small_angle_fudge:
             fudge_factor = fact.fudgenegFour
         else:
             fudge_factor = fact.fudgeneg                                             
