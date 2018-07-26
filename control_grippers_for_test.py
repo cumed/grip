@@ -38,7 +38,7 @@ ch_rotatingArm = 8
 #%%
 fully_closed_distance       = 3.18                                           # Distance to close the gripper - 1.58 mm
 ##partially_opened_distance   = input('Enter partially_opened_distance')     # Distance to just reach the gripper - 1.06mm
-partially_opened_distance = 2.8
+partially_opened_distance = 2.7
 #*DEFAULT ALL THE TIME*           
 fully_opened_distance,fully_bwd_distance = 0,0                               # Position of front and back servos along x-direction (Default for all sizes )
 slightlyMore_opened_distance = 2.2
