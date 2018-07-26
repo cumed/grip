@@ -92,6 +92,8 @@ def bendAngle_to_bendDist(angle,outer_diameter):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist
 
+
+
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
     if angle>=0:
