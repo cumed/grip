@@ -291,6 +291,7 @@ def reversePush_action(distance):
 bendingPin_zero()
 OD = fact.OD 
 lens =3
+zero_position()
 while True:
 ##    wait = input('Do you want to continue')
     angle = input('Enter angle')
