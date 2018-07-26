@@ -110,7 +110,7 @@ def fudge_func(angle):
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
     if angle>=0:
-        if angle<=small_angle_fudge+2:
+        if angle<=small_angle_fudge+2.5:
             fudge_factor = fact.fudgeposFour
         else:
             fudge_factor = fact.fudgepos                                                  
