@@ -29,7 +29,7 @@ xDistPins = 3
 a = input('Enter fudge factor for small angles')
 fudgepos = input('Enter fudge positive')
 #fudgepos = 1.4
-fudgeposFour = fudgepos+a+0.4
+fudgeposFour = fudgepos+a
 
 fudgeneg = input('Enter fudge negative')
 #fudgeneg = 1.45
