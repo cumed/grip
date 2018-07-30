@@ -92,7 +92,11 @@ def bendAngle_to_bendDist(angle,outer_diameter):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist
 
-
+def comparison(angle,outer_diameter):
+    if angle>0:
+        return (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos
+    else:
+        return (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
 
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
@@ -176,7 +180,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     #Need to map that distance to the angle.
     
     #Send it to zero
-#    bendingPin_zero()
+    bendingPin_zero()
 
     
     #Let the bend happen
@@ -193,14 +197,15 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     htc.startHeat(heating_time)
     
     #Send it back to half the distance
-#    half_bendDist = factor_of_half_bendDist(bendDist)
-#    halfPulse = bendDist_to_bendPulse(angle,half_bendDist,e)
-#    pwm.set_pwm(channel,0,halfPulse)
-#    sleep(timeConstant)
+    half_bendDist = factor_of_half_bendDist(bendDist)
+    half_bendDist = max(half_bendDist,comparison(angle,outer_diameter))
+    halfPulse = bendDist_to_bendPulse(angle,half_bendDist,e)
+    pwm.set_pwm(channel,0,halfPulse)
+    sleep(timeConstant)
 #    print('New factored distance at '+str(round(half_bendDist,2))+'mm -- Pulse:' +str(halfPulse))
 
     #Send it to zero
-    bendingPin_zero()
+#    bendingPin_zero()
     
 def back_rotation(angle,channel=ch_rotatingArm,timeConstant = time_constant):
     #command it to rotate by a particular angle
