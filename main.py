@@ -21,6 +21,8 @@ currDir = os.path.dirname(os.path.realpath('__file__'))
 filename = os.path.join(currDir,'npy/longCurve15.npy')
 directions = np.load(filename)
 
+directions[76:,1] = 0
+
 #directions[:,1] = -1*directions[:,1]
 
 #%% Variables that can be changed
