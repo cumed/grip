@@ -10,12 +10,12 @@ time_constant = 0.25
 
 
 #%% 
-bendPinsFactorPos = float(input('Enter bend pins factor positive?')) 
-#bendPinsFactorPos = 2.05
+#bendPinsFactorPos = float(input('Enter bend pins factor positive?')) 
+bendPinsFactorPos = 2.2
 #bendPinsFactorPos = 0
 #bendPinsFactorNeg = 1.95
-#bendPinsFactorNeg = 2.1
-bendPinsFactorNeg = float(input('Enter bend pins factor negative'))
+bendPinsFactorNeg = 1.8
+#bendPinsFactorNeg = float(input('Enter bend pins factor negative'))
 
 angleRedFactor = 1
 distanceFactor = 1
