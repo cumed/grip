@@ -21,12 +21,12 @@ pwm.set_pwm_freq(60)
 #%% Declarations
 servo_min = 190                                                              # Min limit of 183 for Hitech-servos
 servo_max = 500                                                              # Max limit of 600 for Hitech-servos
-time_constant = 0.25                                                         # Time for the Rpi to wait for the servo to complete its task
-# from_low = 0                                                               # Smallest angle that you'd want the cam to be at
-#from_high = 180                                                             # Largest angle that you'd want the cam to be at
+
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
+
+time_constant = fact.time_constant                                           # Time for the Rpi to wait for the servo to complete its task
 d_pins = fact.d_pins                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
 y_i =   fact.y_i                                                                    # Distance between the front gripper and the bending pins
 
@@ -43,9 +43,9 @@ from_angles = {
         'positive bend': [-90,90],                                           # If the bending is taking place for a positive angle, then the bending pins need to move to the right                 
         'negative bend': [90,-90],                                           # If the bending is taking place for a negative angle, then the bending pins need to move to the left
         }
-bendPinsFactor = 0
+
 zeroethPosition = 0                                                          # The zeroeth position of the rotational servo
-rotationalAngle_threshold = 15
+rotationalAngle_threshold = 15                                               # Maximum angle our system can rotate.
 #%% Gripper servo angles and movements 
 # Mapping the angle on the servo to the pulse range
 def angle_to_pulse(angle,from_low=0,from_high=180):
@@ -53,8 +53,8 @@ def angle_to_pulse(angle,from_low=0,from_high=180):
     return int(pulse)
 
 # Converts linear distance using the cam to the servo angle b/w 0-180 (cam_formulae)
-def distance_to_angle(distance,e):                                           # 1.59mm
-    angle = np.arccos((e-distance)/e)*180/pi                                 # theta in degrees
+def distance_to_angle(distance,e):                                           
+    angle = np.arccos((e-distance)/e)*180/pi                                 # angle in degrees
     return angle
 
 # Converts the servo angle to the linear distance (cam_formulae)
@@ -70,36 +70,29 @@ def distance_to_pulse(distance,e,from_low = 0, from_high = 180):             # e
 
 #%% Bending angles and movements 
 # Returns the distance that the bending pins need to move for the bend to happen
-##bendPinsFactor = fact.bendPinsFactor
 def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse   
-    if angle>0:
+    if angle>=0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos                                        # Distance the pin has to move to touch the catheter
-        print('bend positive used')
     elif angle<0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
-        print('bend negative used')
-    else:
-        pos = input('Enter 1 for right, and 0 for left')
-        if pos==1:
-            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos
-        else:
-            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
-##    x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactor                                        # Distance the pin has to move to touch the catheter
+
     fudge_factor = fudge_func(angle)
     bendDist = x_i + y_i *math.tan(math.radians(abs(angle)))*fudge_factor         # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist
 
+# Function that determines as to which side the bending pins will have to move for its pseudo zeroeth position without going back to zero. 
 def comparison(angle,outer_diameter):
     if angle>0:
         return (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos
     else:
         return (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
 
+# Function that converts bending distance to the necessary pulse. 
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
     if angle>=0:
@@ -136,45 +129,26 @@ def factor_of_half_bendDist(distance):
     return distance/factor
 #%% Gripper movements    
 def back_gripper(f_distance,e=e_gripper,channel=ch_backGripper,timeConstant = time_constant):
-    #Let flag just be there for now. 
-    #No use of it right now since its just max or min position ***UPDATE: Flag has been removed***
-#    print('Back gripper moving by '+str(f_distance))
     pulse = distance_to_pulse(f_distance,e)                                  # Calculate pulse to be sent by Rpi for back gripper's movement
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-#    print('Back gripper movement done. Channel:'+str(channel)+', Eccentricity:'+str(e)+', Pulse: '+str(pulse))
-
 
 def front_gripper(f_distance,e=e_gripper,channel=ch_frontGripper,timeConstant = time_constant):
-    #Let flag be there for now, even though its just max or min position.    
-    #No use of it right now since its just max or min position ***UPDATE: Flag has been removed***
-#    print('Front gripper moving by '+str(f_distance))
     pulse = distance_to_pulse(f_distance,e)                                  # Calculate pulse to be sent by Rpi for front gripper's movement
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-#    print('Front gripper movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
-
 
 def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeConstant = time_constant):
-    #Let flag be there for now, even though its just max or min position.    
-    #No use of it right now since its just max or min position ***UPDATE: Flag has been removed***
-    
-    #command it to move either by servoDist_threshold or a particular distance. 
-#    print('Back gripper moving forward by '+str(distance)+'mm ')
     pulse = distance_to_pulse(distance,e)                                    # Calculate pulse to be sent by Rpi for back indexing gripper's movement
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-#    print('Back gripper y-direction movement done. Channel:'+str(channel)+' , Eccentricity:'+str(e)+', Pulse: '+str(pulse))
+
     
 #%% Bending movements
 def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
-#    print('Do we move bending pins back to zeroeth position')
-#    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
     pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
-#    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
-#    print('Bending pins are back to zeroeth position')
 
 angleRedFactor = fact.angleRedFactor
 def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):

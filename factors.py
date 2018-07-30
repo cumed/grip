@@ -6,7 +6,7 @@ Created on Fri Jul 20 15:24:37 2018
 """
 #%% 
 
-
+time_constant = 0.25
 
 
 #%% 
