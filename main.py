@@ -23,7 +23,7 @@ directions = np.load(filename)
 
 
 
-directions[:,1] = -1*directions[:,1]
+#directions[:,1] = -1*directions[:,1]
 
 #%% Variables that can be changed
 
