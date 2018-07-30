@@ -21,7 +21,7 @@ pwm.set_pwm_freq(60)
 #%% Declarations
 servo_min = 190                                                              # Min limit of 183 for Hitech-servos
 servo_max = 500                                                              # Max limit of 600 for Hitech-servos
-time_constant = 0.25                                                            # Time for the Rpi to wait for the servo to complete its task
+time_constant = 0.25                                                         # Time for the Rpi to wait for the servo to complete its task
 # from_low = 0                                                               # Smallest angle that you'd want the cam to be at
 #from_high = 180                                                             # Largest angle that you'd want the cam to be at
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
@@ -180,7 +180,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     #Need to map that distance to the angle.
     
     #Send it to zero
-    bendingPin_zero()
+#    bendingPin_zero()
 
     
     #Let the bend happen
@@ -198,7 +198,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     
     #Send it back to half the distance
     half_bendDist = factor_of_half_bendDist(bendDist)
-    half_bendDist = max(half_bendDist,comparison(angle,outer_diameter))
+    half_bendDist = min(half_bendDist,comparison(angle,outer_diameter))
     halfPulse = bendDist_to_bendPulse(angle,half_bendDist,e)
     pwm.set_pwm(channel,0,halfPulse)
     sleep(timeConstant)
