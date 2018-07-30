@@ -21,7 +21,7 @@ currDir = os.path.dirname(os.path.realpath('__file__'))
 filename = os.path.join(currDir,'npy/23mmpigtail25.npy')
 directions = np.load(filename)
 
-#directions[:,1] = -1*directions[:,1]
+directions[:,1] = -1*directions[:,1]
 
 #%% Variables that can be changed
 
