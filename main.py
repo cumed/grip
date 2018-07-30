@@ -18,7 +18,7 @@ import os
 #import factors as fact
 #%% Define directions and thresholds
 currDir = os.path.dirname(os.path.realpath('__file__'))
-filename = os.path.join(currDir,'npy/longCurve2.npy')
+filename = os.path.join(currDir,'npy/longCurve15.npy')
 directions = np.load(filename)
 
 #directions[:,1] = -1*directions[:,1]
