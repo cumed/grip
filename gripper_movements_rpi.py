@@ -77,8 +77,10 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #shape and thereby convert that distance to the pulse   
     if angle>0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos                                        # Distance the pin has to move to touch the catheter
+        print('bend positive used')
     elif angle<0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
+        print('bend negative used')
     else:
         pos = input('Enter 1 for right, and 0 for left')
         if pos==1:
@@ -116,11 +118,13 @@ def fudge_func(angle):
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
     if angle>=0:
+        print('fudge positive used')
         if angle<=small_angle_fudge:
             fudge_factor = fact.fudgeposFour
         else:
             fudge_factor = fact.fudgepos                                                  
     else:
+        print('fudge negative used')
         if angle>=-small_angle_fudge:
             fudge_factor = fact.fudgenegFour
         else:
