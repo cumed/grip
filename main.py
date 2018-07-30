@@ -18,10 +18,10 @@ import os
 #import factors as fact
 #%% Define directions and thresholds
 currDir = os.path.dirname(os.path.realpath('__file__'))
-filename = os.path.join(currDir,'npy/12mmpigtail2.npy')
+filename = os.path.join(currDir,'npy/longCurve2.npy')
 directions = np.load(filename)
 
-directions[:,1] = -1*directions[:,1]
+#directions[:,1] = -1*directions[:,1]
 
 #%% Variables that can be changed
 
@@ -118,8 +118,6 @@ while idx < np.size(distances,0):
                 incremental_distance = 0                                       #that it had kept in memory so far. 
                 flag = 0
             
-            
-#            sks.rotate_catheter(present_rot_angle)                            #Rotate the plane of the catheter for the z-axis        
             sks.new_rotate_catheter(present_rot_angle)                         #Rotate the plane of the catheter by taking care of our construction and restrictions
             
             sks.bend_catheter(present_angle,lens,outer_diameter)               #Bend it by the bending angle 
