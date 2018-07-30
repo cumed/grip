@@ -26,7 +26,7 @@ directions[:,1] = -1*directions[:,1]
 #%% Variables that can be changed
 
 servoDist_threshold       = 6.0                                                 # Max distance travelled by the back indexing servo(4.75*2)
-angle_threshold           = 1                                                  # Min angle required that the catheter needs to be bent by
+angle_threshold           = 1                                                   # Min angle required that the catheter needs to be bent by
 rotationalAngle_threshold = 0.01                                                # Min angle required that the catheter needs to be rotated by
 
 servo_min, servo_max = 190,500                                                  # Min,Max limit of 183,600 for Hitech-servos 
@@ -34,9 +34,9 @@ servo_min, servo_max = 190,500                                                  
 #%%
 incremental_distance,traversed_distance = 0,0                                   # Keeping track of distances until a bend is supposed to happen and the total distance distance travelled
 
-distances = directions[:,0]
-angles = directions[:,1]
-rotational_angle = directions[:,2]
+distances = directions[:,0]                                                     # Reads the distance from the directions npy file i.e. first column
+angles = directions[:,1]                                                        # Reads the bending angles from the directions npy file i.e. second column
+rotational_angle = directions[:,2]                                              # Reads the rotational angle from the directions npy file i.e. third column
 
 #%% Uncommenting block
 #catheter_ID     = 3
