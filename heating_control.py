@@ -9,7 +9,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 LedPin = 7    # #4
-heatTime_off = 0.5
+heatTime_off = 0.1
 GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
 GPIO.setup(LedPin, GPIO.OUT)   # Set LedPin's mode is output
 GPIO.output(LedPin, GPIO.LOW) # Set LedPin high(+3.3V) to turn on led
