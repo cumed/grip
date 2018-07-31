@@ -6,26 +6,7 @@ new bend
 """
 
 
-#import RPi.GPIO as GPIO
-#import time
 import pandas as pd
-
-#def heating_control(OD): # triggers the SSR for required amount of time to heat each portion of the catheter during a bend
-#    
-#    data = pd.read_excel('CurrentCatheter.xlsx')     
-#    count_row=data.shape[0]
-#    for row in range(0,count_row):
-#         if data.iloc[row,data.columns.get_loc("OD (mm)")]== OD:
-#             heating_time = data.iloc[row,data.columns.get_loc("Heat Time")]
-#             print("The heating time is ")
-#             print(heating_time)
-##    GPIO.setmode(GPIO.BCM)     #uncomment these to operate the relay based on the heating time of the catheter element
-##    GPIO.setup(18, GPIO.OUT)
-##    GPIO.output(18, GPIO.HIGH)
-##    time.sleep(heating_time)
-##    GPIO.output(18, GPIO.LOW)
-##    GPIO.cleanup()
-   
 
 def get_length(): 
     # returns a list of the cumulative lenghts of the different materials in the catheter
