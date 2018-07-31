@@ -111,13 +111,11 @@ def fudge_func(angle):
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
     if angle>=0:
-        print('fudge positive used')
         if angle<=small_angle_fudge:
             fudge_factor = fact.fudgeposFour
         else:
             fudge_factor = fact.fudgepos                                                  
     else:
-        print('fudge negative used')
         if angle>=-small_angle_fudge:
             fudge_factor = fact.fudgenegFour
         else:
@@ -247,149 +245,65 @@ def rotateThisCatheter(angle,channel = ch_rotatingArm,timeConstant = time_consta
     pulse = angle_to_pulse(servoAngle)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
-    
-
-    
-#def rotate_this_damn_catheter(flaggs,angles_breakup,channel = ch_rotatingArm,timeConstant = time_constant):
-#    zeroAngle_flag,fifteenAngle_flag = flaggs
-#    home_pos_for_rotation(zeroAngle_flag)
-#    if zeroAngle_flag and not fifteenAngle_flag:
-#        servoAngle = rotationalAngle_to_servoAngle(angles_breakup)
-#        pulse = angle_to_pulse(servoAngle)
-#        pwm.set_pwm(channel,0,pulse)
-#        sleep(timeConstant)
-#    elif not zeroAngle_flag and not fifteenAngle_flag:
-#        '''Need to write from here. Figure out logic'''
-#        pass
-#        
-#        
-#def home_pos_for_rotation(zeroAngle_flag):
-#    if not zeroAngle_flag:
-#        front_gripper(partially_opened_distance)
-#        back_gripper(fully_closed_distance)
-#    else:
-#        front_gripper(fully_closed_distance)
-#        back_gripper(partially_opened_distance)
-#        rotationOfCatheter(15)
-#        back_gripper(fully_closed_distance)
-#        front_gripper(partially_opened_distance)
-#
-#def rotationOfCatheter(angle,channel = ch_rotatingArm):
-#    servoAngle = rotationalAngle_to_servoAngle(angle)
-#    pulse = angle_to_pulse(servoAngle)
-#    pwm.set_pwm(channel,0,pulse)
-    
-                 
+                     
 #%%        
 def push_action(distance):
-    
-#    print('Front gripper partially opened')
     front_gripper(partially_opened_distance)                                
-    
-#    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
-    
-#    print('Back grippper moving forward by '+str(distance)+'mm')
     back_gripper_indexing(distance)
-    
-#    print('Front gripper fully closed')
     front_gripper(fully_closed_distance)
-    
-#    print('Back gripper partially opened')
     back_gripper(partially_opened_distance)
-    
-#    print('Back gripper moved backwards to original position')
     back_gripper_indexing(fully_bwd_distance)
-    
-#    print('Back gripper fully closed')
     back_gripper(fully_closed_distance)
+
     print('Catheter pushed by '+str(round(distance,2))+'mm')
       
 def home_position():
-    
-#    print('Front gripper partially opened')
     front_gripper(partially_opened_distance)
-    
-#    print('Back gripper partially opened')
     back_gripper(partially_opened_distance)
-    
-#    print('Back gripper moved backwards to home position')
     back_gripper_indexing(fully_bwd_distance)
-    
-#    print('Bending pins moved to home position')
     bendingPin_zero()
-    
-#    print('Back gripper on the plane at home angle')
-#    back_rotation(0,flag)
     new_back_rotation(zeroethPosition)
 
-#%%
-def get_fullyClosedDistance(OD,e=e_gripper):
-   fcd_angle = {
-           3:angle_to_distance(0,e),                                        #******************Needs to be experimentally determined**************
-           4:angle_to_distance(30,e),
-           5:angle_to_distance(60,e),
-           6:angle_to_distance(90,e),
-           7:angle_to_distance(120,e),
-           8:angle_to_distance(180,e)
-           }
-   return fcd_angle.get(OD)
+#%% Functions for fully closed and partially opened distance if the grippers
+# have to be closed by different distances. 
+# Uncomment the call for fully_closed_distance and partially_opened_distance 
+# in the next section and comment the subsequent lines of that section
 
-def get_partiallyOpenedDistance(OD,e=e_gripper):
-    pod_angle = {
-           3:angle_to_distance(0,e),                                        #******************Needs to be experimentally determined**************
-           4:angle_to_distance(30,e),
-           5:angle_to_distance(60,e),
-           6:angle_to_distance(90,e),
-           7:angle_to_distance(120,e),
-           8:angle_to_distance(180,e)
+def get_fullyClosedDistance(fr_size):
+   fcd_angle = {
+           3:4,
+           4:4,
+           5:3.18,
+           6:4,
+           7:4,
+           8:4
            }
-    return pod_angle.get(OD)
+   return fcd_angle.get(fr_size)
+
+def get_partiallyOpenedDistance(fr_size):
+    pod_angle = {
+           3:3.5,                                        #******************Needs to be experimentally determined**************
+           4:3.5,
+           5:2.8,
+           6:3.5,
+           7:3.5,
+           8:3.5
+           }
+    return pod_angle.get(fr_size)
 
 #%% Needs to be changed if you want flexibility in fully closed and partially opened distance for different OD sizes. Currently developed for 5Frenchsize
-    
-#fully_closed_distance      = get_fullyClosedDistance(OD,e)                  #Position of front and back servos along x-direction for different OD       
-#partially_opened_distance  = get_partiallyOpenedDistance(OD,e)              #Position of front and back servos along x-direction for different OD
 
-#fully_closed_distance       = angle_to_distance(90,e_gripper)               #Position of front and back servos along x-direction (Default for all sizes)
-#partially_opened_distance   = angle_to_distance(70.52,e_gripper)            #Position of front and back servos along x-direction (Default for all sizes)
+#fr_size = cpro.getFr_size()                                                  # Write a function to get the french size of the catheter
+#fully_closed_distance      = get_fullyClosedDistance(fr_size)                # Position of front and back servos along x-direction for different OD       
+#partially_opened_distance  = get_partiallyOpenedDistance(fr_size)            # Position of front and back servos along x-direction for different OD
+
 fully_closed_distance       = 3.18                                           # Distance to close the gripper - 1.58 mm
-partially_opened_distance   = 2.8                                           # Distance to just reach the gripper - 1.06mm
+partially_opened_distance   = 2.8                                            # Distance to just reach the gripper - 1.06mm
 slightlyMore_opened_distance = 2.2
 
-#*DEFAULT ALL THE TIME*           
-fully_opened_distance       = 0 #angle_to_distance(0,e_gripper)                 #Position of front and back servos along x-direction (Default for all sizes )
-fully_bwd_distance          = 0 #angle_to_distance(0,e_backidx)
+#%% fully_opened_distance
+fully_opened_distance       = 0 
+fully_bwd_distance          = 0 
 
 
-#%% main function
-if __name__ == "__main__":
-    pwm = Adafruit_PCA9685.PCA9685()
-    pwm.set_pwm_freq(60)
-    
-
-    
-    print('Bringing all cams to zeroeth position')
-    
-    pwm.set_pwm(0,0,190)
-    pwm.set_pwm(1,0,590)
-    pwm.set_pwm(3,0,190)
-    sleep(5)
-    
-    
-    print('Going to home position')
-    home_position()
-    print('Done with home position')
-    print('Waiting for push to start in ...')
-    for i in range(3,0,-1):
-        sleep(1)
-        print(i)
-        
-    push_action(0.1)
-    print('Done with one gripper action and moving back to home position in ...')
-    for i in range(3,0,-1):
-        sleep(1)
-        print(i)
-    
-    home_position()
-    print('Disconnect all supplies.')

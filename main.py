@@ -15,7 +15,7 @@ pwm.set_pwm_freq(60)
 import skeleton_structure as sks
 import catheter_properties as cpro
 import os
-#import factors as fact
+import factors as fact
 #%% Define directions and thresholds
 currDir = os.path.dirname(os.path.realpath('__file__'))
 filename = os.path.join(currDir,'npy/23mmpigtail2.npy')
@@ -27,9 +27,9 @@ directions = np.load(filename)
 
 #%% Variables that can be changed
 
-servoDist_threshold       = 6.0                                                 # Max distance travelled by the back indexing servo(4.75*2)
-angle_threshold           = 1                                                   # Min angle required that the catheter needs to be bent by
-rotationalAngle_threshold = 0.01                                                # Min angle required that the catheter needs to be rotated by
+servoDist_threshold       = fact.servoDist_threshold                                                 # Max distance travelled by the back indexing servo(4.75*2)
+angle_threshold           = fact.angle_threshold                                                   # Min angle required that the catheter needs to be bent by
+rotationalAngle_threshold = fact.rotationalAngle_threshold                                                # Min angle required that the catheter needs to be rotated by
 
 servo_min, servo_max = 190,500                                                  # Min,Max limit of 183,600 for Hitech-servos 
 
@@ -41,27 +41,27 @@ angles = directions[:,1]                                                        
 rotational_angle = directions[:,2]                                              # Reads the rotational angle from the directions npy file i.e. third column
 
 #%% Uncommenting block
-#catheter_ID     = 3
-#cpro.get_properties(catheter_ID)                                             #Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
+#catheter_ID     = fact.catheter_ID                                                             # The catheter code number from teh main database
+#cpro.get_properties(catheter_ID)                                                # Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
 
-#properties_flag = 1                                                             #Set it to 1 if you require all the properties in one go. 
+#properties_flag = 1                                                             # Set it to 1 if you require all the properties in one go. 
 #[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
 
 #%%
-lengths = cpro.get_length()                                                     #Get all the material cumulative lengths. 
-OD = cpro.get_OD()                                                              #Get all the ODs of the different material regions in the catheter
+lengths = cpro.get_length()                                                     # Get all the material cumulative lengths. 
+OD = cpro.get_OD()                                                              # Get all the ODs of the different material regions in the catheter
 
-#OD = fact.ODList                                                               #Obtains the ODs from factors.py if you want to change the OD quickly for testing purpose. 
+#OD = fact.ODList                                                               # Obtains the ODs from factors.py if you want to change the OD quickly for testing purpose. 
 
 #%%
-#idx             = 0                                                             #Index for points obtained from SVG
-#prop_idx        = 0                                                             #Index for the properites of the catheter
-#flag            = 0                                                             #Check for incremental distance until a bending is approached. 
-#rotation_flag   = 0                                                             #Check for incremental distance until a rotating angle is approached *currently unused*
-idx, prop_idx, flag, rotation_flag = 0,0,0,0                                    #Reasons for each variable used is as in the above 4 lines
+#idx             = 0                                                            # Index for points obtained from SVG
+#prop_idx        = 0                                                            # Index for the properites of the catheter
+#flag            = 0                                                            # Check for incremental distance until a bending is approached. 
+#rotation_flag   = 0                                                            # Check for incremental distance until a rotating angle is approached *currently unused*
+idx, prop_idx, flag, rotation_flag = 0,0,0,0                                    # Reasons for each variable used is as in the above 4 lines
 
-lens            = lengths[prop_idx]                                             #Obtains the length of the first material in the catheter
-outer_diameter  = OD[prop_idx]                                                  #Obtains the OD of the first material in the catheter
+lens            = lengths[prop_idx]                                             # Obtains the length of the first material in the catheter
+outer_diameter  = OD[prop_idx]                                                  # Obtains the OD of the first material in the catheter
 
 
 #%% Zeroing of cams

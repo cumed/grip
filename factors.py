@@ -8,14 +8,19 @@ Created on Fri Jul 20 15:24:37 2018
 
 time_constant = 0.25
 
+servoDist_threshold       = 6                                                 # Max distance travelled by the back indexing servo(4.75*2)
+angle_threshold           = 1                                                   # Min angle required that the catheter needs to be bent by
+rotationalAngle_threshold = 1  
+
+#catheter_ID = 3
 
 #%% 
-#bendPinsFactorPos = float(input('Enter bend pins factor positive?')) 
-bendPinsFactorPos = 2.2
+bendPinsFactorPos = float(input('Enter bend pins factor positive?')) 
+#bendPinsFactorPos = 2.1
 #bendPinsFactorPos = 0
 #bendPinsFactorNeg = 1.95
-bendPinsFactorNeg = 1.8
-#bendPinsFactorNeg = float(input('Enter bend pins factor negative'))
+#bendPinsFactorNeg = 1.8
+bendPinsFactorNeg = float(input('Enter bend pins factor negative'))
 
 angleRedFactor = 1
 distanceFactor = 1
