@@ -46,13 +46,3 @@ def new_rotate_catheter(rot_angle):
     gmr.new_back_rotation(rot_angle)
     
 
-#def rotate_catheter(rot_angle):
-#    #This function has been written keeping in mind that the rotation is done only in one direction, i.e. 0-max angle possible by the servo. 
-#    #Whenever a negative angle is passed, it means that the call is to move it back to the zeroeth position. 
-#    #This function would have to be changed to take into account the new mechanism, which is currently put on hold i.e. an incremental movement of a max 
-#    #of 15 degrees in either direction. 
-#    wait = input("You're at the old rotation method. Do you want to continue? Press 0 to exit")
-#    if wait == 0:
-#        sys.exit()
-#    print('----****----Turn the plane to ' + str(rot_angle)+'degrees----****----')                                
-#    gmr.back_rotation(rot_angle)
