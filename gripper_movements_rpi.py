@@ -112,14 +112,22 @@ def fudge_func(angle):
     #Somehow obtaine a formulae that would return the factor
     if angle>=0:
         if angle<=small_angle_fudge:
-            fudge_factor = fact.fudgeposFour + 1.5
+            fudge_factor = fact.fudgeposFour 
+            print(fudge_factor)
+            print('fudgeposFour')
         else:
             fudge_factor = fact.fudgepos                                                  
+            print(fudge_factor)
+            print('fudge pos')
     else:
         if angle>=-small_angle_fudge:
             fudge_factor = fact.fudgenegFour
+            print(fudge_factor)
+            print('fudgenegFour')
         else:
             fudge_factor = fact.fudgeneg                                             
+            print(fudge_factor)
+            print('fudge neg')
     return fudge_factor
 
 def factor_of_half_bendDist(distance):
