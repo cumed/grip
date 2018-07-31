@@ -114,37 +114,40 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #This function defines the distance by which the bending pins need to move
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse   
-    if angle>=0:
+    if angle>0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos                                        # Distance the pin has to move to touch the catheter
     elif angle<0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
+    else:
+        pos = input('Enter 1 for positive bend, and 0 for negative bend')
+        if pos==1:
+            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos
+        else:
+            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
 
-    fudge_factor = fudge_func(angle)
-    bendDist = x_i + y_i *math.tan(math.radians(abs(angle)))*fudge_factor         # x_i + the distance for the supposed bend
+    bendDist = x_i + y_i *math.tan(math.radians(abs(angle)))*fudge_func(angle)         # x_i + the distance for the supposed bend
     if math.isnan(bendDist):
         print('Gonna crash here. Angle:'+str(angle))
     return bendDist
 
-# Function that determines as to which side the bending pins will have to move for its pseudo zeroeth position without going back to zero. 
-def comparison(angle,outer_diameter):
-    if angle>0:
-        return (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos
-    else:
-        return (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
-
-# Function that converts bending distance to the necessary pulse. 
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
-    if angle>=0:
+    if angle>0:
         from_low_b, from_high_b = from_angles.get('positive bend')
-    else:
+    elif angle<0:
         from_low_b, from_high_b = from_angles.get('negative bend')
-        
+    else:
+        pos = input('Enter 1 for right, and 0 for left')
+        if pos==1:
+            from_low_b,from_high_b = from_angles.get('positive bend')
+        else:
+            from_low_b,from_high_b = from_angles.get('negative bend')
     pulse = angle_to_pulse(servos_angle,from_low_b,from_high_b)
     if math.isnan(pulse):
         print('Gonna crash here. Angle:'+str(angle) +'bendDist:' +bendDist +
               ' and servos_angle:' +str(servos_angle))
     return pulse
+
 
 small_angle_fudge = fact.smallAngleFudge
 def fudge_func(angle):
@@ -203,7 +206,14 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     print('Bend of ' + str(round(angle,2))+'degrees -- Bending distance '+str(round(bendDist,2)) + 'mm. -- Pulse: '+str(pulse))
     input('Press 1 to finish bending and bring it back to zeroeth position.')
     
-
+#    heating_time = cpro.get_heatTime(lens)
+#    print('-----------Heat the catheter for '+str(heating_time)+'seconds --------------')
+#    htc.startHeat(heating_time)
+    
+#    for i in range(0,1):                                                  #Uncomment these two lines when the waiting is removed
+#        print('Waiting for 3 seconds')
+#        sleep(3)
+#        print('Waiting for '+str(i)+' seconds...')
         
     bendingPin_zero()
 #    print('Bending finished')
