@@ -6,7 +6,7 @@ Created on Fri Jul 20 15:24:37 2018
 """
 #%% 
 
-time_constant = 0.3
+time_constant = 0.26
 
 servoDist_threshold       = 6                                                 # Max distance travelled by the back indexing servo(4.75*2)
 angle_threshold           = 1                                                   # Min angle required that the catheter needs to be bent by
