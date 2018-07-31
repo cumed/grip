@@ -112,7 +112,7 @@ def fudge_func(angle):
     #Somehow obtaine a formulae that would return the factor
     if angle>=0:
         if angle<=small_angle_fudge:
-            fudge_factor = fact.fudgeposFour + 1
+            fudge_factor = fact.fudgeposFour + 1.5
         else:
             fudge_factor = fact.fudgepos                                                  
     else:
