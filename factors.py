@@ -6,7 +6,7 @@ Created on Fri Jul 20 15:24:37 2018
 """
 #%% 
 
-time_constant = 0.25
+time_constant = 0.3
 
 servoDist_threshold       = 6                                                 # Max distance travelled by the back indexing servo(4.75*2)
 angle_threshold           = 1                                                   # Min angle required that the catheter needs to be bent by
@@ -32,7 +32,7 @@ negativeAngleOffset = 0
 ODList = [OD,OD,OD,OD]
 xDistPins = 3
 
-a = 5
+a = 2
 fudgepos = input('Enter fudge positive')
 #fudgepos = 1.4
 fudgeposFour = fudgepos+a
@@ -41,4 +41,4 @@ fudgeneg = input('Enter fudge negative')
 #fudgeneg = 1.45
 fudgenegFour = fudgeneg+a
 
-smallAngleFudge = input('Enter the small angle')
+smallAngleFudge = 5
