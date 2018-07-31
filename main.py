@@ -22,8 +22,9 @@ filename = os.path.join(currDir,'npy/26mmpigtail25.npy')
 directions = np.load(filename)
 
 
-
-#directions[:,1] = -1*directions[:,1]
+left_right= input('Do you want it to be leftside only? Press 1')
+if left_right:
+    directions[:,1] = -1*directions[:,1]
 
 #%% Variables that can be changed
 
