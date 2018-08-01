@@ -20,7 +20,7 @@ pwm.set_pwm_freq(60)
 #%% Declarations
 servo_min = 190                                                              # Min limit of 183 for Hitech-servos
 servo_max = 500                                                              # Max limit of 600 for Hitech-servos
-time_constant = 0.25                                                            # Time for the Rpi to wait for the servo to complete its task
+time_constant = 0.5                                                            # Time for the Rpi to wait for the servo to complete its task
 # from_low = 0                                                               # Smallest angle that you'd want the cam to be at
 #from_high = 180                                                             # Largest angle that you'd want the cam to be at
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
@@ -140,6 +140,7 @@ def rotateTheCatheterByNegativeAngle(angle_list):
 
 def rotateThisCatheter(angle,channel = ch_rotatingArm,timeConstant = time_constant):
     servoAngle = rotationalAngle_to_servoAngle(angle)
+    print(servoAngle)
     pulse = angle_to_pulse(servoAngle)
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
@@ -316,7 +317,7 @@ def zero_position():
     back_gripper(0)
     bendingPin_zero()
     back_gripper_indexing(0)
-
+    new_back_rotation(0)
 
 def reversePush_action(distance):
 #    print('Front gripper partially opened')
@@ -344,14 +345,15 @@ zero_position()
 OD = fact.OD 
 lens =3
 while True:
-    rot_angle = input('Enter rotational angle')
-    bend_angle = input('Enter bend angle')
-    if rot_angle <50:
-        push_action(6)
-        new_back_rotation(rot_angle)
-        push_action(5)
-        bending_arm(bend_angle,lens,OD)
-        push_action(4)
+#    rot_angle = input('Enter rotational angle')
+#    bend_angle = input('Enter bend angle')
+#    if rot_angle <50:
+#        push_action(6)
+#        new_back_rotation(rot_angle)
+#        push_action(5)
+#        bending_arm(bend_angle,lens,OD)
+#        push_action(4)
+    rotateThisCatheter(0)
 #    if angle ==1000:
 #        pulse = input('Enter pulse')
 #        pwm.set_pwm(ch_rotatingArm,0,pulse)
