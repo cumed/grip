@@ -110,6 +110,7 @@ def split_angles(angle,rotAngle_threshold=rotationalAngle_threshold):
 
 def rotationalAngle_to_servoAngle(angle):
     #this function defines the mapping of rotational angle to servo angle 
+    angle = 29-angle
     servoAngle =-8e-5*(angle**4) + 0.0132*(angle**3) - 0.4302*(angle**2) + 9.641*angle + 78.688
     return servoAngle
 
@@ -210,6 +211,5 @@ while True:
             push_action(distance)
 
     else:
-        angle = 15-angle
         new_back_rotation(angle)
         
