@@ -43,8 +43,8 @@ from_angles = {
         'negative bend': [90,-90],                                           # If the bending is taking place for a negative angle, then the bending pins need to move to the left
         }
 bendPinsFactor = 0
-zeroethPosition = 0                                                          # The zeroeth position of the rotational servo
-rotationalAngle_threshold = 15
+zeroethPosition = 15                                                          # The zeroeth position of the rotational servo
+rotationalAngle_threshold = 0
 
 #%%
 def angle_to_pulse(angle,from_low=0,from_high=180):
