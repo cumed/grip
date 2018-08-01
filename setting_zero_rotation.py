@@ -354,7 +354,7 @@ while True:
 #        bending_arm(bend_angle,lens,OD)
 #        push_action(4)
     angle = input('Try different input angle')
-    rotateThisCatheter(angle)
+    new_back_rotation(angle)
 #    if angle ==1000:
 #        pulse = input('Enter pulse')
 #        pwm.set_pwm(ch_rotatingArm,0,pulse)
