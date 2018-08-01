@@ -44,7 +44,7 @@ from_angles = {
         }
 bendPinsFactor = 0
 zeroethPosition = 15                                                          # The zeroeth position of the rotational servo
-rotationalAngle_threshold = 0
+rotationalAngle_threshold = 15
 
 #%%
 def angle_to_pulse(angle,from_low=0,from_high=180):
