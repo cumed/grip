@@ -147,7 +147,7 @@ def rotateThisCatheter(angle,channel = ch_rotatingArm,timeConstant = time_consta
 def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_constant):
     #command it to rotate by a particular angle
     #Possible use the flag to control rotational_angle= 0. 
-    #Rotating the planes only by 15 degrees at first
+
 
     if angle>0:
         angle_list = split_angles(angle)
@@ -169,19 +169,16 @@ fully_bwd_distance          = 0 #angle_to_distance(0,e_backidx)
 
 while True:
     angle = input('Enter angle')
-    if angle == 5000:
-        angle = input('Enter angle')
-        new_back_rotation(angle)
         
-    elif angle ==1000:
+    if angle ==1000:
         pulse = input('Enter angle')
         pwm.set_pwm(ch_rotatingArm,0,pulse)
         sleep(time_constant*2)
     
-    else: 
-        pulse = angle_to_pulse(angle)
-        pwm.set_pwm(ch_rotatingArm,0,pulse)
-        sleep(time_constant*2)
-            
+    else:
+        angle = input('Enter angle')
+        new_back_rotation(angle)
+
+        
     
         
