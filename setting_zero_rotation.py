@@ -169,6 +169,15 @@ def zero_position():
     back_gripper_indexing(0)
     new_back_rotation(zeroethPosition)
 
+def push_action(distance):
+    front_gripper(partially_opened_distance)                                
+    back_gripper(fully_closed_distance)
+    back_gripper_indexing(distance*fact.distanceFactor)
+    front_gripper(fully_closed_distance)
+    back_gripper(partially_opened_distance)
+    back_gripper_indexing(fully_bwd_distance)
+    back_gripper(fully_closed_distance)
+    print('Catheter pushed by '+str(distance)+'mm')
 
 #%%
         
@@ -189,6 +198,17 @@ while True:
     angle = input('Input angle')
     angle = 15-angle
     new_back_rotation(angle)
+    
+    if angle == 200:
+        print('Grippers- Fully Opened distance')
+        front_gripper(fully_opened_distance)
+        back_gripper(fully_opened_distance)
+        
+    elif angle == 500:
+        noftimes = input('Number of times - 1mm')
+        distance = input('Each increment of distance?')
+        for ele in range(0,noftimes):
+            push_action(distance)
 
     
         
