@@ -342,7 +342,7 @@ while True:
     angle = input('Enter angle')
         
     if angle ==1000:
-        pulse = input('Enter angle')
+        pulse = input('Enter pulse')
         pwm.set_pwm(ch_rotatingArm,0,pulse)
         sleep(time_constant*2)
     elif angle ==100:
