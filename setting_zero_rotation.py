@@ -152,9 +152,11 @@ def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_co
 
     if angle>0:
         angle_list = split_angles(angle)
+        print(angle_list)
         rotateTheCatheterByPositiveAngle(angle_list)
     elif angle<0:
         angle_list = split_angles(abs(angle))
+        print(angle_list)
         rotateTheCatheterByNegativeAngle(angle_list)
     else:
         rotateThisCatheter(angle)
