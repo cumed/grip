@@ -158,6 +158,177 @@ def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_co
     else:
         rotateThisCatheter(angle)
         
+#%% Bending angles and movements 
+# Returns the distance that the bending pins need to move for the bend to happen
+#bendPinsFactor = fact.bendPinsFactor
+#print('bendpins factor: '+str(bendPinsFactor))
+def bendAngle_to_bendDist(angle,outer_diameter):
+    #This function defines the distance by which the bending pins need to move
+    #to hit the catheter and bend it by the bending angle to obtain the right
+    #shape and thereby convert that distance to the pulse   
+    if angle>0:
+        x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos                                        # Distance the pin has to move to touch the catheter
+    elif angle<0:
+        x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
+    else:
+        pos = input('Enter 1 for positive bend, and 0 for negative bend')
+        if pos==1:
+            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos
+        else:
+            x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
+
+    bendDist = x_i + y_i *math.tan(math.radians(abs(angle)))*fudge_func(angle)         # x_i + the distance for the supposed bend
+    if math.isnan(bendDist):
+        print('Gonna crash here. Angle:'+str(angle))
+    return bendDist
+
+def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
+    servos_angle = distance_to_angle(bendDist,e)
+    if angle>0:
+        from_low_b, from_high_b = from_angles.get('positive bend')
+    elif angle<0:
+        from_low_b, from_high_b = from_angles.get('negative bend')
+    else:
+        pos = input('Enter 1 for right, and 0 for left')
+        if pos==1:
+            from_low_b,from_high_b = from_angles.get('positive bend')
+        else:
+            from_low_b,from_high_b = from_angles.get('negative bend')
+    pulse = angle_to_pulse(servos_angle,from_low_b,from_high_b)
+    if math.isnan(pulse):
+        print('Gonna crash here. Angle:'+str(angle) +'bendDist:' +bendDist +
+              ' and servos_angle:' +str(servos_angle))
+    return pulse
+
+
+small_angle_fudge = fact.smallAngleFudge
+def fudge_func(angle):
+    #Call a function that contains the details, such as bend angle, OD, material
+    #Somehow obtaine a formulae that would return the factor
+    if angle>=0:
+        if angle<=small_angle_fudge:
+            fudge_factor = fact.fudgeposFour 
+            print(fudge_factor)
+            print('fudgeposFour')
+        else:
+            fudge_factor = fact.fudgepos                                                  
+            print(fudge_factor)
+            print('fudge pos')
+    else:
+        if angle>=-small_angle_fudge:
+            fudge_factor = fact.fudgenegFour
+            print(fudge_factor)
+            print('fudgenegFour')
+        else:
+            fudge_factor = fact.fudgeneg                                             
+            print(fudge_factor)
+            print('fudge neg')
+    return fudge_factor
+
+def factor_of_half_bendDist(distance):
+    factor = fact.xDistPins 
+    return distance/factor
+#%% 
+def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
+##    print('Do we move bending pins back to zeroeth position')
+#    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
+    pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+    print(pulse_zero)
+    pwm.set_pwm(channel,0,pulse_zero)
+    sleep(timeConstant)
+#    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
+##    print('Bending pins are back to zeroeth position')
+
+angleRedFactor = fact.angleRedFactor
+def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
+    #command it to move by a particular distance to achieve the bending angle
+    #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
+    #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
+    #Need to map that distance to the angle.
+#    print('Start bending?')
+
+    angle = angle*angleRedFactor
+    bendDist = bendAngle_to_bendDist(angle,outer_diameter)
+    pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
+    print(pulse)
+#    pulse = input('Enter pulse')
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+    print('Bend of ' + str(round(angle,2))+'degrees -- Bending distance '+str(round(bendDist,2)) + 'mm. -- Pulse: '+str(pulse))
+    input('Press 1 to finish bending and bring it back to zeroeth position.')
+    
+#    heating_time = cpro.get_heatTime(lens)
+#    print('-----------Heat the catheter for '+str(heating_time)+'seconds --------------')
+#    htc.startHeat(heating_time)
+    
+#    for i in range(0,1):                                                  #Uncomment these two lines when the waiting is removed
+#        print('Waiting for 3 seconds')
+#        sleep(3)
+#        print('Waiting for '+str(i)+' seconds...')
+        
+    bendingPin_zero()
+#    print('Bending finished')
+#%%    
+def push_action(distance):
+#    print('Front gripper partially opened')
+    front_gripper(partially_opened_distance)                                
+    
+#    print('Back gripper fully closed')
+    back_gripper(fully_closed_distance)
+    
+    print('Back grippper moving forward by '+str(distance*fact.distanceFactor)+'mm')
+    back_gripper_indexing(distance*fact.distanceFactor)
+    
+#    print('Front gripper fully closed')
+    front_gripper(fully_closed_distance)
+    
+#    print('Back gripper partially opened')
+    back_gripper(partially_opened_distance)
+    
+#    print('Back gripper moved backwards to original position')
+    back_gripper_indexing(fully_bwd_distance)
+    
+#    print('Back gripper fully closed')
+    back_gripper(fully_closed_distance)
+    print('Catheter pushed by '+str(distance)+'mm')
+      
+def home_position():
+    
+#    print('Front gripper partially opened')
+    front_gripper(partially_opened_distance)
+    
+#    print('Back gripper partially opened')
+    back_gripper(partially_opened_distance)
+    
+#    print('Back gripper moved backwards to home position')
+    back_gripper_indexing(fully_bwd_distance)
+    
+#    print('Bending pins moved to home position')
+    bendingPin_zero()
+    
+#    print('Back gripper on the plane at home angle')
+#    back_rotation(0,flag)
+#    new_back_rotation(zeroethPosition)
+
+
+def zero_position():
+    front_gripper(0)
+    back_gripper(0)
+    bendingPin_zero()
+    back_gripper_indexing(0)
+
+
+def reversePush_action(distance):
+#    print('Front gripper partially opened')
+    front_gripper(fully_closed_distance)
+    back_gripper(fully_opened_distance)
+    back_gripper_indexing(distance*fact.distanceFactor)
+    back_gripper(fully_closed_distance)
+    front_gripper(partially_opened_distance)
+    back_gripper_indexing(fully_bwd_distance)
+    front_gripper(fully_closed_distance)
+
+#%%
         
 fully_closed_distance       = 3.18                                           # Distance to close the gripper - 1.58 mm
 partially_opened_distance   = 2.8                                           # Distance to just reach the gripper - 1.06mm
@@ -174,7 +345,45 @@ while True:
         pulse = input('Enter angle')
         pwm.set_pwm(ch_rotatingArm,0,pulse)
         sleep(time_constant*2)
+    elif angle ==100:
+        print('zeroing')
+        bendingPin_zero()
     
+    elif angle==200:
+        print('Grippers- Fully Opened distance')
+        front_gripper(fully_opened_distance)
+        back_gripper(fully_opened_distance)
+    
+    elif angle==300:
+        print('Grippers- Fully Closed distance')
+        front_gripper(fully_closed_distance)
+        back_gripper(fully_closed_distance)
+    
+    elif angle==400:
+        print('Grippers- Partially Opened distance')
+        front_gripper(partially_opened_distance)
+        back_gripper(partially_opened_distance)
+    
+    elif angle==500:
+        noftimes = input('Number of times - 1mm')
+        distance = input('Each increment of distance?')
+        for ele in range(0,noftimes):
+            push_action(distance)
+    
+    elif angle==700:
+        print('Zero position')
+        zero_position()
+    
+    elif angle==800:
+        print('Grippers - slightly more opened position')
+        front_gripper(slightlyMore_opened_distance)
+        back_gripper(slightlyMore_opened_distance)
+    
+    elif angle==900:
+        noftimes = input('Number of times')
+        distance = input('Each increment of distance?')
+        for ele in range(0,noftimes):
+            reversePush_action(distance)
     else:
         angle = input('Enter angle')
         new_back_rotation(angle)
