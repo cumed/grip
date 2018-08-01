@@ -34,7 +34,7 @@ ch_backGripper = 0
 ch_frontGripper = 3
 ch_backidxGripper = 1
 ch_bendingPins = 5
-ch_rotatingArm = 15
+ch_rotatingArm = 8
 
 
 #%%
@@ -339,55 +339,57 @@ fully_opened_distance       = 0 #angle_to_distance(0,e_gripper)                 
 fully_bwd_distance          = 0 #angle_to_distance(0,e_backidx)
 
 while True:
-    angle = input('Enter angle')
-        
-    if angle ==1000:
-        pulse = input('Enter pulse')
-        pwm.set_pwm(ch_rotatingArm,0,pulse)
-        sleep(time_constant*2)
-    elif angle ==100:
-        print('zeroing')
-        bendingPin_zero()
-    
-    elif angle==200:
-        print('Grippers- Fully Opened distance')
-        front_gripper(fully_opened_distance)
-        back_gripper(fully_opened_distance)
-    
-    elif angle==300:
-        print('Grippers- Fully Closed distance')
-        front_gripper(fully_closed_distance)
-        back_gripper(fully_closed_distance)
-    
-    elif angle==400:
-        print('Grippers- Partially Opened distance')
-        front_gripper(partially_opened_distance)
-        back_gripper(partially_opened_distance)
-    
-    elif angle==500:
-        noftimes = input('Number of times - 1mm')
-        distance = input('Each increment of distance?')
-        for ele in range(0,noftimes):
-            push_action(distance)
-    
-    elif angle==700:
-        print('Zero position')
-        zero_position()
-    
-    elif angle==800:
-        print('Grippers - slightly more opened position')
-        front_gripper(slightlyMore_opened_distance)
-        back_gripper(slightlyMore_opened_distance)
-    
-    elif angle==900:
-        noftimes = input('Number of times')
-        distance = input('Each increment of distance?')
-        for ele in range(0,noftimes):
-            reversePush_action(distance)
-    else:
-        angle = input('Enter angle')
-        new_back_rotation(angle)
-
+#    angle = input('Enter angle')
+#        
+#    if angle ==1000:
+#        pulse = input('Enter pulse')
+#        pwm.set_pwm(ch_rotatingArm,0,pulse)
+#        sleep(time_constant*2)
+#    elif angle ==100:
+#        print('zeroing')
+#        bendingPin_zero()
+#    
+#    elif angle==200:
+#        print('Grippers- Fully Opened distance')
+#        front_gripper(fully_opened_distance)
+#        back_gripper(fully_opened_distance)
+#    
+#    elif angle==300:
+#        print('Grippers- Fully Closed distance')
+#        front_gripper(fully_closed_distance)
+#        back_gripper(fully_closed_distance)
+#    
+#    elif angle==400:
+#        print('Grippers- Partially Opened distance')
+#        front_gripper(partially_opened_distance)
+#        back_gripper(partially_opened_distance)
+#    
+#    elif angle==500:
+#        noftimes = input('Number of times - 1mm')
+#        distance = input('Each increment of distance?')
+#        for ele in range(0,noftimes):
+#            push_action(distance)
+#    
+#    elif angle==700:
+#        print('Zero position')
+#        zero_position()
+#    
+#    elif angle==800:
+#        print('Grippers - slightly more opened position')
+#        front_gripper(slightlyMore_opened_distance)
+#        back_gripper(slightlyMore_opened_distance)
+#    
+#    elif angle==900:
+#        noftimes = input('Number of times')
+#        distance = input('Each increment of distance?')
+#        for ele in range(0,noftimes):
+#            reversePush_action(distance)
+#    else:
+#        angle = input('Enter angle')
+#        new_back_rotation(angle)
+    pulse = input('Enter pulse of rotating arm')
+    pwm.set_pwm(ch_rotatingArm,0,pulse)
+    sleep(time_constant*2)
         
     
         
