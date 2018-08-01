@@ -196,8 +196,7 @@ OD = fact.OD
 lens =3
 while True:
     angle = input('Input angle')
-    angle = 15-angle
-    new_back_rotation(angle)
+    
     
     if angle == 200:
         print('Grippers- Fully Opened distance')
@@ -210,5 +209,7 @@ while True:
         for ele in range(0,noftimes):
             push_action(distance)
 
-    
+    else:
+        angle = 15-angle
+        new_back_rotation(angle)
         
