@@ -254,7 +254,7 @@ def rotateThisCatheter(angle,channel = ch_rotatingArm,timeConstant = time_consta
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
                      
-#%%        
+#%%   
 def push_action(distance):
     front_gripper(partially_opened_distance)                                
     back_gripper(fully_closed_distance)
