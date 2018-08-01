@@ -20,9 +20,7 @@ import factors as fact
 currDir = os.path.dirname(os.path.realpath('__file__'))
 
 filename = os.path.join(currDir,'npy/26mmpigtail2.npy')
-
 directions = np.load(filename)
-
 print(directions[2:12,1])
 left_right= input('Do you want to flip the angles? Press 1')
 if left_right:
