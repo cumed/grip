@@ -177,10 +177,20 @@ def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_co
         print('0')
         
 #%% 
+        
+def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
+##    print('Do we move bending pins back to zeroeth position')
+#    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
+    pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+    print(pulse_zero)
+    pwm.set_pwm(channel,0,pulse_zero)
+    sleep(timeConstant)
+    
 def zero_position():
     front_gripper(0)
     back_gripper(0)
     back_gripper_indexing(0)
+    bendingPin_zero()
     new_back_rotation(zeroethPosition)
 
 def push_action(distance):
