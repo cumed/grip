@@ -110,7 +110,7 @@ def split_angles(angle,rotAngle_threshold=rotationalAngle_threshold):
 
 def rotationalAngle_to_servoAngle(angle):
     #this function defines the mapping of rotational angle to servo angle 
-#    angle = 20-angle
+    angle = rotationalAngle_threshold-angle
     servoAngle =-8e-5*(angle**4) + 0.0132*(angle**3) - 0.4302*(angle**2) + 9.641*angle + 78.688
     return servoAngle
 
@@ -173,7 +173,7 @@ def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_co
         print(angle_list)
 #        rotateTheCatheterByNegativeAngle(angle_list)
     else:
-#        rotateThisCatheter(angle)
+        rotateThisCatheter(angle)
         print('0')
         
 #%% 
@@ -203,6 +203,16 @@ def push_action(distance):
     back_gripper(fully_closed_distance)
     print('Catheter pushed by '+str(distance)+'mm')
 
+def reversePush_action(distance):
+#    print('Front gripper partially opened')
+    front_gripper(fully_closed_distance)
+    back_gripper(fully_opened_distance)
+    back_gripper_indexing(distance*fact.distanceFactor)
+    back_gripper(fully_closed_distance)
+    front_gripper(partially_opened_distance)
+    back_gripper_indexing(fully_bwd_distance)
+    front_gripper(fully_closed_distance)
+    
 #%%
         
 fully_closed_distance       = 3.18                                           # Distance to close the gripper - 1.58 mm
@@ -233,6 +243,17 @@ while True:
         for ele in range(0,noftimes):
             push_action(distance)
 
+    elif angle==800:
+        print('Grippers - slightly more opened position')
+        front_gripper(slightlyMore_opened_distance)
+        back_gripper(slightlyMore_opened_distance)
+
+    elif angle==900:
+        noftimes = input('Number of times')
+        distance = input('Each increment of distance?')
+        for ele in range(0,noftimes):
+            reversePush_action(distance)
+            
     else:
         new_back_rotation(angle)
         
