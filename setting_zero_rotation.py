@@ -44,7 +44,7 @@ from_angles = {
         }
 bendPinsFactor = 0
 zeroethPosition = 15                                                          # The zeroeth position of the rotational servo
-rotationalAngle_threshold = 15
+rotationalAngle_threshold = 29
 
 #%%
 def angle_to_pulse(angle,from_low=0,from_high=180):
@@ -110,23 +110,34 @@ def split_angles(angle,rotAngle_threshold=rotationalAngle_threshold):
 
 def rotationalAngle_to_servoAngle(angle):
     #this function defines the mapping of rotational angle to servo angle 
-    angle = 29-angle
+#    angle = 20-angle
     servoAngle =-8e-5*(angle**4) + 0.0132*(angle**3) - 0.4302*(angle**2) + 9.641*angle + 78.688
     return servoAngle
 
 
 def rotateTheCatheterByPositiveAngle(angle_list):
     for angles in angle_list:
-        back_gripper(fully_closed_distance)
-        front_gripper(partially_opened_distance)
+#        print('Performing rotation for '+str(angles) + 'for a total angle of '+str(sum(angle_list)))
+#        print('Back gripper fully closed')
+#        back_gripper(fully_closed_distance)
+#        print('Front gripper partially opened')
+#        front_gripper(partially_opened_distance)
+#        print('Rotating catheter')
         rotateThisCatheter(angles)
         
-        front_gripper(fully_closed_distance)
-        back_gripper(partially_opened_distance)
-        rotateThisCatheter(zeroethPosition)
-        
-        back_gripper(fully_closed_distance)
-    
+#        print('Front gripper fully closed')
+#        front_gripper(fully_closed_distance)
+#        print('Back gripper partially opened')
+#        back_gripper(partially_opened_distance)
+#        print('Moving the catheter back to zeroeth position')
+#        rotateThisCatheter(zeroethPosition)
+#        
+#        print('Back gripper fully closed')
+#        back_gripper(fully_closed_distance)
+#        
+#        print('Done with '+ str(angle_list.index(angles)) +' round of rotation')
+    print('Done with the rotation completely')
+
 def rotateTheCatheterByNegativeAngle(angle_list):
     for angles in angle_list:
         front_gripper(fully_closed_distance)
@@ -159,9 +170,10 @@ def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_co
     elif angle<0:
         angle_list = split_angles(abs(angle))
         print(angle_list)
-        rotateTheCatheterByNegativeAngle(angle_list)
+#        rotateTheCatheterByNegativeAngle(angle_list)
     else:
-        rotateThisCatheter(angle)
+#        rotateThisCatheter(angle)
+        print('0')
         
 #%% 
 def zero_position():
