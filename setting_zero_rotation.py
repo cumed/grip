@@ -44,7 +44,7 @@ from_angles = {
         }
 bendPinsFactor = 0
 zeroethPosition = 15                                                          # The zeroeth position of the rotational servo
-rotationalAngle_threshold = 29
+rotationalAngle_threshold = 14
 
 #%%
 def angle_to_pulse(angle,from_low=0,from_high=180):
@@ -110,7 +110,7 @@ def split_angles(angle,rotAngle_threshold=rotationalAngle_threshold):
 
 def rotationalAngle_to_servoAngle(angle):
     #this function defines the mapping of rotational angle to servo angle 
-#    angle = 20-angle
+    angle = rotationalAngle_threshold-angle
     servoAngle =-8e-5*(angle**4) + 0.0132*(angle**3) - 0.4302*(angle**2) + 9.641*angle + 78.688
     return servoAngle
 
