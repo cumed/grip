@@ -202,6 +202,16 @@ def push_action(distance):
     back_gripper_indexing(fully_bwd_distance)
     back_gripper(fully_closed_distance)
     print('Catheter pushed by '+str(distance)+'mm')
+    
+def reversePush_action(distance):
+#    print('Front gripper partially opened')
+    front_gripper(fully_closed_distance)
+    back_gripper(fully_opened_distance)
+    back_gripper_indexing(distance*fact.distanceFactor)
+    back_gripper(fully_closed_distance)
+    front_gripper(partially_opened_distance)
+    back_gripper_indexing(fully_bwd_distance)
+    front_gripper(fully_closed_distance)
 
 #%%
         
@@ -232,7 +242,18 @@ while True:
         distance = input('Each increment of distance?')
         for ele in range(0,noftimes):
             push_action(distance)
-
+            
+    elif angle==800:
+        print('Grippers - slightly more opened position')
+        front_gripper(slightlyMore_opened_distance)
+        back_gripper(slightlyMore_opened_distance)
+        
+    elif angle==900:
+        noftimes = input('Number of times')
+        distance = input('Each increment of distance?')
+        for ele in range(0,noftimes):
+            reversePush_action(distance)
+    
     else:
         new_back_rotation(angle)
         
