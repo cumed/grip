@@ -173,7 +173,7 @@ def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_co
         print(angle_list)
 #        rotateTheCatheterByNegativeAngle(angle_list)
     else:
-#        rotateThisCatheter(angle)
+        rotateThisCatheter(angle)
         print('0')
         
 #%% 
