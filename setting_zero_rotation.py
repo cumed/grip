@@ -153,8 +153,9 @@ def rotateTheCatheterByNegativeAngle(angle_list):
 
 def rotateThisCatheter(angle,channel = ch_rotatingArm,timeConstant = time_constant):
     servoAngle = rotationalAngle_to_servoAngle(angle)
-    print(servoAngle)
+    print('Servo angle: '+str(servoAngle))
     pulse = angle_to_pulse(servoAngle)
+    print('Pulse: '+str(pulse))
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
     
