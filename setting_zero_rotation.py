@@ -117,25 +117,25 @@ def rotationalAngle_to_servoAngle(angle):
 
 def rotateTheCatheterByPositiveAngle(angle_list):
     for angles in angle_list:
-#        print('Performing rotation for '+str(angles) + 'for a total angle of '+str(sum(angle_list)))
-#        print('Back gripper fully closed')
-#        back_gripper(fully_closed_distance)
-#        print('Front gripper partially opened')
-#        front_gripper(partially_opened_distance)
-#        print('Rotating catheter')
-        rotateThisCatheter(angles)
-        
-#        print('Front gripper fully closed')
-#        front_gripper(fully_closed_distance)
-#        print('Back gripper partially opened')
-#        back_gripper(partially_opened_distance)
-#        print('Moving the catheter back to zeroeth position')
-#        rotateThisCatheter(zeroethPosition)
+##        print('Performing rotation for '+str(angles) + 'for a total angle of '+str(sum(angle_list)))
+##        print('Back gripper fully closed')
+##        back_gripper(fully_closed_distance)
+##        print('Front gripper partially opened')
+##        front_gripper(partially_opened_distance)
+##        print('Rotating catheter')
+#        rotateThisCatheter(angles)
 #        
-#        print('Back gripper fully closed')
-#        back_gripper(fully_closed_distance)
-#        
-#        print('Done with '+ str(angle_list.index(angles)) +' round of rotation')
+##        print('Front gripper fully closed')
+##        front_gripper(fully_closed_distance)
+##        print('Back gripper partially opened')
+##        back_gripper(partially_opened_distance)
+##        print('Moving the catheter back to zeroeth position')
+##        rotateThisCatheter(zeroethPosition)
+##        
+##        print('Back gripper fully closed')
+##        back_gripper(fully_closed_distance)
+##        
+##        print('Done with '+ str(angle_list.index(angles)) +' round of rotation')
     print('Done with the rotation completely')
 
 def rotateTheCatheterByNegativeAngle(angle_list):

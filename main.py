@@ -18,7 +18,7 @@ import os
 import factors as fact
 #%% Define directions and thresholds
 currDir = os.path.dirname(os.path.realpath('__file__'))
-check = input('If running this file standalone, then press 1. Otherwise press 0 if running master_main.py and hit enter \n')
+check = int(input('If running this file standalone, then press 1. Otherwise press 0 if running master_main.py and hit enter \n'))
 if check==1:
     fileStringName = str(input('Enter the npy file name \nFor example: 26mmpigtail2 \n')+'.npy')
     filename = os.path.join(currDir,'npy')
