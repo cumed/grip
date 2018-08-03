@@ -273,6 +273,11 @@ def home_position():
     bendingPin_zero()
     new_back_rotation(zeroethPosition)
 
+def zero_position():
+    front_gripper(0)
+    back_gripper(0)
+    bendingPin_zero()
+    back_gripper_indexing(0)
 #%% Functions for fully closed and partially opened distance if the grippers
 # have to be closed by different distances. 
 # Uncomment the call for fully_closed_distance and partially_opened_distance 

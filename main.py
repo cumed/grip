@@ -18,21 +18,14 @@ import os
 import factors as fact
 #%% Define directions and thresholds
 currDir = os.path.dirname(os.path.realpath('__file__'))
-
-filename = os.path.join(currDir,'npy/26mmpigtail2.npy')
-directions = np.load(filename)
-print(directions[2:12,1])
-left_right= input('Do you want to flip the angles? Press 1')
-if left_right:
-    directions[:,1] = -1*directions[:,1]
-
-#%% Variables that can be changed
-
-servoDist_threshold       = fact.servoDist_threshold                                                 # Max distance travelled by the back indexing servo(4.75*2)
-angle_threshold           = fact.angle_threshold                                                   # Min angle required that the catheter needs to be bent by
-rotationalAngle_threshold = fact.rotationalAngle_threshold                                                # Min angle required that the catheter needs to be rotated by
-
-servo_min, servo_max = 190,500                                                  # Min,Max limit of 183,600 for Hitech-servos 
+check = input('If running this file standalone, then press 1. Otherwise press 0 and hit enter \n')
+if check==1:
+    fileStringName = str(input('Enter the npy file name \nFor example: 26mmpigtail2 \n')+'.npy')
+    filename = os.path.join(currDir,'npy/',fileStringName)
+    directions = np.load(filename)
+else:
+    filename = os.path.join(currDir,'npy/runfile.npy')
+    directions = np.load(filename)
 
 #%%
 incremental_distance,traversed_distance = 0,0                                   # Keeping track of distances until a bend is supposed to happen and the total distance distance travelled
@@ -40,12 +33,28 @@ incremental_distance,traversed_distance = 0,0                                   
 distances = directions[:,0]                                                     # Reads the distance from the directions npy file i.e. first column
 angles = directions[:,1]                                                        # Reads the bending angles from the directions npy file i.e. second column
 rotational_angle = directions[:,2]                                              # Reads the rotational angle from the directions npy file i.e. third column
+#%%
+print('These are some of the bend angles for the first 13 points')
+print(directions[0:12,1])
+left_right= input('Do you want to flip these angles i.e. make them negative? \nIf so, Press 1. Otherwise, press 0 and hit enter \n')
+if left_right:
+    angles = -1*angles
+
+#%% Variables that can be changed
+
+servoDist_threshold       = fact.servoDist_threshold                            # Max distance travelled by the back indexing servo(4.75*2)
+angle_threshold           = fact.angle_threshold                                # Min angle required that the catheter needs to be bent by
+rotationalAngle_threshold = fact.rotationalAngle_threshold                      # Min angle required that the catheter needs to be rotated by
+
+servo_min, servo_max = fact.servo_min,fact.servo_max                            # Min,Max limit of 183,600 for Hitech-servos 
+
+
 
 #%% Uncommenting block
-#catheter_ID     = fact.catheter_ID                                                             # The catheter code number from teh main database
-#cpro.get_properties(catheter_ID)                                                # Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
+#catheter_ID     = fact.catheter_ID                                             # The catheter code number from teh main database
+#cpro.get_properties(catheter_ID)                                               # Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
 
-#properties_flag = 1                                                             # Set it to 1 if you require all the properties in one go. 
+#properties_flag = 1                                                            # Set it to 1 if you require all the properties in one go. 
 #[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
 
 #%%
@@ -55,10 +64,10 @@ OD = cpro.get_OD()                                                              
 #OD = fact.ODList                                                               # Obtains the ODs from factors.py if you want to change the OD quickly for testing purpose. 
 
 #%%
-#idx             = 0                                                            # Index for points obtained from SVG
-#prop_idx        = 0                                                            # Index for the properites of the catheter
-#flag            = 0                                                            # Check for incremental distance until a bending is approached. 
-#rotation_flag   = 0                                                            # Check for incremental distance until a rotating angle is approached *currently unused*
+#idx                                                                            # Index for points obtained from SVG
+#prop_idx                                                                       # Index for the properites of the catheter
+#flag                                                                           # Check for incremental distance until a bending is approached. 
+#rotation_flag                                                                  # Check for incremental distance until a rotating angle is approached *currently unused*
 idx, prop_idx, flag, rotation_flag = 0,0,0,0                                    # Reasons for each variable used is as in the above 4 lines
 
 lens            = lengths[prop_idx]                                             # Obtains the length of the first material in the catheter
@@ -66,15 +75,11 @@ outer_diameter  = OD[prop_idx]                                                  
 
 
 #%% Zeroing of cams
-def zero_position():
-    gmr.front_gripper(0)
-    gmr.back_gripper(0)
-    gmr.bendingPin_zero()
-    gmr.back_gripper_indexing(0)
+
 
 test = input('Zero the cams so that you can place the catheter from top?\n 1 - Yes\n 0 - No')       #Press 1 if you want the grippers to be completely removed, so that its easy to insert the catheters during testing
 if test ==1:
-    zero_position()
+    gmr.zero_position()
     input('Press any key to continue after inserting the catheter to continue...')
 
 #Move the grippers to a distance slightly more than the partially opened distance so that the catheter can slide through easily so that it can be positioned easily.
@@ -139,7 +144,7 @@ while idx < np.size(distances,0):
     
 gmr.bendingPin_zero()
 input('Done?')
-zero_position()
+gmr.zero_position()
 
 
 

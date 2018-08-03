@@ -14,6 +14,9 @@ rotationalAngle_threshold = 1
 
 #catheter_ID = 3
 
+
+servo_min = 190
+servo_max = 500
 #%% 
 #bendPinsFactorPos = float(input('Enter bend pins factor positive?')) 
 bendPinsFactorPos = 2.05
