@@ -12,10 +12,12 @@ import getcathetershape as shape
 import get_angle as angle
 import pandas as pd
 
+currDir = os.path.dirname(os.path.realpath('__file__'))
 
-check = input('Are the distances and angles in an SVG file or Excel file? \n Press 1 if SVG \n Press 2 if Excel \n')
+check = int(input('Are the distances and angles in an SVG file or Excel file? \n Press 1 if SVG \n Press 2 if Excel \n'))
 if check ==1:
     svg_fileName = str(input('Enter the name of the svg file without the file extension .svg \n')+'.svg')
+    svg_fileName = os.path.join(currDir,'svgs/',svg_fileName)
     [x,y] = shape.svg_to_points(svg_fileName)                                    
     append_z = np.zeros(len(x))                                                   # 
     data = np.vstack((x,y,append_z)).T                                            # For now, 0s are appended for the z dimension
