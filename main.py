@@ -18,10 +18,11 @@ import os
 import factors as fact
 #%% Define directions and thresholds
 currDir = os.path.dirname(os.path.realpath('__file__'))
-check = input('If running this file standalone, then press 1. Otherwise press 0 and hit enter \n')
+check = input('If running this file standalone, then press 1. Otherwise press 0 if running master_main.py and hit enter \n')
 if check==1:
     fileStringName = str(input('Enter the npy file name \nFor example: 26mmpigtail2 \n')+'.npy')
-    filename = os.path.join(currDir,'npy/',fileStringName)
+    filename = os.path.join(currDir,'npy')
+    filename = os.path.join(filename,fileStringName)
     directions = np.load(filename)
 else:
     filename = os.path.join(currDir,'npy/runfile.npy')
@@ -54,7 +55,7 @@ servo_min, servo_max = fact.servo_min,fact.servo_max                            
 #catheter_ID     = fact.catheter_ID                                             # The catheter code number from teh main database
 #cpro.get_properties(catheter_ID)                                               # Creates the current catheter sheet that'll have all the details for the <catheter_ID> catheter. 
 
-#properties_flag = 1                                                            # Set it to 1 if you require all the properties in one go. 
+#properties_flag = 0                                                            # Set it to 1 if you require all the properties in one go. 
 #[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
 
 #%%

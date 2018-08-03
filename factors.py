@@ -12,7 +12,7 @@ servoDist_threshold       = 6                                                 # 
 angle_threshold           = 1                                                   # Min angle required that the catheter needs to be bent by
 rotationalAngle_threshold = 1  
 
-#catheter_ID = 3
+#catheter_ID = input('Enter the catheter ID that you'd like to run i.e. Catheter code from Master database')
 
 
 servo_min = 190
@@ -33,7 +33,7 @@ OD = 1.62
 positiveAngleOffset = 0
 negativeAngleOffset = 0
 ODList = [OD,OD,OD,OD]
-xDistPins = 15
+xDistPins = 2
 
 #a = input('Enter small fudge factor')
 a=1.8
