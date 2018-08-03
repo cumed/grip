@@ -34,7 +34,7 @@ distances = directions[:,0]                                                     
 angles = directions[:,1]                                                        # Reads the bending angles from the directions npy file i.e. second column
 rotational_angle = directions[:,2]                                              # Reads the rotational angle from the directions npy file i.e. third column
 #%%
-print('These are some of the bend angles for the first 13 points')
+print('These are the bend angles for the first 13 points')
 print(directions[0:12,1])
 left_right= input('Do you want to flip these angles i.e. make them negative? \nIf so, Press 1. Otherwise, press 0 and hit enter \n')
 if left_right:
@@ -143,7 +143,7 @@ while idx < np.size(distances,0):
         outer_diameter = OD[prop_idx]
     
 gmr.bendingPin_zero()
-input('Done?')
+input('You have completed shaping the catheter. Press any key to remove it.')
 gmr.zero_position()
 
 

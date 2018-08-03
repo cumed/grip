@@ -7,14 +7,7 @@ Created on Fri Aug  3 10:06:26 2018
 
 
 import numpy as np
-##import gripper_movements_rpi as gmr
-##import Adafruit_PCA9685
-##pwm = Adafruit_PCA9685.PCA9685()
-##pwm.set_pwm_freq(60)
-##import skeleton_structure as sks
-##import catheter_properties as cpro
 import os
-##import factors as fact
 import getcathetershape as shape
 import get_angle as angle
 import pandas as pd
