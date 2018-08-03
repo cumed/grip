@@ -15,14 +15,14 @@ import pandas as pd
 
 check = input('Are the distances and angles in an SVG file or Excel file? \n Press 1 if SVG \n Press 2 if Excel \n')
 if check ==1:
-    svg_fileName = str(input('Enter the name of the svg file with file extension .svg \n'))
+    svg_fileName = str(input('Enter the name of the svg file without the file extension .svg \n')+'.svg')
     [x,y] = shape.svg_to_points(svg_fileName)                                    
     append_z = np.zeros(len(x))                                                   # 
     data = np.vstack((x,y,append_z)).T                                            # For now, 0s are appended for the z dimension
     directions = angle.return_bends(data)                                         # storing the final array of distances, bend and rotational angles
 else:
     #%% In case the inputs are from .xlsx file (Phase 2 scopic)
-    excel_fileName = str(input('Enter the name of the excel file with file extension .xlsx \n'))
+    excel_fileName = str(input('Enter the name of the excel file without the file extension .xlsx \n')+'.xlsx')
     data = pd.read_excel(excel_fileName)
     x = data.iloc[:,0]
     y = data.iloc[:,1]
