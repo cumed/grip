@@ -32,13 +32,14 @@ negativeAngleOffset = 0
 ODList = [OD,OD,OD,OD]
 xDistPins = 15
 
-a = input('Enter small fudge factor')
-fudgepos = input('Enter fudge positive')
-#fudgepos = 1.4
+#a = input('Enter small fudge factor')
+a=1.8
+#fudgepos = input('Enter fudge positive')
+fudgepos = 2.3
 fudgeposFour = fudgepos+a
 
-fudgeneg = input('Enter fudge negative')
-#fudgeneg = 1.45
+#fudgeneg = input('Enter fudge negative')
+fudgeneg = 2.6
 fudgenegFour = fudgeneg+a
 
 smallAngleFudge = 5
