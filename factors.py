@@ -14,9 +14,25 @@ rotationalAngle_threshold = 1
 
 #catheter_ID = input('Enter the catheter ID that you'd like to run i.e. Catheter code from Master database')
 
+#%% Do not change these factors unless system is changed. 
+e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
+e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
+e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
+
+ch_backGripper = 0
+ch_frontGripper = 3
+ch_backidxGripper = 1
+ch_bendingPins = 5
+ch_rotatingArm = 8
+
 
 servo_min = 190
 servo_max = 500
+
+
+#%% Factors responsible for rotation
+rotationalAngle_maxPerRound = 15
+zeroethPositionOfRotation = 0                                               # Maximum angle our system can rotate.
 #%% 
 #bendPinsFactorPos = float(input('Enter bend pins factor positive?')) 
 bendPinsFactorPos = 2.05

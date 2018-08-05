@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jul 23 10:40:30 2018
-new bend
+Created on Fri Aug 3 17:00:00 2018
+
 @author: ATI-2 Pavan Gurudath
 """
-
-print('This is the new origin and not the master')
 
 import numpy as np
 import gripper_movements_rpi as gmr
@@ -16,11 +14,13 @@ import skeleton_structure as sks
 import catheter_properties as cpro
 import os
 import factors as fact
-#%% Define directions and thresholds
+#%% Define directions so that the file takes the correct npy file into account. If master_main is running, then it'll save the .npy as runfile.npy
 currDir = os.path.dirname(os.path.realpath('__file__'))
 check = int(input('If running this file standalone, then press 1. Otherwise press 0 if running master_main.py and hit enter \n'))
 if check==1:
-    fileStringName = str(input('Enter the npy file name \nFor example: 26mmpigtail2 \n')+'.npy')
+    print('You are running this file by itself.\n')
+    fileStringName = str(input('Enter the npy file name without the \
+                               file extension.\nFor example: 26mmpigtail2.npy should be entered as 26mmpigtail2 \n')+'.npy')
     filename = os.path.join(currDir,'npy')
     filename = os.path.join(filename,fileStringName)
     directions = np.load(filename)
@@ -58,10 +58,11 @@ servo_min, servo_max = fact.servo_min,fact.servo_max                            
 #properties_flag = 0                                                            # Set it to 1 if you require all the properties in one go. 
 #[lengths, ODs, IDs, Materials, HysterisisFactors, HeatTimes, Xis, Yis, MandrelMaterials, MandrelODs] = cpro.get_properties(catheter_ID,properties_flag) 
 
-#%%
+#%% 
 lengths = cpro.get_length()                                                     # Get all the material cumulative lengths. 
 OD = cpro.get_OD()                                                              # Get all the ODs of the different material regions in the catheter
 
+## Only for testing purpose, if necessary, uncomment these lines. 
 #OD = fact.ODList                                                               # Obtains the ODs from factors.py if you want to change the OD quickly for testing purpose. 
 
 #%%
@@ -89,7 +90,7 @@ gmr.front_gripper(slightlyMore_opened_distance)
 gmr.back_gripper(slightlyMore_opened_distance)
 
 #%%
-input('Press 1 to make the cams go to "home" position')
+input('You can move the catheter and adjust it to send it to the zeroeth position. \n Once set, press 1 to make the cams go to "home" position')
 gmr.home_position()
 
 #%%

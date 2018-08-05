@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jul 20 15:24:37 2018
+Created on Fri Aug 3 17:00:00 2018
 
 @author: ATI-2 Pavan Gurudath
 """
@@ -19,23 +19,23 @@ pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
 
 #%% Declarations
-servo_min = 190                                                              # Min limit of 183 for Hitech-servos
-servo_max = 500                                                              # Max limit of 600 for Hitech-servos
+servo_min = fact.servo_min                                                              # Min limit of 183 for Hitech-servos
+servo_max = fact.servo_max                                                              # Max limit of 600 for Hitech-servos
 
-e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
-e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
-e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
+e_gripper = fact.e_gripper                                                             # eccentricity of gripper cams - 1.59mm
+e_bending = fact.e_bending                                                             # eccentricity of bending cam - 9.25mm
+e_backidx = fact.e_backidx                                                             # eccentricity of back indexing gripper cam - 4.75mm
 
 time_constant = fact.time_constant                                           # Time for the Rpi to wait for the servo to complete its task
 d_pins = fact.d_pins                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
 y_i =   fact.y_i                                                                    # Distance between the front gripper and the bending pins
 
 #%% Declare all channels
-ch_backGripper = 0
-ch_frontGripper = 3
-ch_backidxGripper = 1
-ch_bendingPins = 5
-ch_rotatingArm = 8
+ch_backGripper = fact.ch_backGripper
+ch_frontGripper = fact.ch_frontGripper
+ch_backidxGripper = fact.ch_backidxGripper
+ch_bendingPins = fact.ch_bendingPins
+ch_rotatingArm = fact.ch_rotatingArm
 
 
 #%%
@@ -44,8 +44,8 @@ from_angles = {
         'negative bend': [90,-90],                                           # If the bending is taking place for a negative angle, then the bending pins need to move to the left
         }
 
-zeroethPosition = 0                                                          # The zeroeth position of the rotational servo
-rotationalAngle_threshold = 15                                               # Maximum angle our system can rotate.
+zeroethPosition = fact.zeroethPositionOfRotation                                                          # The zeroeth position of the rotational servo
+rotationalAngle_maxPerRound = fact.rotationalAngle_maxPerRound               # Maximum angle our system can rotate.
 #%% Gripper servo angles and movements 
 # Mapping the angle on the servo to the pulse range
 def angle_to_pulse(angle,from_low=0,from_high=180):
@@ -199,7 +199,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
 #temp_rotation = 0
 #rotAngle_threshold = 15
 
-def split_angles(angle,rotAngle_threshold=rotationalAngle_threshold):
+def split_angles(angle,rotAngle_threshold=rotationalAngle_maxPerRound):
     quotient = int(angle//rotAngle_threshold)
     remainder = angle - rotAngle_threshold*quotient
     rotAngles = []
