@@ -31,8 +31,8 @@ servo_max = 500
 
 
 #%% Factors responsible for rotation
-rotationalAngle_maxPerRound = 15
-zeroethPositionOfRotation = 0                                               # Maximum angle our system can rotate.
+rotationalAngle_maxPerRound = 15                                                # Maximum angle our system can rotate.
+zeroethPositionOfRotation = 0                                               
 #%% 
 #bendPinsFactorPos = float(input('Enter bend pins factor positive?')) 
 bendPinsFactorPos = 2.05
