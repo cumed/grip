@@ -14,20 +14,45 @@ import skeleton_structure as sks
 import catheter_properties as cpro
 import os
 import factors as fact
+import getcathetershape as shape
+import get_angle as angle
+import pandas as pd
+
 #%% Define directions so that the file takes the correct npy file into account. If master_main is running, then it'll save the .npy as runfile.npy
 currDir = os.path.dirname(os.path.realpath('__file__'))
-check = int(input('If running this file standalone, then press 1. Otherwise press 0 if running master_main.py and hit enter \n'))
-if check==1:
-    print('You are running this file by itself.\n')
+
+check = int(input('Are the distances and angles in an SVG file or Excel file? \n Press 1 if SVG \n Press 2 if Excel \n Press 3 if existing numpy file \n'))
+if check ==1:
+    svg_fileName = input('Enter the name of the svg file without the file extension .svg \n')
+#    svg_Dir = os.path.join(currDir,'svgs')                                        # Combines the current directory path with svgs
+#    svg_fileName = os.path.join(svg_Dir,svg_fileName)
+    svg_fileName = 'svgs/'+ str(svg_fileName) + '.svg'
+    [x,y] = shape.svg_to_points(svg_fileName)                                     # Obtains the x and y coordinates
+    data = np.vstack((x,y,np.zeros(len(x)))).T                                    # For now, 0s are appended for the z dimension
+    directions = angle.return_bends(data)                                         # storing the final array of distances, bend and rotational angles
+    np.save('runfile.npy',directions)
+elif check ==2:
+    #%% In case the inputs are from .xlsx file (Phase 2 scopic)
+    excel_fileName = str(input('Enter the name of the excel file without the file extension .xlsx \n')+'.xlsx')
+    data = pd.read_excel('excelfiles/'+ excel_fileName)
+    x = data.iloc[:,0]
+    y = data.iloc[:,1]
+    z = data.iloc[:,2]
+    directions = np.column_stack(x,y,z)
+    np.save('runfile.npy',directions)
+
+#check = int(input('If running this file standalone, then press 1. Otherwise press 0 if running master_main.py and hit enter \n'))
+else:
+    #print('You are running this file by itself.\n')
     filename = input("Enter the npy file name without the \ file extension. For example: 26mmpigtail2.npy should be entered as 26mmpigtail2 \n")
     print(filename)
     fileStringName = 'npy/'+ str(filename) +'.npy'
 #    filename = os.path.join(currDir,'npy')
 #    filename = os.path.join(filename,fileStringName)
     directions = np.load(fileStringName)
-else:
-    filename = os.path.join(currDir,'runfile.npy')
-    directions = np.load(filename)
+#else:
+#    filename = os.path.join(currDir,'runfile.npy')
+#    directions = np.load(filename)
 
 #%%
 incremental_distance,traversed_distance = 0,0                                   # Keeping track of distances until a bend is supposed to happen and the total distance distance travelled
