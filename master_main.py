@@ -5,7 +5,6 @@ Created on Fri Aug 3 17:00:00 2018
 @author: ATI-2 Pavan Gurudath
 """
 
-
 import numpy as np
 import os
 import getcathetershape as shape

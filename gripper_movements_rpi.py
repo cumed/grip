@@ -291,7 +291,7 @@ def get_fullyClosedDistance(fr_size):
            8:4
            }
    return fcd_angle.get(fr_size)
-
+ 
 def get_partiallyOpenedDistance(fr_size):
     pod_angle = {
            3:3.5,                                        #******************Needs to be experimentally determined**************
