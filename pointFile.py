@@ -59,4 +59,4 @@ def makePointFile(name):
 
 
 
-print("pointlist prepared")
+#print("pointlist prepared")
