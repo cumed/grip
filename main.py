@@ -26,7 +26,7 @@ if check==1:
 #    filename = os.path.join(filename,fileStringName)
     directions = np.load(fileStringName)
 else:
-    filename = os.path.join(currDir,'npy/runfile.npy')
+    filename = os.path.join(currDir,'runfile.npy')
     directions = np.load(filename)
 
 #%%

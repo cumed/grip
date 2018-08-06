@@ -33,4 +33,4 @@ else:
     directions = np.column_stack(x,y,z)
 
 np.save('runfile.npy',directions)
-os.system('sudo python main.py')                                                 #Runs the main.py file 
+import main                                             #Runs the main.py file 
