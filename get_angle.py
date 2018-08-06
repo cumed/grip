@@ -116,7 +116,7 @@ def findNextPoint(data, aindx, base, desiredLength, angles): #returns the next p
                 elif np.linalg.norm(base-c) < desiredLength and np.linalg.norm(base-b) > desiredLength:
                     a = c
 
-def SpacedInterp(data, angles,interpolation): # returns a set of points after linear interpolation of input data points
+def SpacedInterp(data,interpolation,angles): # returns a set of points after linear interpolation of input data points
     angles = angles [::-1]
     cap = .03*(max(data[:,1]))  # cap is the max distance between any two interpolated points
     constant = .1
@@ -190,7 +190,7 @@ def bend_angle(flag,prev_x,prev_y,prev_z,curr_x,curr_y,curr_z,next_x,next_y,next
 def return_bends(data,interpolation): # returns the final array of distances, theta and beta angles the shape the catheter
     
     x = data[0:]
-    initial_points = SpacedInterp(data, angles = np.array([0]),interpolation) # interpolating the data points 
+    initial_points = SpacedInterp(data,interpolation, angles = np.array([0])) # interpolating the data points 
     data = initial_points[1:]
     #print(initial_points)
     x = initial_points[0:] 
