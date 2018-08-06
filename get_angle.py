@@ -116,19 +116,19 @@ def findNextPoint(data, aindx, base, desiredLength, angles): #returns the next p
                 elif np.linalg.norm(base-c) < desiredLength and np.linalg.norm(base-b) > desiredLength:
                     a = c
 
-def SpacedInterp(data, angles): # returns a set of points after linear interpolation of input data points
+def SpacedInterp(data, angles,interpolation): # returns a set of points after linear interpolation of input data points
     angles = angles [::-1]
     cap = .03*(max(data[:,1]))  # cap is the max distance between any two interpolated points
     constant = .1
     pointHistory = np.empty((0,3))
-    desiredLength = 1.5 # interpolation occurs at 4.1 mm. 
+    desiredLength = interpolation # interpolation occurs at this length. 
     nextPoint, aindx = findNextPoint(data, 0, data[0], desiredLength, angles)
     #print("nextpoint is ",nextPoint)
     pointHistory = np.vstack((pointHistory,nextPoint))
     index = 0
     while nextPoint is not None:
         if angles.size==1:      # If angles only contains one value
-            desiredLength = 1.5 # interpolation occurs at 4.1 mm. 
+            desiredLength = interpolation # interpolation occurs at this length
         else:
             if index < (len(angles)-1): # avoid indexing error
                 if(angles[index] == 0):
@@ -187,10 +187,10 @@ def bend_angle(flag,prev_x,prev_y,prev_z,curr_x,curr_y,curr_z,next_x,next_y,next
     return angle
 
 
-def return_bends(data): # returns the final array of distances, theta and beta angles the shape the catheter
+def return_bends(data,interpolation): # returns the final array of distances, theta and beta angles the shape the catheter
     
     x = data[0:]
-    initial_points = SpacedInterp(data, angles = np.array([0])) # interpolating the data points 
+    initial_points = SpacedInterp(data, angles = np.array([0]),interpolation) # interpolating the data points 
     data = initial_points[1:]
     #print(initial_points)
     x = initial_points[0:] 
@@ -229,23 +229,22 @@ def return_bends(data): # returns the final array of distances, theta and beta a
     bends = plot_points(r,theta) # plot_points converts directions into x, y points
     rotation = plot_points3D(r,theta,beta)                                      # bad_points is a way to check the first round of interpolation
                                             # and angle extraction
-    plt.subplot(1, 2, 1)
-    plt.plot(data[:,0], data[:,1], 'r') # plotting the initial set of points
-    plt.title('initial_points')
-    plt.axis('equal')
-    plt.subplot(1, 2, 2)
-    plt.plot(bends[:,0], bends[:,1], 'rx')
-    plt.title('bends')
-    plt.axis('equal')
-    plt.show()
+#uncomment for 2D plot
+#    plt.subplot(1, 2, 1)
+#    plt.plot(data[:,0], data[:,1], 'r') # plotting the initial set of points
+#    plt.title('initial_points')
+#    plt.axis('equal')
+#    plt.subplot(1, 2, 2)
+#    plt.plot(bends[:,0], bends[:,1], 'rx')
+#    plt.title('bends')
+#    plt.axis('equal')
+#    plt.show()
     
-    fig = pyplot.figure()
-   # pyplot.subplot(1, 2, 1)
-#    ax = Axes3D(fig)
-#    ax.plot(data[:,0], data[:,1], data[:,2])
-    bx = Axes3D(fig)
-    bx.plot(rotation[:,0], rotation[:,1], rotation[:,2])
-    pyplot.show()
+#    fig = pyplot.figure()  # uncomment for 3D plot
+#
+#    bx = Axes3D(fig)
+#    bx.plot(rotation[:,0], rotation[:,1], rotation[:,2])
+#    pyplot.show()
     return np.transpose([r,np.degrees(theta),np.degrees(beta)])
 
 #data = pd.read_excel('23mmPigtail.xlsx')     
