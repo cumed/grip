@@ -48,8 +48,8 @@ y_i = 1.78
 d_pins = 6.35
 
 
-#positiveAngleOffset = 0
-#negativeAngleOffset = 0
+positiveAngleOffset = 0
+negativeAngleOffset = 0
 OD = 1.62
 ODList = [OD,OD,OD,OD]
 xDistPins = 2
