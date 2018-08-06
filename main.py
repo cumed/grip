@@ -19,8 +19,9 @@ currDir = os.path.dirname(os.path.realpath('__file__'))
 check = int(input('If running this file standalone, then press 1. Otherwise press 0 if running master_main.py and hit enter \n'))
 if check==1:
     print('You are running this file by itself.\n')
-    filename = input('Enter the npy file name without the \ file extension.\nFor example: 26mmpigtail2.npy should be entered as 26mmpigtail2 \n')
-    fileStringName = 'npy/'+ filename +'.npy'
+    filename = input("Enter the npy file name without the \ file extension. For example: 26mmpigtail2.npy should be entered as 26mmpigtail2 \n")
+    print(filename)
+    fileStringName = 'npy/'+ str(filename) +'.npy'
 #    filename = os.path.join(currDir,'npy')
 #    filename = os.path.join(filename,fileStringName)
     directions = np.load(fileStringName)
