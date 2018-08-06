@@ -19,11 +19,10 @@ currDir = os.path.dirname(os.path.realpath('__file__'))
 check = int(input('If running this file standalone, then press 1. Otherwise press 0 if running master_main.py and hit enter \n'))
 if check==1:
     print('You are running this file by itself.\n')
-#    fileStringName = str(input('Enter the npy file name without the \
-#                               file extension.\nFor example: 26mmpigtail2.npy should be entered as 26mmpigtail2 \n')+'.npy')
+    fileStringName = str('npy/'+ input('Enter the npy file name without the \ file extension.\nFor example: 26mmpigtail2.npy should be entered as 26mmpigtail2 \n')+'.npy')
 #    filename = os.path.join(currDir,'npy')
 #    filename = os.path.join(filename,fileStringName)
-    directions = np.load('npy/JL4_3mm.npy')
+    directions = np.load(fileStringName)
 else:
     filename = os.path.join(currDir,'npy/runfile.npy')
     directions = np.load(filename)
@@ -37,7 +36,7 @@ rotational_angle = directions[:,2]                                              
 #%%
 print('These are the bend angles for the first 13 points')
 print(directions[0:12,1])
-left_right= input('Do you want to flip these angles i.e. make them negative? \nIf so, Press 1. Otherwise, press 0 and hit enter \n')
+left_right= int(input('Do you want to flip these angles i.e. make them negative? \nIf so, Press 1. Otherwise, press 0 and hit enter \n'))
 if left_right:
     angles = -1*angles
 
