@@ -252,15 +252,15 @@ def return_bends(data): # returns the final array of distances, theta and beta a
 #x = data.iloc[:,0]
 #y = data.iloc[:,1]
 #z = data.iloc[:,2]
-[x,y] = svg.svg_to_points("svgs\estimate_test.svg")  # include z dimension when 3 dimensional points are inputed. For now, 0s are appended for the z dimension
-len_z =len(x)
-append_z = np.zeros(len_z) # 
-data = np.vstack((x,y,append_z)).T #For now, 0s are appended for the z dimension
+#[x,y] = svg.svg_to_points("svgs\estimate_test.svg")  # include z dimension when 3 dimensional points are inputed. For now, 0s are appended for the z dimension
+#len_z =len(x)
+#append_z = np.zeros(len_z) # 
+#data = np.vstack((x,y,append_z)).T #For now, 0s are appended for the z dimension
 #data = np.vstack((x,y,z)).T
 #temp = data   uncomment to read original points
 #data = np.array(([10,5,0],[5,3,6],[3,4,0],[2,3,-1],[1,4,0],[0,3,0],[0,0,0]))   #testing datapoints
-bends = return_bends(data) # storing the final array of distances, theta and beta angles
-np.save('longCurve15.npy', np.transpose(bends)) # saving the calculated array into a numpy file
+#bends = return_bends(data) # storing the final array of distances, theta and beta angles
+#np.save('longCurve15.npy', np.transpose(bends)) # saving the calculated array into a numpy file
 
 
 
