@@ -75,7 +75,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse   
     if angle>=0:
-        x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos                                        # Distance the pin has to move to touch the catheter
+        x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos                                        # Distance the pin has to move to just touch the catheter
     elif angle<0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
 
@@ -110,24 +110,22 @@ small_angle_fudge = fact.smallAngleFudge
 def fudge_func(angle):
     #Call a function that contains the details, such as bend angle, OD, material
     #Somehow obtaine a formulae that would return the factor
+    #Currently, the fudge factor is decided based on trial and error, wherein the 
+    #angles are split as follows (-inf,-small_angle_fudge), [-small_angle_fudge,0],
+    #[0,small_angle_fudge], (small_angle_fudge,inf)
+    
     if angle>=0:
         if angle<=small_angle_fudge:
             fudge_factor = fact.fudgeposFour 
-            print(fudge_factor)
-            print('fudgeposFour')
         else:
             fudge_factor = fact.fudgepos                                                  
-            print(fudge_factor)
-            print('fudge pos')
+
     else:
         if angle>=-small_angle_fudge:
             fudge_factor = fact.fudgenegFour
-            print(fudge_factor)
-            print('fudgenegFour')
         else:
             fudge_factor = fact.fudgeneg                                             
-            print(fudge_factor)
-            print('fudge neg')
+
     return fudge_factor
 
 def factor_of_half_bendDist(distance):
@@ -194,11 +192,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
    
 #%% Rotating movements    
 
-        
-#total_rotation = 0
-#temp_rotation = 0
-#rotAngle_threshold = 15
-
+# Split the rotational angles based on the maximum angle that the system can move about
 def split_angles(angle,rotAngle_threshold=rotationalAngle_maxPerRound):
     quotient = int(angle//rotAngle_threshold)
     remainder = angle - rotAngle_threshold*quotient
@@ -213,6 +207,7 @@ def rotationalAngle_to_servoAngle(angle):
     servoAngle =-8e-5*(angle**4) + 0.0132*(angle**3) - 0.4302*(angle**2) + 9.641*angle + 78.688
     return servoAngle
 
+# main rotation function
 def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_constant):
     if angle>0:
         angle_list = split_angles(angle)
@@ -222,7 +217,9 @@ def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_co
         rotateTheCatheterByNegativeAngle(angle_list)
     else:
         rotateThisCatheter(angle)
-        
+ 
+
+# Gripper movements for rotation about positive angle
 def rotateTheCatheterByPositiveAngle(angle_list):
     for angles in angle_list:
         back_gripper(fully_closed_distance)
@@ -234,7 +231,8 @@ def rotateTheCatheterByPositiveAngle(angle_list):
         rotateThisCatheter(zeroethPosition)
         
         back_gripper(fully_closed_distance)
-    
+
+# Gripper movements for rotation about negative angle    
 def rotateTheCatheterByNegativeAngle(angle_list):
     for angles in angle_list:
         front_gripper(fully_closed_distance)
@@ -247,7 +245,7 @@ def rotateTheCatheterByNegativeAngle(angle_list):
         
         front_gripper(fully_closed_distance)
     
-
+# Function that sends the pulse for the rotation system
 def rotateThisCatheter(angle,channel = ch_rotatingArm,timeConstant = time_constant):
     servoAngle = rotationalAngle_to_servoAngle(angle)
     pulse = angle_to_pulse(servoAngle)
@@ -316,7 +314,7 @@ partially_opened_distance   = 2.8                                            # D
 slightlyMore_opened_distance = 2.2
 
 #%% fully_opened_distance
-fully_opened_distance       = 0 
-fully_bwd_distance          = 0 
+fully_opened_distance       = 0                                              # Distance to open the grippers completely 
+fully_bwd_distance          = 0                                              # Distance to keep the indexing camera behind 
 
 
