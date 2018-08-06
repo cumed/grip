@@ -23,7 +23,7 @@ if check==1:
                                file extension.\nFor example: 26mmpigtail2.npy should be entered as 26mmpigtail2 \n')+'.npy')
     filename = os.path.join(currDir,'npy')
     filename = os.path.join(filename,fileStringName)
-    directions = np.load(filename)
+    directions = np.load('npy/JL4_3mm.npy')
 else:
     filename = os.path.join(currDir,'npy/runfile.npy')
     directions = np.load(filename)
