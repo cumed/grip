@@ -307,15 +307,16 @@ def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,
     pulse = distance_to_pulse(pin_length,e,90,-90)
     print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,pulse)
-    sleep(timeConstant)
+    sleep(timeConstant*3) 
+    if dir_flag == 1:
+        bendingPin_zero()
+    elif dir_flag == -1:
+        bendingPin_zero()
+    sleep(timeConstant*3) 
     pulse = distance_to_pulse(pin_length,e,-90,90)
     print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,pulse)
-    sleep(timeConstant)
-#    if dir_flag == 1:
-#        bendingPin_zero()
-#    elif dir_flag == -1:
-#        bendingPin_zero()
+    sleep(timeConstant*3)
         
 pwm.set_pwm(ch_rotatingArm,0,angle_to_pulse(170))
 sleep(time_constant*2)    
