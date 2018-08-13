@@ -302,12 +302,12 @@ def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,
     if dir_flag == 1:
         pulse = distance_to_pulse(pin_length,e,90,-90)
         print ('Moving drop pin by'+ str(pulse))
-        pwm.set_pwm(channel,0,300)
+        pwm.set_pwm(channel,0,250)
         sleep(timeConstant*3) 
     elif dir_flag == -1:
          pulse = distance_to_pulse(pin_length,e,-90,90)
          print ('Moving drop pin by'+ str(pulse))
-         pwm.set_pwm(channel,0,450)
+         pwm.set_pwm(channel,0,500)
          sleep(timeConstant*3)
     
 def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
