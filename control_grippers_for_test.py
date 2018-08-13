@@ -274,6 +274,7 @@ def home_position():
     
 #    print('Bending pins moved to home position')
     bendingPin_zero()
+#    drop_pin(0)
     
 #    print('Back gripper on the plane at home angle')
 #    back_rotation(0,flag)
@@ -303,8 +304,12 @@ def lift_pin(pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConst
     sleep(timeConstant)
 
 def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
-    pulse = distance_to_pulse(pin_length,e)
-    print ('Moving drop pin by')
+    pulse = distance_to_pulse(pin_length,e,90,-90)
+    print ('Moving drop pin by'+ int(pulse))
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+    pulse = distance_to_pulse(pin_length,e,-90,90)
+    print ('Moving drop pin by'+ int(pulse))
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
 #    if dir_flag == 1:
@@ -362,7 +367,7 @@ while True:
         for ele in range(0,noftimes):
             reversePush_action(distance)
     elif angle==1000:
-        print('Dropping pin and changng bend direction')
+        print('Dropping pin and changing bend direction')
         drop_pin(1)
     else:
         angle = int(angle)
