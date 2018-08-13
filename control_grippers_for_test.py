@@ -300,12 +300,12 @@ def reversePush_action(distance):
 
 def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
     if dir_flag == 1:
-        pulse = distance_to_pulse(pin_length,e,180,0)
+        pulse = distance_to_pulse(pin_length,e,90,-90)
         print ('Moving drop pin by'+ str(pulse))
         pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant*3) 
     elif dir_flag == -1:
-         pulse = distance_to_pulse(pin_length,e,-180,0)
+         pulse = distance_to_pulse(pin_length,e,-90,90)
          print ('Moving drop pin by'+ str(pulse))
          pwm.set_pwm(channel,0,pulse)
          sleep(timeConstant*3)
