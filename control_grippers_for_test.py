@@ -314,7 +314,10 @@ def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,
         pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
         pwm.set_pwm(5,0,pulse)
     elif dir_flag == -1:
-        bendingPin_zero()
+        angle = 40
+        bendDist = bendAngle_to_bendDist(angle,1.62)
+        pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
+        pwm.set_pwm(5,0,pulse)
     sleep(timeConstant*3) 
     pulse = distance_to_pulse(pin_length,e,-90,90)
     print ('Moving drop pin by'+ str(pulse))
@@ -373,6 +376,9 @@ while True:
     elif angle==1000:
         print('Dropping pin and changing bend direction')
         drop_pin(1)
+    elif angle==2000:
+        print('Dropping pin and changing bend direction')
+        drop_pin(-1)
     else:
         angle = int(angle)
         if angle>0:
