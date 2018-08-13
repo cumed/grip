@@ -362,7 +362,7 @@ while True:
             reversePush_action(distance)
     elif angle==1000:
         print('Dropping pin and changng bend direction')
-        drop_pin()
+        drop_pin(1)
     else:
         angle = int(angle)
         if angle>0:
