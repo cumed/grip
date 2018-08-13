@@ -16,7 +16,7 @@ import factors as fact
 
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
-pin_length = 12
+pin_length = 2
 servo_min = 190                                                              # Min limit of 183 for Hitech-servos
 servo_max = 500                                                              # Max limit of 600 for Hitech-servos
 time_constant = fact.time_constant                                           # Time for the Rpi to wait for the servo to complete its task
@@ -303,7 +303,7 @@ def lift_pin(pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConst
     sleep(timeConstant)
 
 def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
-    pulse = distance_to_pulse(10,e)
+    pulse = distance_to_pulse(pin_length,e)
     print ('Moving drop pin by')
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
