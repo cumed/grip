@@ -16,7 +16,7 @@ import factors as fact
 
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
-pin_length = 5
+pin_length = 10
 servo_min = 190                                                              # Min limit of 183 for Hitech-servos
 servo_max = 500                                                              # Max limit of 600 for Hitech-servos
 time_constant = fact.time_constant                                           # Time for the Rpi to wait for the servo to complete its task
