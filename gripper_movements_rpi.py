@@ -24,7 +24,8 @@ servo_max = fact.servo_max                                                      
 
 e_gripper = fact.e_gripper                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = fact.e_bending                                                             # eccentricity of bending cam - 9.25mm
-e_backidx = fact.e_backidx                                                             # eccentricity of back indexing gripper cam - 4.75mm
+e_backidx = fact.e_backidx    
+e_pindrop = fact.e_pindrop                                                         # eccentricity of back indexing gripper cam - 4.75mm
 
 time_constant = fact.time_constant                                           # Time for the Rpi to wait for the servo to complete its task
 d_pins = fact.d_pins                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
@@ -36,6 +37,7 @@ ch_frontGripper = fact.ch_frontGripper
 ch_backidxGripper = fact.ch_backidxGripper
 ch_bendingPins = fact.ch_bendingPins
 ch_rotatingArm = fact.ch_rotatingArm
+ch_pinmovement = fact.ch_pinmovement
 
 
 #%%
@@ -303,6 +305,21 @@ def get_partiallyOpenedDistance(fr_size):
            }
     return pod_angle.get(fr_size)
 
+def lift_pin(pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
+    pulse = distance_to_pulse(pin_length,e)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+
+def drop_pin(dir_flag,pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
+    pulse = distance_to_pulse(pin_length,e)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+    if dir_flag == 1:
+        bendingPin_zero()
+    elif dir_flag == -1:
+        bendingPin_zero()
+        
+    
 #%% Needs to be changed if you want flexibility in fully closed and partially opened distance for different OD sizes. Currently developed for 5Frenchsize
 
 #fr_size = cpro.getFr_size()                                                  # Write a function to get the french size of the catheter
@@ -317,4 +334,6 @@ slightlyMore_opened_distance = 2.2
 fully_opened_distance       = 0                                              # Distance to open the grippers completely 
 fully_bwd_distance          = 0                                              # Distance to keep the indexing camera behind 
 
+
+pin_length = 2
 

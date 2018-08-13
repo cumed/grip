@@ -16,7 +16,7 @@ import factors as fact
 
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
-
+pin_length = 2
 servo_min = 190                                                              # Min limit of 183 for Hitech-servos
 servo_max = 500                                                              # Max limit of 600 for Hitech-servos
 time_constant = fact.time_constant                                           # Time for the Rpi to wait for the servo to complete its task
@@ -24,7 +24,8 @@ time_constant = fact.time_constant                                           # T
 #from_high = 180                                                             # Largest angle that you'd want the cam to be at
 e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
-e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
+e_backidx = 4.75 
+e_pindrop = 4.75                                                            # eccentricity of back indexing gripper cam - 4.75mm
 d_pins = fact.d_pins                                                         # Distance between the bending pins (edge-to-edge) **0.207inch**
 y_i =   fact.y_i                                                             # Distance between the front gripper and the bending pins
 
@@ -34,6 +35,7 @@ ch_frontGripper = 3
 ch_backidxGripper = 1
 ch_bendingPins = 5
 ch_rotatingArm = 8
+ch_pinmovement = 10
 
 #%%
 fully_closed_distance       = 3.18                                           # Distance to close the gripper - 1.58 mm
@@ -295,7 +297,20 @@ def reversePush_action(distance):
     back_gripper_indexing(fully_bwd_distance)
     front_gripper(fully_closed_distance)
 
+def lift_pin(pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
+    pulse = distance_to_pulse(pin_length,e)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
 
+def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
+    pulse = distance_to_pulse(pin_length,e)
+    pwm.set_pwm(channel,0,pulse)
+    sleep(timeConstant)
+    if dir_flag == 1:
+        bendingPin_zero()
+    elif dir_flag == -1:
+        bendingPin_zero()
+        
 pwm.set_pwm(ch_rotatingArm,0,angle_to_pulse(170))
 sleep(time_constant*2)    
 bendingPin_zero()
@@ -345,6 +360,9 @@ while True:
         distance = input('Each increment of distance?')
         for ele in range(0,noftimes):
             reversePush_action(distance)
+    elif angle==1000:
+        print('Dropping pin and changng bend direction')
+        drop_pin()
     else:
         angle = int(angle)
         if angle>0:

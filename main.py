@@ -34,7 +34,7 @@ else:
 
 #%%
 incremental_distance,traversed_distance = 0,0                                   # Keeping track of distances until a bend is supposed to happen and the total distance distance travelled
-
+dir_flag = 0                                                                    # Keeping track of pin drop
 distances = directions[:,0]                                                     # Reads the distance from the directions npy file i.e. first column
 angles = directions[:,1]                                                        # Reads the bending angles from the directions npy file i.e. second column
 rotational_angle = directions[:,2]                                              # Reads the rotational angle from the directions npy file i.e. third column
@@ -101,7 +101,16 @@ gmr.home_position()
 input('Press any key to start the main program')
 while idx < np.size(distances,0):
     present_rot_angle = rotational_angle[idx]                                  #rotational angle at the point under consideration. 
-    present_angle = angles[idx]                                                #bending angle at the point under consideration. 
+    previous_angle = angles[idx-1]                                             #previous angle on the list to consider for pin drop 
+    present_angle = angles[idx]                                                #
+   
+    if previous_angle<0 & present_angle >0:
+        dir_flag = 1 
+    elif previous_angle>0 & present_angle <0:  
+        dir_flag = -1
+    else:
+        dir_flag = 0
+ #bending angle at the point under consideration. 
     present_distance = distances[idx]                                          #distance from the point under consideration to the next. 
     traversed_distance += present_distance                                     #total distanced travelled from the tip of the catheter
     print('----distance:'+str(round(present_distance,2))+'mm, angle:'+str(round(present_angle,2)) +
@@ -121,6 +130,8 @@ while idx < np.size(distances,0):
                     flag = 0                                                        
                 
                 ### now do it for the current position
+                if dir_flag !=0 : 
+                    sks.drop_pin(dir_flag)
                 sks.bend_catheter(present_angle,lens,outer_diameter)           #Bend the catheter by specific angle
                 sks.push_catheter(servoDist_threshold,present_distance,
                                   outer_diameter)                              #Push the catheter by appropriate distance after the bend
@@ -133,7 +144,8 @@ while idx < np.size(distances,0):
                 flag = 0
             
             sks.new_rotate_catheter(present_rot_angle)                         #Rotate the plane of the catheter by taking care of our construction and restrictions
-            
+            if dir_flag !=0 : 
+                    sks.drop_pin(dir_flag)
             sks.bend_catheter(present_angle,lens,outer_diameter)               #Bend it by the bending angle 
             sks.push_catheter(servoDist_threshold, present_distance,
                               outer_diameter)                                  #Push the catheter by appropriate distance after the bend
