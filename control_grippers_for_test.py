@@ -305,11 +305,11 @@ def lift_pin(pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConst
 
 def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
     pulse = distance_to_pulse(pin_length,e,90,-90)
-    print ('Moving drop pin by'+ int(pulse))
+    print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
     pulse = distance_to_pulse(pin_length,e,-90,90)
-    print ('Moving drop pin by'+ int(pulse))
+    print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
 #    if dir_flag == 1:
