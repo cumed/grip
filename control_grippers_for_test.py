@@ -16,7 +16,7 @@ import factors as fact
 
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
-pin_length = 2
+pin_length = 5
 servo_min = 190                                                              # Min limit of 183 for Hitech-servos
 servo_max = 500                                                              # Max limit of 600 for Hitech-servos
 time_constant = fact.time_constant                                           # Time for the Rpi to wait for the servo to complete its task
@@ -300,18 +300,18 @@ def reversePush_action(distance):
 
 def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
     if dir_flag == 1:
-        pulse = distance_to_pulse(pin_length,e,90,-90)
+        pulse = distance_to_pulse(pin_length,e,90,0)
         print ('Moving drop pin by'+ str(pulse))
-        pwm.set_pwm(channel,0,250)
+        pwm.set_pwm(channel,0,pulse)
         sleep(timeConstant*3) 
     elif dir_flag == -1:
-         pulse = distance_to_pulse(pin_length,e,-90,90)
+         pulse = distance_to_pulse(pin_length,e,0,90)
          print ('Moving drop pin by'+ str(pulse))
-         pwm.set_pwm(channel,0,500)
+         pwm.set_pwm(channel,0,300)
          sleep(timeConstant*3)
     
 def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
-    pulse = distance_to_pulse(pin_length,e,90,-90)
+    pulse = distance_to_pulse(pin_length,e,90,0)
     print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant*3) 
@@ -321,12 +321,12 @@ def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,
         pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
         pwm.set_pwm(5,0,pulse)
     elif dir_flag == -1:
-        angle = 30
+        angle = 10
         bendDist = bendAngle_to_bendDist(angle,1.62)
         pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
         pwm.set_pwm(5,0,pulse)
     sleep(timeConstant*3) 
-    pulse = distance_to_pulse(pin_length,e,-90,90)
+    pulse = distance_to_pulse(pin_length,e,0,90)
     print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant*3)
