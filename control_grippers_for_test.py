@@ -333,6 +333,7 @@ def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,
 
        
 pwm.set_pwm(ch_rotatingArm,0,angle_to_pulse(170))
+pwm.set_pwm(ch_pinmovement,0,190)
 sleep(time_constant*2)    
 bendingPin_zero()
 OD = fact.OD 
