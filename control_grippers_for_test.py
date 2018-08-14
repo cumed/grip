@@ -313,7 +313,7 @@ def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,
 def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
     pulse = distance_to_pulse(pin_length,e,90,0)
     print ('Moving drop pin by'+ str(pulse))
-    pwm.set_pwm(channel,0,pulse)
+    pwm.set_pwm(channel,0,345)
     sleep(timeConstant*3) 
     if dir_flag == 1:
         angle = -40
@@ -321,14 +321,14 @@ def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,
         pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
         pwm.set_pwm(5,0,pulse)
     elif dir_flag == -1:
-        angle = 10
+        angle = 5
         bendDist = bendAngle_to_bendDist(angle,1.62)
         pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
         pwm.set_pwm(5,0,pulse)
     sleep(timeConstant*3) 
     pulse = distance_to_pulse(pin_length,e,0,90)
     print ('Moving drop pin by'+ str(pulse))
-    pwm.set_pwm(channel,0,pulse)
+    pwm.set_pwm(channel,0,190)
     sleep(timeConstant*3)
 
        
