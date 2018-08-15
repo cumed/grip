@@ -180,7 +180,7 @@ def factor_of_half_bendDist(distance):
     return distance/factor
 
 #%% Bending movements
-def bendingPin_zero(dir_flag= -1,e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
+def bendingPin_zero(dir_flag,e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
 ##    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     if dir_flag == -1:
@@ -196,7 +196,7 @@ def bendingPin_zero(dir_flag= -1,e=e_bending,channel=ch_bendingPins, timeConstan
         pwm.set_pwm(channel,0,pulse_zero)
 
 angleRedFactor = fact.angleRedFactor
-def bending_arm(dir_flag = -1,angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
+def bending_arm(dir_flag,angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
@@ -289,7 +289,7 @@ def home_position():
 def zero_position():
     front_gripper(0)
     back_gripper(0)
-    bendingPin_zero()
+    bendingPin_zero(-1)
     back_gripper_indexing(0)
 
 
@@ -341,7 +341,7 @@ def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,
 pwm.set_pwm(ch_rotatingArm,0,angle_to_pulse(170))
 pwm.set_pwm(ch_pinmovement,0,190)
 sleep(time_constant*2)    
-bendingPin_zero()
+bendingPin_zero(-1)
 OD = fact.OD 
 lens =3
 front_gripper(partially_opened_distance)
@@ -405,7 +405,7 @@ while True:
             bending_arm(1,angle,lens,OD)
         elif angle<0:
             angle = angle + fact.negativeAngleOffset
-            bending_arm(angle,lens,OD)     
+            bending_arm(-1,angle,lens,OD)     
 ##    rotangle = input('Enter rot angle')
 ##    back_rotation(rotangle)
 print('Done')
