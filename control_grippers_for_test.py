@@ -180,15 +180,20 @@ def factor_of_half_bendDist(distance):
     return distance/factor
 
 #%% Bending movements
-def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
+def bendingPin_zero(dir_flag,e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
 ##    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
-    pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
-    print(pulse_zero)
-    pwm.set_pwm(channel,0,pulse_zero)
-    sleep(timeConstant)
+    if dir_flag == -1:
+        pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+        print(pulse_zero)
+        pwm.set_pwm(channel,0,pulse_zero)
+        sleep(timeConstant)
 #    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
 ##    print('Bending pins are back to zeroeth position')
+    elif dir_flag == 1:
+        pulse_zero = angle_to_pulse(0,90,-90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+        print(pulse_zero)
+        pwm.set_pwm(channel,0,pulse_zero)
 
 angleRedFactor = fact.angleRedFactor
 def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
