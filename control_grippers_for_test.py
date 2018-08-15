@@ -117,7 +117,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
     #to hit the catheter and bend it by the bending angle to obtain the right
     #shape and thereby convert that distance to the pulse   
     if angle>0:
-        x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos                                        # Distance the pin has to move to touch the catheter
+        x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorPos - d_pins                                    # Distance the pin has to move to touch the catheter
     elif angle<0:
         x_i = (d_pins - outer_diameter)/2 - fact.bendPinsFactorNeg
     else:
@@ -180,7 +180,7 @@ def factor_of_half_bendDist(distance):
     return distance/factor
 
 #%% Bending movements
-def bendingPin_zero(dir_flag,e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
+def bendingPin_zero(dir_flag= -1,e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
 ##    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
     if dir_flag == -1:
@@ -196,7 +196,7 @@ def bendingPin_zero(dir_flag,e=e_bending,channel=ch_bendingPins, timeConstant = 
         pwm.set_pwm(channel,0,pulse_zero)
 
 angleRedFactor = fact.angleRedFactor
-def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
+def bending_arm(dir_flag = -1,angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
@@ -222,7 +222,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
 #        sleep(3)
 #        print('Waiting for '+str(i)+' seconds...')
         
-    bendingPin_zero()
+    bendingPin_zero(dir_flag)
 #    print('Bending finished')
 def back_rotation(angle,channel=ch_rotatingArm,timeConstant = time_constant):
     #command it to rotate by a particular angle
