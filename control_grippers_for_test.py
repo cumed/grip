@@ -353,7 +353,7 @@ while True:
 #    bendPinsFactor = input('Enter bend pins factor')
     if angle ==100:
         print('zeroing')
-        bendingPin_zero()
+        bendingPin_zero(-1)
     elif angle==200:
         print('Grippers- Fully Opened distance')
         front_gripper(fully_opened_distance)
