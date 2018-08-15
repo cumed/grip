@@ -183,7 +183,7 @@ def factor_of_half_bendDist(distance):
 def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
 ##    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
-    pulse_zero = angle_to_pulse(0,180,0)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+    pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
     print(pulse_zero)
     pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
@@ -316,14 +316,17 @@ def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,
     pwm.set_pwm(channel,0,345)
     sleep(timeConstant*3) 
     if dir_flag == 1:
-        pulse = distance_to_pulse(d_pins,e_bending,0,180)
+        pulse = distance_to_pulse(d_pins,e_bending,90,-90)
         print ('Moving bend pin by'+ str(pulse))
         pwm.set_pwm(ch_bendingPins,0,pulse)
     elif dir_flag == -1:
-        pulse = distance_to_pulse(d_pins,e_bending,180,0)
-        print ('Moving bend pin by'+ str(pulse))
-        pwm.set_pwm(ch_bendingPins,0,pulse)
-    sleep(timeConstant*3) 
+#        pulse = distance_to_pulse(d_pins,e_bending,180,0)
+#        print ('Moving bend pin by'+ str(pulse))
+#        pwm.set_pwm(ch_bendingPins,0,pulse)
+        pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+        print(pulse_zero)
+        pwm.set_pwm(channel,0,pulse_zero)
+        sleep(timeConstant*3) 
     pulse = distance_to_pulse(pin_length,e,0,90)
     print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,190)
