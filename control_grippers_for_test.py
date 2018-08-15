@@ -325,7 +325,7 @@ def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,
 #        pwm.set_pwm(ch_bendingPins,0,pulse)
         pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
         print(pulse_zero)
-        pwm.set_pwm(channel,0,pulse_zero)
+        pwm.set_pwm(ch_bendingPins,0,pulse_zero)
         sleep(timeConstant*3) 
     pulse = distance_to_pulse(pin_length,e,0,90)
     print ('Moving drop pin by'+ str(pulse))
