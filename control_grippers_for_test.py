@@ -183,7 +183,7 @@ def factor_of_half_bendDist(distance):
 def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
 ##    print('Do we move bending pins back to zeroeth position')
 #    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
-    pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+    pulse_zero = angle_to_pulse(0,180,0)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
     print(pulse_zero)
     pwm.set_pwm(channel,0,pulse_zero)
     sleep(timeConstant)
@@ -309,27 +309,6 @@ def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,
          print ('Moving drop pin by'+ str(pulse))
          pwm.set_pwm(channel,0,345)
          sleep(timeConstant*3)
-    
-#def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
-#    pulse = distance_to_pulse(pin_length,e,90,0)
-#    print ('Moving drop pin by'+ str(pulse))
-#    pwm.set_pwm(channel,0,345)
-#    sleep(timeConstant*3) 
-#    if dir_flag == 1:
-#        angle = -40
-#        bendDist = bendAngle_to_bendDist(angle,1.62)
-#        pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
-#        pwm.set_pwm(5,0,pulse)
-#    elif dir_flag == -1:
-#        angle = 5
-#        bendDist = bendAngle_to_bendDist(angle,1.62)
-#        pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
-#        pwm.set_pwm(5,0,pulse)
-#    sleep(timeConstant*3) 
-#    pulse = distance_to_pulse(pin_length,e,0,90)
-#    print ('Moving drop pin by'+ str(pulse))
-#    pwm.set_pwm(channel,0,190)
-#    sleep(timeConstant*3)
 
 def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
     pulse = distance_to_pulse(pin_length,e,90,0)
