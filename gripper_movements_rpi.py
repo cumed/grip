@@ -29,7 +29,8 @@ e_pindrop = fact.e_pindrop                                                      
 
 time_constant = fact.time_constant                                           # Time for the Rpi to wait for the servo to complete its task
 d_pins = fact.d_pins                                                                # Distance between the bending pins (edge-to-edge) **0.207inch**
-y_i =   fact.y_i                                                                    # Distance between the front gripper and the bending pins
+y_i =   fact.y_i      
+pin_length = fact.pin_length                                                              # Distance between the front gripper and the bending pins
 
 #%% Declare all channels
 ch_backGripper = fact.ch_backGripper
@@ -310,14 +311,22 @@ def lift_pin(pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_c
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
 
-def drop_pin(dir_flag,pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
-    pulse = distance_to_pulse(pin_length,e)
-    pwm.set_pwm(channel,0,pulse)
-    sleep(timeConstant)
+def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
+    pulse = distance_to_pulse(pin_length,e,90,0)
+    print ('Moving drop pin by'+ str(pulse))
+    pwm.set_pwm(channel,0,345)
+    sleep(timeConstant*3) 
     if dir_flag == 1:
-        bendingPin_zero()
+        pulse = distance_to_pulse(d_pins,e_bending,-90,90)
+        pwm.set_pwm(ch_bendingPins,0,pulse)
     elif dir_flag == -1:
-        bendingPin_zero()
+        pulse = distance_to_pulse(d_pins,e_bending,90,-90)
+        pwm.set_pwm(ch_bendingPins,0,pulse)
+    sleep(timeConstant*3) 
+    pulse = distance_to_pulse(pin_length,e,0,90)
+    print ('Moving drop pin by'+ str(pulse))
+    pwm.set_pwm(channel,0,190)
+    sleep(timeConstant*3)
         
     
 #%% Needs to be changed if you want flexibility in fully closed and partially opened distance for different OD sizes. Currently developed for 5Frenchsize
