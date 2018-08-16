@@ -136,8 +136,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
     if angle>0:
-        #from_low_b, from_high_b = from_angles.get('positive bend')
-        from_low_b, from_high_b = [180,0]
+        from_low_b, from_high_b = from_angles.get('positive bend')
     elif angle<0:
         from_low_b, from_high_b = from_angles.get('negative bend')
     else:
@@ -305,7 +304,7 @@ def reversePush_action(distance):
     back_gripper_indexing(fully_bwd_distance)
     front_gripper(fully_closed_distance)
 
-def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
+def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant): # function to test working of drop pin
     if dir_flag == 1:
         pulse = distance_to_pulse(pin_length,e,-90,0)
         print ('Moving drop pin by'+ str(pulse))
@@ -317,7 +316,7 @@ def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,
          pwm.set_pwm(channel,0,345)
          sleep(timeConstant*3)
 
-def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
+def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant): # function to drop and move single pin for positive and negative bends
     pulse = distance_to_pulse(pin_length,e,90,0)
     print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,345)

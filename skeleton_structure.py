@@ -44,10 +44,9 @@ def new_rotate_catheter(rot_angle):
     
 # Function to call the pin dropping
 def drop_pin(dir_flag):
-    print('----****---Dropping the pin to change direction of bend---****----')
+    print('----****---Dropping and lifting the pin to change direction of bend---****----')
     gmr.drop_pin(dir_flag)
-    print('----****---Lifting the pin back after changing direction---****----')
-    gmr.lift_pin()
+   
 
 
       

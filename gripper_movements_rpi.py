@@ -306,23 +306,35 @@ def get_partiallyOpenedDistance(fr_size):
            }
     return pod_angle.get(fr_size)
 
-def lift_pin(pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
-    pulse = distance_to_pulse(pin_length,e)
-    pwm.set_pwm(channel,0,pulse)
-    sleep(timeConstant)
+def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant): # function to test working of drop pin, use only for test
+    if dir_flag == 1:
+        pulse = distance_to_pulse(pin_length,e,-90,0)
+        print ('Moving drop pin by'+ str(pulse))
+        pwm.set_pwm(channel,0,190)
+        sleep(timeConstant*3) 
+    elif dir_flag == -1:
+         pulse = distance_to_pulse(pin_length,e,0,90)
+         print ('Moving drop pin by'+ str(pulse))
+         pwm.set_pwm(channel,0,345)
+         sleep(timeConstant*3)
 
-def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
-    pulse = distance_to_pulse(pin_length,e,90,0)
+def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):# function to drop and move single pin for positive and negative bends
+   pulse = distance_to_pulse(pin_length,e,90,0)
     print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,345)
     sleep(timeConstant*3) 
     if dir_flag == 1:
-        pulse = distance_to_pulse(d_pins,e_bending,-90,90)
+        pulse = distance_to_pulse(d_pins,e_bending,90,-90)
+        print ('Moving bend pin by'+ str(pulse))
         pwm.set_pwm(ch_bendingPins,0,pulse)
     elif dir_flag == -1:
-        pulse = distance_to_pulse(d_pins,e_bending,90,-90)
-        pwm.set_pwm(ch_bendingPins,0,pulse)
-    sleep(timeConstant*3) 
+#        pulse = distance_to_pulse(d_pins,e_bending,180,0)
+#        print ('Moving bend pin by'+ str(pulse))
+#        pwm.set_pwm(ch_bendingPins,0,pulse)
+        pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+        print(pulse_zero)
+        pwm.set_pwm(ch_bendingPins,0,pulse_zero)
+        sleep(timeConstant*3) 
     pulse = distance_to_pulse(pin_length,e,0,90)
     print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,190)
