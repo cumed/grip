@@ -136,8 +136,7 @@ def bendAngle_to_bendDist(angle,outer_diameter):
 def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
     if angle>0:
-        #from_low_b, from_high_b = from_angles.get('positive bend')
-        from_low_b, from_high_b = [-90,90]
+        from_low_b, from_high_b = from_angles.get('positive bend')
     elif angle<0:
         from_low_b, from_high_b = from_angles.get('negative bend')
     else:
@@ -208,6 +207,8 @@ def bending_arm(dir_flag,angle,lens,outer_diameter,e=e_bending,channel=ch_bendin
     angle = angle*angleRedFactor
     bendDist = bendAngle_to_bendDist(angle,outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
+    if angle > 0:
+        pulse = pulse - 124
     print(pulse)
 #    pulse = input('Enter pulse')
     pwm.set_pwm(channel,0,pulse)
