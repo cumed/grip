@@ -137,7 +137,7 @@ def bendDist_to_bendPulse(angle,bendDist,e=e_bending):
     servos_angle = distance_to_angle(bendDist,e)
     if angle>0:
         #from_low_b, from_high_b = from_angles.get('positive bend')
-        from_low_b, from_high_b = [0,180]
+        from_low_b, from_high_b = [-90,90]
     elif angle<0:
         from_low_b, from_high_b = from_angles.get('negative bend')
     else:
