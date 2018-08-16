@@ -152,45 +152,52 @@ def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeCon
 
     
 #%% Bending movements
-def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
-    pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
-    pwm.set_pwm(channel,0,pulse_zero)
-    sleep(timeConstant)
+def bendingPin_zero(dir_flag,e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
+##    print('Do we move bending pins back to zeroeth position')
+#    pulse_zero = angle_to_pulse(0,from_low_b=-90,from_high_b=90)
+    if dir_flag == -1:
+        pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+        print(pulse_zero)
+        pwm.set_pwm(channel,0,pulse_zero)
+        sleep(timeConstant)
+#    print('Bending pins are back to zeroeth position. Channel:'+str(channel) + ' , Eccentricity:'+str(e))
+##    print('Bending pins are back to zeroeth position')
+    elif dir_flag == 1:
+        pulse_zero = angle_to_pulse(0,90,-90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+        print(pulse_zero - shift_distance())
+        pwm.set_pwm(channel,0,pulse_zero -124)
 
 angleRedFactor = fact.angleRedFactor
-def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
+def bending_arm(dir_flag,angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
     #Need to map that distance to the angle.
-    
-    #Send it to zero
-#    bendingPin_zero()
+#    print('Start bending?')
 
-    
-    #Let the bend happen
     angle = angle*angleRedFactor
     bendDist = bendAngle_to_bendDist(angle,outer_diameter)
     pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
+    if angle > 0:
+        pulse = pulse - shift_distance()
+    print(pulse)
+#    pulse = input('Enter pulse')
     pwm.set_pwm(channel,0,pulse)
     sleep(timeConstant)
     print('Bend of ' + str(round(angle,2))+'degrees -- Bending distance '+str(round(bendDist,2)) + 'mm. -- Pulse: '+str(pulse))
-#    input('Press 1 to finish bending and bring it back to zeroeth position.')
+    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
-    #Heat the catheter
-    heating_time = cpro.get_heatTime(lens)
-    htc.startHeat(heating_time)
+#    heating_time = cpro.get_heatTime(lens)
+#    print('-----------Heat the catheter for '+str(heating_time)+'seconds --------------')
+#    htc.startHeat(heating_time)
     
-    #Send it back to half the distance
-    half_bendDist = factor_of_half_bendDist(bendDist)
-    half_bendDist = min(half_bendDist,comparison(angle,outer_diameter))
-    halfPulse = bendDist_to_bendPulse(angle,half_bendDist,e)
-    pwm.set_pwm(channel,0,halfPulse)
-    sleep(timeConstant)
-
-    #Send it to zero
-#    bendingPin_zero()
-    
+#    for i in range(0,1):                                                  #Uncomment these two lines when the waiting is removed
+#        print('Waiting for 3 seconds')
+#        sleep(3)
+#        print('Waiting for '+str(i)+' seconds...')
+        
+    bendingPin_zero(dir_flag)
+#    print('Bending finished')
 
    
 #%% Rotating movements    
@@ -306,20 +313,26 @@ def get_partiallyOpenedDistance(fr_size):
            }
     return pod_angle.get(fr_size)
 
-def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant): # function to test working of drop pin, use only for test
+def shift_distance():   # to calculate zeroing distance shift for single pin design
+    pulse_pin = distance_to_pulse(d_pins,e_bending,90,-90)
+    pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+    return pulse_zero - pulse_pin
+
+def lift_pin(dir_flag,pin_length =pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):
+    # function to test working of drop pin, use only for test
     if dir_flag == 1:
         pulse = distance_to_pulse(pin_length,e,-90,0)
         print ('Moving drop pin by'+ str(pulse))
         pwm.set_pwm(channel,0,190)
         sleep(timeConstant*3) 
     elif dir_flag == -1:
-         pulse = distance_to_pulse(pin_length,e,0,90)
-         print ('Moving drop pin by'+ str(pulse))
-         pwm.set_pwm(channel,0,345)
-         sleep(timeConstant*3)
+        pulse = distance_to_pulse(pin_length,e,0,90)
+        print ('Moving drop pin by'+ str(pulse))
+        pwm.set_pwm(channel,0,345)
+        sleep(timeConstant*3)
 
 def drop_pin(dir_flag,pin_length= pin_length,e=e_pindrop,channel=ch_pinmovement,timeConstant = time_constant):# function to drop and move single pin for positive and negative bends
-   pulse = distance_to_pulse(pin_length,e,90,0)
+    pulse = distance_to_pulse(pin_length,e,90,0)
     print ('Moving drop pin by'+ str(pulse))
     pwm.set_pwm(channel,0,345)
     sleep(timeConstant*3) 
