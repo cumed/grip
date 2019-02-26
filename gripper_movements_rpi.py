@@ -34,14 +34,15 @@ y_i =   fact.y_i                                                                
 ch_backGripper = fact.ch_backGripper
 ch_frontGripper = fact.ch_frontGripper
 ch_backidxGripper = fact.ch_backidxGripper
-ch_bendingPins = fact.ch_bendingPins
+ch_bendingPins_left = fact.ch_bendingPins_left
+ch_bendingPins_right = fact.ch_bendingPins_right
 ch_rotatingArm = fact.ch_rotatingArm
 
 
 #%%
 from_angles = {
-        'positive bend': [-90,90],                                           # If the bending is taking place for a positive angle, then the bending pins need to move to the right                 
-        'negative bend': [90,-90],                                           # If the bending is taking place for a negative angle, then the bending pins need to move to the left
+        'positive bend': [-180,180],                                           # If the bending is taking place for a positive angle, then the bending pins need to move to the right                 
+        'negative bend': [180,-180],                                           # If the bending is taking place for a negative angle, then the bending pins need to move to the left
         }
 
 zeroethPosition = fact.zeroethPositionOfRotation                                                          # The zeroeth position of the rotational servo
@@ -149,13 +150,14 @@ def back_gripper_indexing(distance,e=e_backidx,channel=ch_backidxGripper,timeCon
 
     
 #%% Bending movements
-def bendingPin_zero(e=e_bending,channel=ch_bendingPins, timeConstant = time_constant):
-    pulse_zero = angle_to_pulse(0,-90,90)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
-    pwm.set_pwm(channel,0,pulse_zero)
+def bendingPin_zero(e=e_bending,channel_left=ch_bendingPins_left,channel_right=ch_bendingPins_right, timeConstant = time_constant):
+    pulse_zero = angle_to_pulse(0,-180,180)                                    # Calculate pulse to be sent by Rpi to move the bending pins to the zeroeth position
+    pwm.set_pwm(channel_left,0,pulse_zero)
+    pwm.set_pwm(channel_right,0,pulse_zero)
     sleep(timeConstant)
 
 angleRedFactor = fact.angleRedFactor
-def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,timeConstant = time_constant):
+def bending_arm(angle,lens,outer_diameter,e=e_bending,channel_left=ch_bendingPins_left,channel_right=ch_bendingPins_right,timeConstant = time_constant):
     #command it to move by a particular distance to achieve the bending angle
     #Home position is at the center. Therefore, assume it is at an angle 90 on its servo, since middle position. 
     #Depending upon positive or negative angle, the bending pins moves either to the left(-ve) or to right(+ve)
@@ -167,28 +169,42 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel=ch_bendingPins,tim
     
     #Let the bend happen
     angle = angle*angleRedFactor
-    bendDist = bendAngle_to_bendDist(angle,outer_diameter)
-    pulse = bendDist_to_bendPulse(angle,bendDist,e)                          # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
-    pwm.set_pwm(channel,0,pulse)
-    sleep(timeConstant)
-    print('Bend of ' + str(round(angle,2))+'degrees -- Bending distance '+str(round(bendDist,2)) + 'mm. -- Pulse: '+str(pulse))
+    if angle > 0:
+        
+        bendDist_left = bendAngle_to_bendDist(angle,outer_diameter)
+        pulse_left = bendDist_to_bendPulse(angle,bendDist_left,e)                  # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
+        pwm.set_pwm(channel_left,0,pulse_left)
+        sleep(timeConstant)
+        print('Bend of ' + str(round(angle,2))+'degrees -- Bending distance '+str(round(bendDist_left,2)) + 'mm. -- Pulse: '+str(pulse_left))
+        half_bendDist = factor_of_half_bendDist(bendDist_left)
+        half_bendDist_left = min(half_bendDist,comparison(angle,outer_diameter))
+        halfPulse = bendDist_to_bendPulse(angle,half_bendDist_left,e)
+        pwm.set_pwm(channel_left,0,halfPulse)
+        sleep(timeConstant)
 #    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
     #Heat the catheter
+    elif angle <0:
+        bendDist_right = bendAngle_to_bendDist(angle,outer_diameter)
+        pulse_right = bendDist_to_bendPulse(angle,bendDist_right,e)                  # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
+        pwm.set_pwm(channel_right,0,pulse_right)
+        sleep(timeConstant)
+        print('Bend of ' + str(round(angle,2))+'degrees -- Bending distance '+str(round(bendDist_right,2)) + 'mm. -- Pulse: '+str(pulse_right))
+        half_bendDist = factor_of_half_bendDist(bendDist_left)
+        half_bendDist_right = min(half_bendDist,comparison(angle,outer_diameter))
+        halfPulse = bendDist_to_bendPulse(angle,half_bendDist_right,e)
+        pwm.set_pwm(channel_right,0,halfPulse)
+        sleep(timeConstant)
     heating_time = cpro.get_heatTime(lens)
     htc.startHeat(heating_time)
     
     #Send it back to half the distance
-    half_bendDist = factor_of_half_bendDist(bendDist)
-    half_bendDist = min(half_bendDist,comparison(angle,outer_diameter))
-    halfPulse = bendDist_to_bendPulse(angle,half_bendDist,e)
-    pwm.set_pwm(channel,0,halfPulse)
-    sleep(timeConstant)
+    
+    
 
     #Send it to zero
 #    bendingPin_zero()
     
-
    
 #%% Rotating movements    
 

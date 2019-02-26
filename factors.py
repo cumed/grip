@@ -22,9 +22,9 @@ e_backidx = 4.75                                                             # e
 ch_backGripper = 0
 ch_frontGripper = 3
 ch_backidxGripper = 1
-ch_bendingPins = 5
 ch_rotatingArm = 8
-
+ch_bendingPins_left = 5
+ch_bendingPins_right = 6
 
 servo_min = 190
 servo_max = 500
