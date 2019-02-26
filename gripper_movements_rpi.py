@@ -190,7 +190,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel_left=ch_bendingPin
         pwm.set_pwm(channel_right,0,pulse_right)
         sleep(timeConstant)
         print('Bend of ' + str(round(angle,2))+'degrees -- Bending distance '+str(round(bendDist_right,2)) + 'mm. -- Pulse: '+str(pulse_right))
-        half_bendDist = factor_of_half_bendDist(bendDist_left)
+        half_bendDist = factor_of_half_bendDist(bendDist_right)
         half_bendDist_right = min(half_bendDist,comparison(angle,outer_diameter))
         halfPulse = bendDist_to_bendPulse(angle,half_bendDist_right,e)
         pwm.set_pwm(channel_right,0,halfPulse)
