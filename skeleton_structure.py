@@ -36,7 +36,8 @@ def push_catheter(servoDist_threshold, Dist, outer_diameter):
 def bend_catheter(angle, lens, outer_diameter):
     gmr.bending_arm(angle, lens, outer_diameter)
 
-
+def straighten_bending(angle,lens,outer_diameter):
+    gmr.bending_arm_back(angle, lens, outer_diameter)
 # Function to call the rotation action
 def new_rotate_catheter(rot_angle):
     print('----****---Turn the plane to ' + str(rot_angle)+'degrees---****----') 
