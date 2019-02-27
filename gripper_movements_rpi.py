@@ -181,6 +181,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel_left=ch_bendingPin
         half_bendDist_left = min(half_bendDist,comparison(angle,outer_diameter))
         halfPulse = bendDist_to_bendPulse(angle,half_bendDist_left,e)
         pwm.set_pwm(channel_left,0,halfPulse)
+        pwm.set_pwm(channel_right,0,halfPulse)
         sleep(timeConstant)
 #    input('Press 1 to finish bending and bring it back to zeroeth position.')
     
