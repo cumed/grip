@@ -207,6 +207,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel_left=ch_bendingPin
     #Send it to zero
 #    bendingPin_zero()
 def bending_arm_back(angle, lens, outer_diameter,e=e_bending,channel_left=ch_bendingPins_left,channel_right=ch_bendingPins_right,timeConstant = time_constant):   
+    angle = angle*angleRedFactor
     if angle > 0:
         bendDist_left = bendAngle_to_bendDist(angle,outer_diameter)
         half_bendDist = factor_of_half_bendDist(bendDist_left)

@@ -10,6 +10,7 @@ import gripper_movements_rpi as gmr
 import factors as fact
 #import heating_control as htc
 #import catheter_properties as cpro
+import time
 
 #%% Indexing
 # Split distances into smaller threshold and then send the list of distances
@@ -37,6 +38,7 @@ def bend_catheter(angle, lens, outer_diameter):
     gmr.bending_arm(angle, lens, outer_diameter)
 
 def straighten_bending(angle,lens,outer_diameter):
+    time.sleep(3)
     gmr.bending_arm_back(angle, lens, outer_diameter)
 # Function to call the rotation action
 def new_rotate_catheter(rot_angle):
