@@ -175,7 +175,7 @@ def bending_arm(angle,lens,outer_diameter,e=e_bending,channel_left=ch_bendingPin
         pulse_left = bendDist_to_bendPulse(angle,bendDist_left,e)                  # Calculate pulse to be sent from Rpi to the bending arm to achieve the necessary bend
         pwm.set_pwm(channel_left,0,pulse_left)
         pwm.set_pwm(channel_right,0,pulse_left)
-        sleep(timeConstant)
+        sleep(2)
         print('Bend of ' + str(round(angle,2))+'degrees -- Bending distance '+str(round(bendDist_left,2)) + 'mm. -- Pulse: '+str(pulse_left))
         half_bendDist = factor_of_half_bendDist(bendDist_left)
         half_bendDist_left = min(half_bendDist,comparison(angle,outer_diameter))

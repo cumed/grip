@@ -15,8 +15,8 @@ rotationalAngle_threshold = 1
 #catheter_ID = input('Enter the catheter ID that you'd like to run i.e. Catheter code from Master database')
 
 #%% Do not change these factors unless system is changed. 
-e_gripper = 1.59                                                             # eccentricity of gripper cams - 1.59mm
-e_bending = 9.25                                                             # eccentricity of bending cam - 9.25mm
+e_gripper = 3.175                                                             # eccentricity of gripper cams - 1.59mm
+e_bending = 6.35                                                             # eccentricity of bending cam - 9.25mm
 e_backidx = 4.75                                                             # eccentricity of back indexing gripper cam - 4.75mm
 
 ch_backGripper = 0
