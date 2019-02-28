@@ -38,6 +38,7 @@ def bend_catheter(angle, lens, outer_diameter):
     gmr.bending_arm(angle, lens, outer_diameter)
 
 def straighten_bending(angle,lens,outer_diameter):
+    print('----** Straightening right pin** ---')
     time.sleep(3)
     gmr.bending_arm_back(angle, lens, outer_diameter)
 # Function to call the rotation action
