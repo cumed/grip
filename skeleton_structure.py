@@ -26,6 +26,7 @@ def remaining_distance(remDist,servoDist):
 # Pushing the catheter in front
 distanceFactor=fact.distanceFactor
 def push_catheter(servoDist_threshold, Dist, outer_diameter):
+    time.sleep(2)
     pulse_distance = remaining_distance(Dist,servoDist_threshold)             # Split it up into threshold distances if it is greater
     for rDistances in pulse_distance:
         gmr.push_action(rDistances*distanceFactor)
