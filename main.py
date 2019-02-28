@@ -121,10 +121,10 @@ while idx < np.size(distances,0):
                     flag = 0                                                        
                 
                 ### now do it for the current position
-                #sks.bend_catheter(present_angle,lens,outer_diameter)           #Bend the catheter by specific angle
-                #sks.push_catheter(servoDist_threshold,present_distance,
-                #                  outer_diameter)                              #Push the catheter by appropriate distance after the bend
-                sks.straighten_bending(present_angle,lens,outer_diameter)
+                sks.bend_catheter(present_angle,lens,outer_diameter)           #Bend the catheter by specific angle
+                sks.push_catheter(servoDist_threshold,present_distance,
+                                  outer_diameter)                              #Push the catheter by appropriate distance after the bend
+                #sks.straighten_bending(present_angle,lens,outer_diameter)
     
         else:                        
             if flag:
