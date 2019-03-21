@@ -14,6 +14,8 @@ import skeleton_structure as sks
 import catheter_properties as cpro
 import os
 import factors as fact
+#import camera as cam
+import simpleGUI as gui
 
 
 #%% Define directions so that the file takes the correct npy file into account. If master_main is running, then it'll save the .npy as runfile.npy
@@ -99,6 +101,7 @@ gmr.home_position()
 
 #%%
 input('Press any key to start the main program')
+img_counter = 0
 while idx < np.size(distances,0):
     present_rot_angle = rotational_angle[idx]                                  #rotational angle at the point under consideration. 
     present_angle = angles[idx]                                                #bending angle at the point under consideration. 
@@ -121,10 +124,20 @@ while idx < np.size(distances,0):
                     flag = 0                                                        
                 
                 ### now do it for the current position
-                sks.bend_catheter(present_angle,lens,outer_diameter)           #Bend the catheter by specific angle
-                sks.push_catheter(servoDist_threshold,present_distance,
-                                  outer_diameter)                              #Push the catheter by appropriate distance after the bend
-                sks.straighten_bending(present_angle,lens,outer_diameter)
+                ### till the bend is accurate
+                #while diff <= angle_threshold:
+                
+                    #cam.capture_image(counter)
+                    #counter+=1
+                    sks.bend_catheter(present_angle,lens,outer_diameter)           #Bend the catheter by specific angle
+                    #cam.capture_image(counter)
+                    #counter+=1
+                    sks.push_catheter(servoDist_threshold,present_distance,
+                                      outer_diameter)                              #Push the catheter by appropriate distance after the bend
+                    sks.straighten_bending(present_angle,lens,outer_diameter)
+                    #cam.capture_image(counter)
+                    #diff = cam.cotours()
+                    
     
         else:                        
             if flag:

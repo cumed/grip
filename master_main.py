@@ -10,6 +10,8 @@ import os
 import getcathetershape as shape
 import get_angle as angle
 import pandas as pd
+import factors as fact
+import simpleGUI as gui
 
 #Takes the location of the current directory
 currDir = os.path.dirname(os.path.realpath('__file__'))
@@ -22,17 +24,22 @@ if check ==1:
     svg_fileName = 'svgs/'+ str(svg_fileName) + '.svg'
     [x,y] = shape.svg_to_points(svg_fileName)                                     # Obtains the x and y coordinates
     data = np.vstack((x,y,np.zeros(len(x)))).T                                    # For now, 0s are appended for the z dimension
-    interpolation = int(input('Enter the distance at which you want to make the bends \n'))
+    #interpolation = int(input('Enter the distance at which you want to make the bends \n'))
+    interpolation = gui.increment
     directions = angle.return_bends(data,interpolation)                                         # storing the final array of distances, bend and rotational angles
 else:
     #%% In case the inputs are from .xlsx file (Phase 2 scopic)
-    excel_fileName = str(input('Enter the name of the excel file without the file extension .xlsx \n')+'.xlsx')
+    #excel_fileName = str(input('Enter the name of the csv file without the file extension .csv \n')+'.csv')
+    excel_fileName = gui.filename
     data = pd.read_excel('excelfiles/'+ excel_fileName)
-    x = data.iloc[:,0]
-    y = data.iloc[:,1]
-    z = data.iloc[:,2]
+    catheter_ID = list(data)[1]
+    fact.servoDist_threshold(catheter_ID)
+    x = data.iloc[1:,1]
+    y = data.iloc[1:,2]
+    z = data.iloc[1:,3]
     data = np.column_stack(x,y,z)
-    interpolation = int(input('Enter the distance at which you want to make the bends \n'))
+    #interpolation = int(input('Enter the distance at which you want to make the bends \n'))
+    interpolation = gui.increment
     directions = angle.return_bends(data,interpolation)     
 np.save('runfile.npy',directions)
 import main                                             #Runs the main.py file 

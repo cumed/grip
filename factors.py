@@ -14,6 +14,10 @@ rotationalAngle_threshold = 1
 
 #catheter_ID = input('Enter the catheter ID that you'd like to run i.e. Catheter code from Master database')
 
+def setCatheter_ID(ID):
+    
+    catheter_ID = ID
+    
 #%% Do not change these factors unless system is changed. 
 e_gripper = 3.175                                                             # eccentricity of gripper cams - 1.59mm
 e_bending = 6.35                                                             # eccentricity of bending cam - 9.25mm
@@ -61,7 +65,7 @@ smallAngleFudge = 1.8
 fudgepos = 2.3
 fudgeposFour = fudgepos+smallAngleFudge
 
-#fudgeneg = input('Enter fudge negative')
+#fudgeneg = input('Enter fudge negative')  
 fudgeneg = 2.6
 fudgenegFour = fudgeneg+smallAngleFudge
 
