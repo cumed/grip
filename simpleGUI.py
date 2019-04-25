@@ -8,7 +8,7 @@ Created on Tue Mar 12 09:32:31 2019
 implementing a simple GUI
 """
 
-import gripper_movements_rpi as gmr
+#import gripper_movements_rpi as gmr
 import main 
 from tkinter import *
 from tkinter import filedialog

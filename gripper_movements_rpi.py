@@ -241,6 +241,7 @@ def split_angles(angle,rotAngle_threshold=rotationalAngle_maxPerRound):
 
 def rotationalAngle_to_servoAngle(angle):
     #this function defines the mapping of rotational angle to servo angle 
+    #continuous servo here 
     servoAngle =-8e-5*(angle**4) + 0.0132*(angle**3) - 0.4302*(angle**2) + 9.641*angle + 78.688
     return servoAngle
 
@@ -256,8 +257,8 @@ def new_back_rotation(angle,flag=0,channel=ch_rotatingArm,timeConstant = time_co
         rotateThisCatheter(angle)
  
 
-# Gripper movements for rotation about positive angle
-def rotateTheCatheterByPositiveAngle(angle_list):
+# Gripper movements for rotation about positive angle with Back stationary
+def rotateTheCatheterByPositiveAngleBack(angle_list):
     for angles in angle_list:
         back_gripper(fully_closed_distance)
         front_gripper(partially_opened_distance)
@@ -269,8 +270,34 @@ def rotateTheCatheterByPositiveAngle(angle_list):
         
         back_gripper(fully_closed_distance)
 
-# Gripper movements for rotation about negative angle    
-def rotateTheCatheterByNegativeAngle(angle_list):
+# Gripper movements for rotation about negative angle with Back stationary
+def rotateTheCatheterByNegativeAngleBack(angle_list):
+    for angles in angle_list:
+        front_gripper(fully_closed_distance)
+        back_gripper(partially_opened_distance)
+        rotateThisCatheter(angles)
+        
+        back_gripper(fully_closed_distance)
+        front_gripper(partially_opened_distance)
+        rotateThisCatheter(zeroethPosition)
+        
+        front_gripper(fully_closed_distance)
+
+# Gripper movements for rotation about positive angle with front stationary        
+def rotateTheCatheterByPositiveAngleFront(angle_list):
+    for angles in angle_list:
+        back_gripper(fully_closed_distance)
+        front_gripper(partially_opened_distance)
+        rotateThisCatheter(angles)
+        
+        front_gripper(fully_closed_distance)
+        back_gripper(partially_opened_distance)
+        rotateThisCatheter(zeroethPosition)
+        
+        back_gripper(fully_closed_distance)
+
+# Gripper movements for rotation about negative angle with front stationary    
+def rotateTheCatheterByNegativeAngleFront(angle_list):
     for angles in angle_list:
         front_gripper(fully_closed_distance)
         back_gripper(partially_opened_distance)

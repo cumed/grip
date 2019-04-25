@@ -17,6 +17,7 @@ import getcathetershape as svg
 import matplotlib.pyplot as plt
 from matplotlib import pyplot
 from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits import mplot3d
 import math
 import pandas as pd
 
@@ -156,13 +157,30 @@ def check_rotate(curr_z): # returns 1 if there is a rotation of plane required a
     else:
        return 0
    
-def rotate_angle(flag,curr_x,curr_y,curr_z): # in case of a 3 dimensional bend, this calculates the rotation angle which brings the rotation plane to the x-y plane
+def rotate_angle(flag,curr_x,curr_y,curr_z, ): # in case of a 3 dimensional bend, this calculates the rotation angle which brings the rotation plane to the x-y plane
     if (flag == 0):
         return 0
     else:
-        angle = np.arcsin(curr_z/(np.sqrt(curr_x**2 + curr_y**2 + curr_z**2))) # angle between a line and x-y plane
+        abs_angle = np.arcsin(curr_z/(np.sqrt(curr_x**2 + curr_y**2 + curr_z**2))) # angle between a line and x-y plane
+        
         
     return angle
+
+global rotation
+def rotation(flag,prev_x,prev_y,prev_z,curr_x,curr_y,curr_z,next_x,next_y,next_z): 
+    a1= (next_y-curr_y)*(curr_z-prev_z) - (curr_y-prev_y)*(next_z-prev_z)
+    a2= (next_y-curr_y)*(next_z-prev_z) - (curr_y-prev_y)*(next_z-curr_z)
+    b1= (curr_x-prev_x)*(curr_z-prev_z) - (curr_x-prev_x)*(next_z-prev_z)
+    b2= (next_x-curr_x)*(next_z-prev_z) - (curr_x-prev_x)*(next_z-curr_z)
+    c1= (next_y-curr_y)*(curr_y-prev_y) - (curr_x-prev_x)*(next_y-prev_y)
+    c2= (next_y-curr_y)*(curr_z-prev_z) - (curr_y-prev_y)*(next_z-prev_z)
+    
+    if (flag == 0):
+        return 0
+    else:
+        angle = np.arccos(((a1*a2)+(b1*b2)+(c1*c2))/(np.sqrt(a1*a1 + b1*b1 + c1*c1) * np.sqrt(a2*a2 + b2*b2 + c2*c2))) # angle between a line and x-y plane
+        
+    return angle   
 
 def bend_angle(flag,prev_x,prev_y,prev_z,curr_x,curr_y,curr_z,next_x,next_y,next_z): # returns the bend angle taking in 3 points (previous, current, next) each time
     a = calc_distance(curr_x,next_x,curr_y,next_y,curr_z,next_z) # calculating distances to apply the cosine formula 
@@ -191,8 +209,9 @@ def return_bends(data,interpolation): # returns the final array of distances, th
     
     x = data[0:]
     initial_points = SpacedInterp(data,interpolation, angles = np.array([0])) # interpolating the data points 
+    #initial_points = data
     data = initial_points[1:]
-    #print(initial_points)
+    print(initial_points)
     x = initial_points[0:] 
     rotate_flag = np.zeros(len(x))
     r = np.zeros(len(x))
@@ -221,13 +240,14 @@ def return_bends(data,interpolation): # returns the final array of distances, th
            theta[i] = bend_angle(rotate_flag[i],prev_x,prev_y,prev_z,curr_x, curr_y,curr_z,next_x,next_y,next_z)
            if np.degrees(theta[i]) >60 or np.degrees(theta[i])<-60:
                theta[i] = 0
+           #beta[i] = rotation(rotate_flag[i],prev_x,prev_y,prev_z,curr_x, curr_y,curr_z,next_x,next_y,next_z)
            beta[i] = rotate_angle(rotate_flag[i],curr_x,curr_y,curr_z)
     #if theta[i] == 0 for i in range(0,len(theta)/2):
        #theta = theta[]
     theta[1] = 0
     theta[2] = 0
     bends = plot_points(r,theta) # plot_points converts directions into x, y points
-    rotation = plot_points3D(r,theta,beta)                                      # bad_points is a way to check the first round of interpolation
+    rot = plot_points3D(r,theta,beta)                                      # bad_points is a way to check the first round of interpolation
                                             # and angle extraction
 #uncomment for 2D plot
     plt.subplot(1, 2, 1)
@@ -239,28 +259,56 @@ def return_bends(data,interpolation): # returns the final array of distances, th
     plt.title('bends')
     plt.axis('equal')
     plt.show()
-    
-#    fig = pyplot.figure()  # uncomment for 3D plot
-#
-#    bx = Axes3D(fig)
-#    bx.plot(rotation[:,0], rotation[:,1], rotation[:,2])
-#    pyplot.show()
+#    
+    fig = pyplot.figure()  # uncomment for 3D plot
+    x= data[:,0]
+    y= data[:,1]
+    z= data[:,2]
+    bx = Axes3D(fig)
+    bx = fig.add_subplot(111, projection= '3d')
+    bx.set_xlabel("x axis")
+    bx.set_ylabel("y axis")
+    bx.set_zlabel("z axis")
+    #bx.scatter(x,y,z)
+    bx.plot(x,y,z,'-o')
+    #bx.show()
+    #ax = p
+    #bx.plot(rotation[:,0], rotation[:,1], rotation[:,2])
+    pyplot.show()
     return np.transpose([r,np.degrees(theta),np.degrees(beta)])
 
-#data = pd.read_excel('26mmPigtail.xlsx')   
-data = pd.read_csv('printedCatheter.csv')   
-print(list(data)[1])  
-#x = data.iloc[1:,0]
-#y = data.iloc[:,1]
-#z = data.iloc[:,2]
+
+
+data = pd.read_excel('3D_Test_Curve_Points.xlsx')   
+#data = pd.read_csv('trial2.csv')   
+#print(data) 
+
+x = pd.to_numeric(data.iloc[1:,0])
+y = pd.to_numeric(data.iloc[1:,1])
+z = pd.to_numeric(data.iloc[1:,2])
+print(type(x[1]))
 #[x,y] = svg.svg_to_points("svgs\estimate_test.svg")  # include z dimension when 3 dimensional points are inputed. For now, 0s are appended for the z dimension
-#len_z =len(x)
-#append_z = np.zeros(len_z) # 
+len_z =len(x)
+append_z = np.zeros(len_z) # 
 #data = np.vstack((x,y,append_z)).T #For now, 0s are appended for the z dimension
-#data = np.vstack((x,y,z)).T
+data = np.vstack((x,y,z)).T
 #temp = data   uncomment to read original points
-#data = np.array(([10,5,0],[5,3,6],[3,4,0],[2,3,-1],[1,4,0],[0,3,0],[0,0,0]))   #testing datapoints
-#bends = return_bends(data,1) # storing the final array of distances, theta and beta angles
+#data = np.array(([10,5,0],[5,3,6],[3,4,0],[2,3,0],[1,4,0],[0,3,0],[0,0,0],))   #testing datapoints
+#data = data[::-1]
+fig = pyplot.figure()  # uncomment for 3D plot
+x= data[:,0]
+y= data[:,1]
+z= data[:,2]
+bx = Axes3D(fig)
+bx.set_xlabel("x axis")
+bx.set_ylabel("y axis")
+bx.set_zlabel("z axis")
+bx = fig.add_subplot(111, projection= '3d')
+    #bx.scatter(x,y,z)
+bx.plot(x,y,z,'-o')
+pyplot.show()
+    #ax = p
+bends = return_bends(data,1) # storing the final array of distances, theta and beta angles
 #np.save('longCurve15.npy', np.transpose(bends)) # saving the calculated array into a numpy file
 
 
